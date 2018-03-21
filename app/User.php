@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UserCreateEvent;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','avatar', 'confirmation_token', 'is_active', 'questions_count',
+        'answers_count', 'comments_count', 'favorites_count', 'likes_count', 'followers_count', 'following_count',
+        'settings'
     ];
 
     /**
@@ -26,4 +29,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public $dispatchesEvents = [
+        'created' => UserCreateEvent::class
+    ];
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
+    }
 }
