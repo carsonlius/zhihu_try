@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function () {
-
+    flash('Welcome Aboard!')->overlay();
     return view('welcome');
+});
+
+Route::get('/home', function () {
+    return view('home');
 });
 
 Auth::routes();
@@ -28,3 +32,7 @@ Route::get('/mail', function(){
     return new \App\Mail\UserVerifyMail(\App\User::find(1));
 });
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

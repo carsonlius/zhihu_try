@@ -7,6 +7,12 @@
 
         <title>Laravel</title>
 
+        {{-- cdn --}}
+        <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.css">
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
@@ -81,15 +87,16 @@
                 <div class="title m-b-md">
                     Laravel
                 </div>
+                {{-- flash --}}
+                <div class="container">
+                    @include('flash::message')
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <p>Welcome to my website...</p>
                 </div>
             </div>
         </div>
+        <script>
+            $('#flash-overlay-modal').modal();
+        </script>
     </body>
 </html>

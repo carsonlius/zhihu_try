@@ -13,14 +13,12 @@ class EmailConfirmController extends Controller
             $obj_user->confirmation_token = sha1(str_random(40));
             $obj_user->is_active = 1;
             $obj_user->save();
-            \Session::flash('email_confirm', '账户已经激活');
-
-
             \Auth::login($obj_user);
-            return redirect('/');
+            flash('账户已经激活')->success();
+            return redirect('/home');
         }
 
-        \Session::flash('email_confirm', '激活失败,请稍后再试一试');
-        return redirect('home');
+        flash('邮箱激活失败')->error();
+        return redirect('/');
     }
 }
