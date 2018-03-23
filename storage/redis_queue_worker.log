@@ -22526,3 +22526,35 @@ In Process.php line 1335:
 [2018-03-22 12:19:17] Processed:  App\Mail\UserVerifyMail
 [2018-03-22 12:19:39] Processing: App\Mail\UserVerifyMail
 [2018-03-22 12:19:40] Processed:  App\Mail\UserVerifyMail
+
+
+In Process.php line 1335:
+                                                                               
+  The process "'/usr/bin/php7.1' 'artisan' queue:work 'redis' --once --queue=  
+  'default' --delay=0 --memory=128 --sleep=3 --tries=3" exceeded the timeout   
+  of 60 seconds.                                                               
+                                                                               
+
+In Process.php line 1335:
+                                                                               
+  The process "'/usr/bin/php7.1' 'artisan' queue:work 'redis' --once --queue=  
+  'default' --delay=0 --memory=128 --sleep=3 --tries=3" exceeded the timeout   
+  of 60 seconds.                                                               
+                                                                               
+
+
+In Process.php line 1335:
+                                                                               
+  The process "'/usr/bin/php7.1' 'artisan' queue:work 'redis' --once --queue=  
+  'default' --delay=0 --memory=128 --sleep=3 --tries=3" exceeded the timeout   
+  of 60 seconds.                                                               
+                                                                               
+
+
+In Process.php line 1335:
+                                                                               
+  The process "'/usr/bin/php7.1' 'artisan' queue:work 'redis' --once --queue=  
+  'default' --delay=0 --memory=128 --sleep=3 --tries=3" exceeded the timeout   
+  of 60 seconds.                                                               
+                                                                               
+
