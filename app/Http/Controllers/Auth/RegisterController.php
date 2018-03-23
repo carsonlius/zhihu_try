@@ -67,7 +67,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => bcrypt($data['password']),
             'avatar' => '/images/avatars/default.gif', // 默认头像
             'confirmation_token' => sha1(str_random(40))
         ]);
@@ -86,8 +86,9 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
+        // 注册之后不让 跳转到登录
 //        $this->guard()->login($user);
-
+        flash('请查收邮件，完成账户的激活')->success();
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
     }

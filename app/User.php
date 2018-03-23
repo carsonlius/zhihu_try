@@ -33,9 +33,4 @@ class User extends Authenticatable
     public $dispatchesEvents = [
         'created' => UserCreateEvent::class
     ];
-
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
 }
