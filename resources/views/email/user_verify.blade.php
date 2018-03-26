@@ -5,7 +5,7 @@
     您的论坛帐号为：{{ $user->name }}.
     邮箱验证成功后，您可以使用邮箱作为登录帐号。请点击以下链接进行验证：
 
-@component('mail::button', ['url' => 'http://zhihu.carsonlius.cn/EmailConfirm/Activate/' . $user->confirmation_token])
+@component('mail::button', ['url' => config('app.url') . 'EmailConfirm/Activate/' . $user->confirmation_token])
 点击激活
 @endcomponent
 
