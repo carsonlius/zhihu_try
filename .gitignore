@@ -12,4 +12,4 @@ yarn-error.log
 .env
 nginx_access.log
 nginx_error.log
-/note/*
+note/*
