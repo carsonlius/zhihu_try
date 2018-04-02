@@ -15,13 +15,23 @@
                     {!! Form::open(['url'=> '/Question/store', 'method' => 'post']) !!}
 
                     <div class="panel-body">
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
                             {!! Form::label('title', '标题') !!}
-                            {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => '请填写标题']) !!}
+                            {!! Form::text('title', old('title'), ['class' => 'form-control', 'placeholder' => '请填写标题']) !!}
+                            @if ($errors->has('title'))
+                                <span class="help-block">
+                                        <strong>{{ $errors->first('title') }}</strong>
+                                    </span>
+                            @endif
                         </div>
 
-                        <div class="form-group">
-                            <script id="container" name="body" type="text/plain"></script>
+                        <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
+                            <script id="container" name="body" type="text/plain"> {{ old('body') }}</script>
+                            @if($errors->has('body'))
+                                <span class="help-block">
+                                    <strong>{{ $errors->first('body') }}</strong>
+                                </span>
+                            @endif
                         </div>
 
                         <div class="form-group">
@@ -33,17 +43,18 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                @if($errors->any())
-                    <ol class="alert alert-danger">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ol>
-                @endif
-            </div>
-        </div>
+        {{-- 采用更好看的写法--}}
+        {{--<div class="row">--}}
+            {{--<div class="col-md-8 col-md-offset-2">--}}
+                {{--@if($errors->any())--}}
+                    {{--<ol class="alert alert-danger">--}}
+                        {{--@foreach($errors->all() as $error)--}}
+                            {{--<li>{{ $error }}</li>--}}
+                        {{--@endforeach--}}
+                    {{--</ol>--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
     </div>
 
     <!-- 实例化编辑器 -->

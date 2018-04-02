@@ -14,7 +14,7 @@ Auth::routes();
 Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmController@Activate');
 
 // 问题
-Route::group(['middle' => 'auth', 'prefix' => '/Question'], function() {
+Route::group(['middleware' => ['auth'], 'prefix' => '/Question'], function() {
     Route::get('/create', 'QuestionController@create');
     Route::get('/index', 'QuestionController@index');
     Route::get('/show/{question}', 'QuestionController@show');

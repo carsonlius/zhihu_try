@@ -28,7 +28,7 @@ class QuestionRequest extends FormRequest
 
         if ($uri === 'Question/store') {
             return [
-                'title' => 'required|min:4|unique:questions',
+                'title' => 'required|min:4|max:196|unique:questions',
                 'body' => 'required|min:15'
             ];
         }
@@ -36,7 +36,7 @@ class QuestionRequest extends FormRequest
         $id = request('id');
 
         return [
-            'title' => 'required|min:6|unique:questions,title,' .$id,
+            'title' => 'required|min:4|max:196|unique:questions,title,' .$id,
             'body' => 'required|min:15'
         ];
     }
@@ -46,6 +46,7 @@ class QuestionRequest extends FormRequest
         return [
             'title.required' => '请填写标题',
             'title.min' => '标题至少需要4个字',
+            'title.max' => '标题最多196字',
             'title:unique' => '标题已经被占用',
             'body.required' => '请填写问题内容',
             'body.min' => '问题至少要写15个字'
