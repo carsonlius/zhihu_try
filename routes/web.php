@@ -14,12 +14,12 @@ Auth::routes();
 Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmController@Activate');
 
 // 问题
-Route::group(['middleware' => ['auth'], 'prefix' => '/Question'], function() {
-    Route::get('/create', 'QuestionController@create');
+Route::group(['prefix' => '/Question'], function() {
+    Route::get('/create', 'QuestionController@create')->middleware('auth');
     Route::get('/index', 'QuestionController@index');
     Route::get('/show/{question}', 'QuestionController@show');
 
-    Route::post('/store', 'QuestionController@store');
+    Route::post('/store', 'QuestionController@store')->middleware('auth');
 });
 
 

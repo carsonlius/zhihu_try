@@ -70,7 +70,7 @@
         //,customDomain:false
 
         //常用配置项目
-        //,isShow : true    //默认显示编辑器
+        // ,isShow : true    //默认显示编辑器
 
         //,textarea:'editorValue' // 提交表单时，服务器获取编辑器提交内容的所用的参数，多实例时可以给容器name属性，会将name给定的值最为每个实例的键值，不用每次实例化的时候都设置这个值
 
