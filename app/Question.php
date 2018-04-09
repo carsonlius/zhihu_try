@@ -22,4 +22,9 @@ class Question extends Model
     protected $dispatchesEvents = [
         'created' => QuestionCreatedEvent::class
     ];
+
+    public function topic()
+    {
+        return $this->belongsToMany(Topic::class)->withTimestamps();
+    }
 }
