@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\QuestionCreatedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
@@ -17,4 +18,8 @@ class Question extends Model
     {
         return $this->close_comment = 'T';
     }
+
+    protected $dispatchesEvents = [
+        'created' => QuestionCreatedEvent::class
+    ];
 }
