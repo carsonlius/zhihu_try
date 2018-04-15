@@ -7,6 +7,9 @@
             .panel-body img {
                 width: 100%;
             }
+            /*#container {*/
+                /*height: 200px;*/
+            /*}*/
         </style>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -38,7 +41,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
-                            <script id="container" name="body" style="height: 300px" type="text/plain"> {{ old('body') }} </script>
+                            <script id="container" name="body" type="text/plain"> {{ old('body') }} </script>
                             @if($errors->has('body'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('body') }}</strong>
@@ -52,7 +55,6 @@
                         {!! Form::close() !!}
                     </div>
                     {{-- begin --}}
-
                         <div class="select2-result-repository clearfix">
                             <div class="select2-result-repository_meta">
                                 <div class="select2-result-repository_title">
@@ -102,10 +104,10 @@
                         return {
                             results: data
                         };
-                    },
+                    }
                 },
-                // minimumInputLength:1,
-                delay: 250, // 延迟发送请求
+                minimumInputLength:2,
+                // delay: 250, // 延迟发送请求
                 placeholder: '选择相关话题', // 占位符
                 tags : true, // 允许客户键入搜索内容
                 templateResult :formatTopic, // 定制搜索框被加载的时候的伪option的样式
@@ -119,21 +121,12 @@
 
         // topic展示元素的定制
         function formatTopic(topic) {
-            // var ele =  "<div class=\"select2-result-repository clearfix\">\n" +
-            //     "<div class=\"select2-result-repository_meta\">\n" +
-            //     "<div class=\"select2-result-repository_title\">\n" +
-            //         topic.name ? topic.name : "Laravel" +
-            //     "</div>\n" +
-            //     "</div>\n" +
-            //     "</div>";
-            // return ele;
-
             return topic.name;
         }
 
         function formatToSelection(topic) {
             console.log(topic);
-            return topic.name;
+            return topic.name || topic.text;
         }
 
 
