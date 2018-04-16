@@ -11,7 +11,12 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <div class="panel-heading">{{ $question->title }}</div>
+                    <div class="panel-heading">
+                            {{ $question->title }}
+                            @foreach ($question->topic as $topic)
+                                <span class="topic" style="color: gray">{{ $topic['name'] }}</span>
+                            @endforeach
+                    </div>
 
                     <div class="panel-body">
                         {!! $question->body !!}

@@ -101,7 +101,7 @@
                     data: function (params) {
                         return { search: params.term };
                     },
-                    delay: 400,
+                    delay: 500,
                     processResults: function (data, params) { // select 要求返回格式必须含有 results属性
                         return {
                             results: data
@@ -126,11 +126,8 @@
         }
 
         function formatToSelection(topic) {
-            console.log('选择的结果');
-            console.log(topic);
             // 如果又返回的话 则选择放回没有的话 选择用户自己输入的
             return topic.name || topic.text;
-            // return topic.text;
         }
     </script>
 @endsection
