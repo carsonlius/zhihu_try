@@ -36,6 +36,7 @@
                         <div class="form-group">
                             {!! Form::label('topic', '话题') !!}
                             <select class="js-example-basic-multiple form-control" id="topic" name="topic[]" multiple="multiple">
+                                <option></option>
                             </select>
 
                         </div>
@@ -100,6 +101,7 @@
                     data: function (params) {
                         return { search: params.term };
                     },
+                    delay: 400,
                     processResults: function (data, params) { // select 要求返回格式必须含有 results属性
                         return {
                             results: data
@@ -107,15 +109,14 @@
                     }
                 },
                 minimumInputLength:2,
-                // delay: 250, // 延迟发送请求
                 placeholder: '选择相关话题', // 占位符
                 tags : true, // 允许客户键入搜索内容
                 templateResult :formatTopic, // 定制搜索框被加载的时候的伪option的样式
-                templateSelection : formatToSelection,//定制在option在被用户选中的时候option怎么展示
-                escapeMarkup : function (markup) {
-                    return markup;
-                }
-
+                templateSelection : formatToSelection,//定制在option在被用户选中的时候option怎么展示，
+                formatSearching : '搜索中...，请耐心等待',
+                allowClear: true,//允许清空
+                escapeMarkup: function (markup) { return markup; }, // 自定义格式化防止xss注入
+                language: "zh-CN"//汉化
             });
         });
 
@@ -125,10 +126,11 @@
         }
 
         function formatToSelection(topic) {
+            console.log('选择的结果');
             console.log(topic);
+            // 如果又返回的话 则选择放回没有的话 选择用户自己输入的
             return topic.name || topic.text;
+            // return topic.text;
         }
-
-
     </script>
 @endsection

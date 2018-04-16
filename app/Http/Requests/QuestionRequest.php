@@ -24,9 +24,6 @@ class QuestionRequest extends FormRequest
      */
     public function rules( )
     {
-
-        dd(request()->get('topic'));
-
         $uri = request()::route()->uri;
 
         if ($uri === 'Question/store') {
@@ -35,7 +32,6 @@ class QuestionRequest extends FormRequest
                 'body' => 'required|min:15'
             ];
         }
-
         $id = request('id');
 
         return [

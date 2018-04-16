@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
 use App\Question;
+use App\Topic;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -36,9 +37,14 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
-        $question_info = $request->toArray() + ['user_id' => \Auth::id()];
+        $topic_list = $this->normalizeTopic($request->input('topic'));
 
+        // create question
+        $question_info = $request->toArray() + ['user_id' => \Auth::id()];
         $result_created = Question::create($question_info);
+
+        // create relationship
+        $result_created->topic()->attach($topic_list);
         return redirect('/Question/show/' . $result_created['id']);
     }
 
@@ -85,5 +91,22 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+    }
+
+    /**
+     *  对新增的话题进行处理
+     * @param array $topics
+     * @return array
+     */
+    protected function normalizeTopic(array $topics)
+    {
+        return collect($topics)->map(function($topic){
+            if (is_numeric($topic)) {
+                return (int)$topic;
+            }
+            $new_topic = Topic::create(['name' => $topic]);
+
+            return  $new_topic['id'];
+        })->toArray();
     }
 }
