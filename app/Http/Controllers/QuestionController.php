@@ -100,15 +100,19 @@ class QuestionController extends Controller
      */
     protected function normalizeTopic(array $topics)
     {
-        return collect($topics)->map(function ($topic) {
-            if (is_numeric($topic)) {
+        $ids = Topic::pluck('id');
+        $ids = collect($topics)->map(function ($topic) use ($ids) {
 
-                // update question count
-                Topic::find($topic)->increment('questions_count', 1);
+            // 如果传递过来的是id
+            if (ctype_digit($topic) && $ids->contains($topic)) {
                 return (int)$topic;
             }
-            $new_topic = Topic::create(['name' => $topic, 'questions_count' => 1]);
-            return $new_topic['id'];
+
+            return Topic::firstOrCreate(['name' => $topic])->id;
         })->toArray();
+
+        // 集中更新话题下问题的个数
+        Topic::whereIn('id', $ids)->increment('questions_count');
+        return $ids;
     }
 }
