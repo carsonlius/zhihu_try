@@ -14,10 +14,9 @@
                     <div class="panel-heading">
                             {{ $question->title }}
                             @foreach ($question->topic as $topic)
-                                <span class="topic" style="color: gray">{{ $topic['name'] }}</span>
+                            <a href="#"><span class="topic">{{ $topic['name'] }}</span></a>
                             @endforeach
                     </div>
-
                     <div class="panel-body">
                         {!! $question->body !!}
                     </div>

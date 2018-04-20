@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
 use App\Question;
-use App\Topic;
+use App\Repositories\QuestionRepository;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
+
+    protected $question_repositories;
+
+    public function __construct(QuestionRepository $question_repositories)
+    {
+        $this->question_repositories = $question_repositories;
+        $this->middleware('auth')->except('index', 'show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,11 +46,11 @@ class QuestionController extends Controller
      */
     public function store(QuestionRequest $request)
     {
-        $topic_list = $this->normalizeTopic($request->input('topic'));
+        $topic_list = $this->question_repositories->normalizeTopic($request->input('topic'));
 
         // create question
         $question_info = $request->toArray() + ['user_id' => \Auth::id()];
-        $result_created = Question::create($question_info);
+        $result_created = $this->question_repositories->create($question_info);
 
         // create relationship
         $result_created->topic()->attach($topic_list);
@@ -56,6 +65,7 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
+        $question = $this->question_repositories->byIdWithTopics($question->id);
         return view('questions.show')->with(compact('question'));
     }
 
@@ -67,7 +77,11 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        // 不是作者的话 则跳回来源页
+        if (\Auth::user()->owns($question)) {
+            return view('questions.edit')->with(compact('question'));
+        }
+        return back();
     }
 
     /**
@@ -77,9 +91,10 @@ class QuestionController extends Controller
      * @param  \App\Question $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(QuestionRequest $request, Question $question)
     {
-        //
+        $this->update($request, $question);
+        return redirect('/Question/show/' . $question->id);
     }
 
     /**
@@ -91,28 +106,6 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
-    }
 
-    /**
-     *  对新增的话题进行处理
-     * @param array $topics
-     * @return array
-     */
-    protected function normalizeTopic(array $topics)
-    {
-        $ids = Topic::pluck('id');
-        $ids = collect($topics)->map(function ($topic) use ($ids) {
-
-            // 如果传递过来的是id
-            if (ctype_digit($topic) && $ids->contains($topic)) {
-                return (int)$topic;
-            }
-
-            return Topic::firstOrCreate(['name' => $topic])->id;
-        })->toArray();
-
-        // 集中更新话题下问题的个数
-        Topic::whereIn('id', $ids)->increment('questions_count');
-        return $ids;
     }
 }

@@ -15,11 +15,13 @@ Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmControlle
 
 // 问题
 Route::group(['prefix' => '/Question'], function() {
-    Route::get('/create', 'QuestionController@create')->middleware('auth');
+    Route::get('/create', 'QuestionController@create');
     Route::get('/index', 'QuestionController@index');
     Route::get('/show/{question}', 'QuestionController@show');
+    Route::get('/edit/{question}', 'QuestionController@edit');
 
-    Route::post('/store', 'QuestionController@store')->middleware('auth');
+    Route::patch('/update/{question}', 'QuestionController@update');
+    Route::post('/store', 'QuestionController@store');
 });
 
 

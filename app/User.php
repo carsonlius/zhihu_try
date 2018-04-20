@@ -33,4 +33,13 @@ class User extends Authenticatable
     protected  $dispatchesEvents = [
         'created' => UserCreateEvent::class
     ];
+
+    /**
+     * 判断登录用户是不是该问题的提问者
+     * @param Question $question
+     */
+    public function owns(Question $question)
+    {
+        return \Auth::id() == $question->user_id;
+    }
 }
