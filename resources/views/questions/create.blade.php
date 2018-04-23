@@ -7,7 +7,6 @@
             .panel-body img {
                 width: 100%;
             }
-
         </style>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -39,7 +38,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
-                            <script id="container" name="body"  type="text/plain"> {{ old('body') }} </script>
+                            <script id="container" name="body" style="height: 200px" type="text/plain"> {{ old('body') }} </script>
                             @if($errors->has('body'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('body') }}</strong>

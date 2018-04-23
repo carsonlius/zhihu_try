@@ -21,6 +21,11 @@
                         {!! $question->body !!}
                     </div>
 
+                    <div class="actions">
+                        @if (\Auth::check() && $question->user_id == \Auth::id())
+                            <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

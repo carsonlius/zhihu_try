@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Repositories\QuestionRepository;
-use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
@@ -93,7 +92,7 @@ class QuestionController extends Controller
      */
     public function update(QuestionRequest $request, Question $question)
     {
-        $this->update($request, $question);
+        $this->question_repositories->update($request, $question);
         return redirect('/Question/show/' . $question->id);
     }
 

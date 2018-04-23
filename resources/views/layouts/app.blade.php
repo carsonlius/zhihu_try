@@ -23,7 +23,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css?version=1.05') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?version=1.10') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

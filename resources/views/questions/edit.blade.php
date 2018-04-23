@@ -17,7 +17,8 @@
                         </div>
                     @endif
                     <div class="panel-heading">修改问题</div>
-                    {!! Form::model($question, ['url'=> '/Question/update/' . $question->id, 'method' => 'patch']) !!}
+
+                    {!! Form::model($question, ['url'=> '/Question/update/' . $question->id, 'method' => 'put']) !!}
                     {!! Form::hidden('id', $question->id) !!}
                     <div class="panel-body">
                         <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
@@ -40,7 +41,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
-                            <script id="container" name="body" type="text/plain">{{ $question->body }} </script>
+                            <script id="container" name="body"  type="text/plain">{!! $question->body !!} </script>
                             @if($errors->has('body'))
                                 <span class="help-block">
                                 <strong>{{ $errors->first('body') }}</strong>

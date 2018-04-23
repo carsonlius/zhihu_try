@@ -53,7 +53,6 @@ class QuestionRepository
 
     public function update(QuestionRequest $request, Question $question)
     {
-        dump($request->toArray());
         $question->update($request->toArray());
         $topic_list = $this->normalizeTopic($request->get('topic'));
         $question->topic()->sync($topic_list);

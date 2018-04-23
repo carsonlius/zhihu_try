@@ -18,6 +18,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\QuestionCreatedEvent' => [
             'App\Listeners\QuestionCreatedListen'
+        ],
+        'App\Events\TopicDeleteEvent' => [
+            'App\Listeners\TopicDeleteListener'
+        ],
+        'App\Events\QuestionTopicDeleteEvent' => [
+            'App\Listeners\QuestionTopicDeleteListener'
         ]
     ];
 

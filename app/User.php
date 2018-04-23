@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\UserCreateEvent;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -35,11 +36,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * 判断登录用户是不是该问题的提问者
-     * @param Question $question
+     * 判断登录用户是不是该Model里面的user_id字段是一个
+     * @param Model $model
+     * @return boolean
      */
-    public function owns(Question $question)
+    public function owns(Model $model)
     {
-        return \Auth::id() == $question->user_id;
+        return \Auth::check() ? (\Auth::id() == $model->user_id) : false;
     }
 }
