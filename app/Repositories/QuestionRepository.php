@@ -36,7 +36,7 @@ class QuestionRepository
     public function normalizeTopic(array $topics)
     {
         $ids = Topic::pluck('id');
-        $ids = collect($topics)->map(function ($topic) use ($ids) {
+        return collect($topics)->map(function ($topic) use ($ids) {
 
             // 如果传递过来的是id
             if (ctype_digit($topic) && $ids->contains($topic)) {
@@ -45,10 +45,6 @@ class QuestionRepository
 
             return Topic::firstOrCreate(['name' => $topic])->id;
         })->toArray();
-
-        // 集中更新话题下问题的个数
-        Topic::whereIn('id', $ids)->increment('questions_count');
-        return $ids;
     }
 
     public function update(QuestionRequest $request, Question $question)
