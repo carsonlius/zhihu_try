@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
-                            <script id="container" name="body" style="height: 200px" type="text/plain"> {{ old('body') }} </script>
+                            <script id="container" name="body" type="text/plain" style="height: 300px"> {{ old('body') }} </script>
                             @if($errors->has('body'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('body') }}</strong>
@@ -95,7 +95,7 @@
                     data: function (params) {
                         return { search: params.term };
                     },
-                    delay: 500,
+                    delay: 2000,
                     processResults: function (data, params) { // select 要求返回格式必须含有 results属性
                         return {
                             results: data

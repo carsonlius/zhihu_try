@@ -8,6 +8,17 @@ use App\Topic;
 
 class QuestionRepository
 {
+
+    /**
+     * 倒叙获得没有隐藏的question列表
+     * @return mixed
+     */
+    public function getQuestionsFeed()
+    {
+        $page_size = env('PAGE_SIZE');
+       return  Question::published()->orderBy('updated_at', 'desc')->with('user')->paginate($page_size);
+    }
+
     /**
      * 根据id获取包含topic多对多关系的信息
      * @param $id

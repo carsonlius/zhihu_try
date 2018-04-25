@@ -8,7 +8,8 @@ use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class Question extends Model
 {
-    use PivotEventTrait; // 解决sync不触发事件的问题
+    // 解决sync不触发事件的问题
+    use PivotEventTrait;
 
     protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment', 'is_hidden'];
 
@@ -26,9 +27,32 @@ class Question extends Model
         'created' => QuestionCreatedEvent::class
     ];
 
+    /**
+     * 话题多对多关系
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function topic()
     {
         return $this->belongsToMany(Topic::class)->withTimestamps();
+    }
+
+    /**
+     *  隐藏的帖子不显示
+     * @param $query
+     * @return mixed
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('is_hidden','F');
+    }
+
+    /**
+     * 用户的一对一关系
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public static function boot()

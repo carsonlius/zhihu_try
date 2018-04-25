@@ -24,7 +24,8 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        dump('列表页');
+        $questions = $this->question_repositories->getQuestionsFeed();
+        return view('questions.index')->with(compact('questions'));
     }
 
     /**
@@ -98,13 +99,13 @@ class QuestionController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Question $question
-     * @return \Illuminate\Http\Response
+     * @param Question $question
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
     public function destroy(Question $question)
     {
-        //
-
+        $question->delete();
+        return redirect('/Question/index');
     }
 }

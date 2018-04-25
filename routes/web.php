@@ -19,8 +19,10 @@ Route::group(['prefix' => '/Question'], function() {
     Route::get('/index', 'QuestionController@index');
     Route::get('/show/{question}', 'QuestionController@show');
     Route::get('/edit/{question}', 'QuestionController@edit');
+    Route::get('index',  'QuestionController@index');
 
 
+    Route::delete('/{question}', 'QuestionController@destroy');
     Route::put('/update/{question}', 'QuestionController@update');
     Route::post('/store', 'QuestionController@store');
 });
@@ -37,15 +39,6 @@ Route::get('/delete', function (){
 
     // 删除
     \App\Question::find($question_id)->topic()->sync([120,121]);
-});
-
-Route::get('/add', function (){
-    $question_id = 20;
-    $topic_id= 122;
-    dump(\App\QuestionTopic::all()->toArray());
-//    dd(\App\QuestionTopic::where(compact('topic_id'))->first()->toArray());
-    \App\QuestionTopic::where(compact('topic_id'))->first()->delete();
-//    \App\Question::find($question_id)->topic()->sync([120,121,122]);
 });
 
 
