@@ -23,17 +23,29 @@
                     <div class="panel-body">
                         {!! $question->body !!}
                     </div>
-                    @if (\Auth::check() && $question->user_id == \Auth::id())
 
-                        <div class="actions">
-                            <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
-                        </div>
-                        <div class="delete-form">
-                            {{ Form::open(['url' => ('/Question/' . $question->id), 'method' => 'DELETE']) }}
-                                {{ Form::submit('删除', ['class' => 'delete-button']) }}
-                            {{ Form::close() }}
-                        </div>
-                    @endif
+                    <div class="panel-footer">
+
+                        @if (\Auth::check() && $question->user_id == \Auth::id())
+
+                            <ul class="list-inline">
+                                <li>
+                                    <div class="actions">
+                                        <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="delete-form">
+                                        {{ Form::open(['url' => ('/Question/' . $question->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
+                                        {{ Form::submit('删除', ['class' => 'btn btn-info btn-xs']) }}
+                                        {{ Form::close() }}
+                                    </div>
+                                </li>
+                            </ul>
+
+
+                        @endif
+                    </div>
 
                 </div>
             </div>

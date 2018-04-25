@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Events\QuestionCreatedEvent;
+use App\Events\QuestionDeletedEvent;
 use Illuminate\Database\Eloquent\Model;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
@@ -24,7 +25,8 @@ class Question extends Model
     }
 
     protected $dispatchesEvents = [
-        'created' => QuestionCreatedEvent::class
+        'created' => QuestionCreatedEvent::class,
+//        'deleted' => QuestionDeletedEvent::class
     ];
 
     /**

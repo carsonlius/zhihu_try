@@ -87,7 +87,7 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param QuestionRequest $request
      * @param  \App\Question $question
      * @return \Illuminate\Http\Response
      */
@@ -105,7 +105,14 @@ class QuestionController extends Controller
      */
     public function destroy(Question $question)
     {
-        $question->delete();
-        return redirect('/Question/index');
+
+
+        if (\Auth::user()->owns($question)) {
+            $question->topic()->sync([]);
+            $question->delete();
+            return redirect('/Question/index');
+        }
+
+        abort(403, '您没有权限删除');
     }
 }
