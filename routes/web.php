@@ -1,11 +1,11 @@
 <?php
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/Question/index');
 });
 
 Route::get('/home', function () {
-    return view('home');
+    return redirect('/Question/index');
 });
 
 Auth::routes();

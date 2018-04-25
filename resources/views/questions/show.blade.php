@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        li {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            margin-top: 50px;
+        }
+    </style>
+
     <div class="container">
         @include('vendor.ueditor.assets')
         <div class="row">
@@ -22,31 +32,19 @@
                     </div>
                     <div class="panel-body">
                         {!! $question->body !!}
-                    </div>
-
-                    <div class="panel-footer">
-
                         @if (\Auth::check() && $question->user_id == \Auth::id())
-
                             <ul class="list-inline">
                                 <li>
-                                    <div class="actions">
-                                        <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
-                                    </div>
+                                    <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
                                 </li>
                                 <li>
-                                    <div class="delete-form">
-                                        {{ Form::open(['url' => ('/Question/' . $question->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
-                                        {{ Form::submit('删除', ['class' => 'btn btn-info btn-xs']) }}
-                                        {{ Form::close() }}
-                                    </div>
+                                    {{ Form::open(['url' => ('/Question/' . $question->id), 'method' => 'DELETE', 'class' => 'delete-form']) }}
+                                    {{ Form::submit('删除', ['class' => 'btn btn-info btn-xs']) }}
+                                    {{ Form::close() }}
                                 </li>
                             </ul>
-
-
                         @endif
                     </div>
-
                 </div>
             </div>
         </div>
