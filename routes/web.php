@@ -25,7 +25,12 @@ Route::group(['prefix' => '/Question'], function() {
     Route::delete('/{question}', 'QuestionController@destroy');
     Route::put('/update/{question}', 'QuestionController@update');
     Route::post('/store', 'QuestionController@store');
+
+    // 获取问题的路由
+    Route::post('/{question}/answer', 'AnswerController@store');
 });
+
+
 
 // 邮箱激活测试
 Route::get('/mail', function(){

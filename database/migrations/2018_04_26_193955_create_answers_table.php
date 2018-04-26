@@ -23,6 +23,8 @@ class CreateAnswersTable extends Migration
             $table->string('is_hidden', 8)->default('F')->comment('是否隐藏起来 F显示 T隐藏');
             $table->string('close_comment', 8)->default('F')->comment('是否关闭评论 F允许评论 T关闭评论');
 
+            $table->index('user_id');
+            $table->index('question_id');
             $table->timestamps();
         });
     }
