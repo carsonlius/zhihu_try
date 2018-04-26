@@ -30,6 +30,16 @@ class Question extends Model
     ];
 
     /**
+     * 定义问题答案的relationship （一对多）
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function answers()
+    {
+        return $this->belongsToMany(Answer::class);
+    }
+
+
+    /**
      * 话题多对多关系
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
