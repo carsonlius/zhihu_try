@@ -12,7 +12,7 @@ class Question extends Model
     // 解决sync不触发事件的问题
     use PivotEventTrait;
 
-    protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment', 'is_hidden'];
+    protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment','answers_count', 'is_hidden'];
 
     public function isHidden()
     {
@@ -31,11 +31,10 @@ class Question extends Model
 
     /**
      * 定义问题答案的relationship （一对多）
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function answers()
     {
-        return $this->belongsToMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id', 'id');
     }
 
 

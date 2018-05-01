@@ -24,9 +24,9 @@ class QuestionRepository
      * @param $id
      * @return mixed
      */
-    public function byIdWithTopicsAndAnswers($id)
+    public function byIdWithTopics($id)
     {
-        return Question::where(compact('id'))->with(['topic', 'answers'])->first();
+        return Question::where(compact('id'))->with('topic')->first();
     }
 
     /**

@@ -3,11 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Http\Requests\AnswerRequest;
 use App\Question;
+use App\Repositories\AnswerRepository;
 use Illuminate\Http\Request;
 
 class AnswerController extends Controller
 {
+    private $answer_repository;
+
+    public function __construct(AnswerRepository $answer_repository)
+    {
+        $this->answer_repository = $answer_repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,13 +40,14 @@ class AnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param Question $question
-     * @return void
+     * @param AnswerRequest $request
+     * @return url
      */
-    public function store(Request $request, Question $question)
+    public function store(AnswerRequest $request)
     {
-        dd($request->toArray());
+        // 存储答案
+        $this->answer_repository->store($request);
+        return back();
     }
 
     /**

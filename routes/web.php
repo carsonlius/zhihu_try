@@ -25,10 +25,14 @@ Route::group(['prefix' => '/Question'], function() {
     Route::delete('/{question}', 'QuestionController@destroy');
     Route::put('/update/{question}', 'QuestionController@update');
     Route::post('/store', 'QuestionController@store');
-
-    // 获取问题的路由
-    Route::post('/{question}/answer', 'AnswerController@store');
 });
+
+Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function(){
+    //  创建答案
+    Route::post('', 'AnswerController@store');
+
+});
+
 
 
 
