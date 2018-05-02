@@ -1,12 +1,8 @@
 <?php
 
-Route::get('/', function () {
-    return redirect('/Question/index');
-});
+Route::get('/', 'QuestionController@index');
 
-Route::get('/home', function () {
-    return redirect('/Question/index');
-});
+Route::get('/home', 'QuestionController@index');
 
 Auth::routes();
 
@@ -14,12 +10,12 @@ Auth::routes();
 Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmController@Activate');
 
 // 问题
-Route::group(['prefix' => '/Question'], function() {
+Route::group(['prefix' => '/Question'], function () {
     Route::get('/create', 'QuestionController@create');
     Route::get('/index', 'QuestionController@index');
     Route::get('/show/{question}', 'QuestionController@show');
     Route::get('/edit/{question}', 'QuestionController@edit');
-    Route::get('index',  'QuestionController@index');
+    Route::get('index', 'QuestionController@index');
 
 
     Route::delete('/{question}', 'QuestionController@destroy');
@@ -27,27 +23,25 @@ Route::group(['prefix' => '/Question'], function() {
     Route::post('/store', 'QuestionController@store');
 });
 
-Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function(){
+Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function () {
     //  创建答案
     Route::post('', 'AnswerController@store');
 
 });
 
 
-
-
 // 邮箱激活测试
-Route::get('/mail', function(){
+Route::get('/mail', function () {
 
     return new \App\Mail\UserVerifyMail(\App\User::find(1));
 });
 
 // 测试问题的路由,内容自行填充
-Route::get('/delete', function (){
-    $question_id =20;
+Route::get('/delete', function () {
+    $question_id = 20;
 
     // 删除
-    \App\Question::find($question_id)->topic()->sync([120,121]);
+    \App\Question::find($question_id)->topic()->sync([120, 121]);
 });
 
 

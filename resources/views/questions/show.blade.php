@@ -6,25 +6,23 @@
             margin: 0;
             padding: 0;
         }
-
         ul {
             margin-top: 50px;
         }
-
         .second_row {
-            margin-top : 10px;
+            margin-top: 10px;
+        }
+        .second_row .media-left img {
+            width: 80px;
+            height: 80px;
         }
 
-        .second_row .media-left img {
-            width :80px;
-            height :80px;
-        }
     </style>
 
     <div class="container">
         @include('vendor.ueditor.assets')
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
                     @if (session('status'))
                         <div class="alert alert-success">
@@ -42,8 +40,9 @@
                     </div>
                     <div class="panel-body">
                         {!! $question->body !!}
-                        @if (\Auth::check())
-                            <ul class="list-inline">
+
+                        <ul class="list-inline">
+                            @if (\Auth::check())
                                 @if($question->user_id == \Auth::id())
                                     <li>
                                         <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
@@ -55,10 +54,25 @@
                                     </li>
                                 @endif
                                 <li><span><btton class="btn btn-info btn-xs" id="answer_button">写回答</btton></span></li>
+                            @else
+                                <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span>
+                                </li>
+                            @endif
 
-                            </ul>
-                        @endif
+                        </ul>
 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default question_flower">
+                    <div class="panel-heading">
+                        <span>{{ $question->flowers_count }}个关注</span>
+                        <span>{{ $question->answers_count }}个回答</span>
+                    </div>
+                    <div class="panel-body">
+                        <a href="/Quetion/{{$question->id}}/follow" class="btn btn-default btn-sm">关注该问题</a>
+                        <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
                     </div>
                 </div>
             </div>
@@ -87,15 +101,14 @@
                             </div>
                             <div class="form-group pull-right">
                                 {!! Form::submit('提交答案', ['class' => 'btn-xs btn-primary']) !!}
-
                             </div>
                             {!! Form::close() !!}
                         </div>
-                        </div>
+                    </div>
 
                     {{-- 循环放出答案 --}}
                     <div class="second_row">
-                        <?php $answers= $question->answers()->paginate(3); ?>
+                        <?php $answers = $question->answers()->paginate(3); ?>
                         @foreach ($answers as $answer)
                             <div class="media">
                                 <div class="media-left">
@@ -112,11 +125,11 @@
                         {{ $answers->links()  }}
                     </div>
 
-                    </div>
-
                 </div>
+
             </div>
         </div>
+    </div>
 
     </div>
 

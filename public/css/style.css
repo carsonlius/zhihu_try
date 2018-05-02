@@ -44,3 +44,14 @@ a .topic:hover{
     color : #3097D1;
     text-decoration: none;
 }
+
+.question_flower  div{
+    text-align: center;
+}
+.question_flower div a {
+    margin-left: 10px;
+}
+.question_flower .panel-heading span {
+    margin: 10px;
+    color: #3d6983;
+}
