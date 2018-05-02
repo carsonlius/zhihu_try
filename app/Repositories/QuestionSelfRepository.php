@@ -6,7 +6,7 @@ use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Topic;
 
-class QuestionRepository
+class QuestionSelfRepository
 {
 
     /**
@@ -15,7 +15,7 @@ class QuestionRepository
      */
     public function getQuestionsFeed()
     {
-        $page_size = env('PAGE_SIZE');
+       $page_size = env('PAGE_SIZE');
        return  Question::published()->orderBy('updated_at', 'desc')->with('user')->paginate($page_size);
     }
 

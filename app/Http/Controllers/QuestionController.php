@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Repositories\QuestionRepository;
+use App\Repositories\QuestionSelfRepository;
 
 class QuestionController extends Controller
 {
 
     protected $question_repositories;
 
-    public function __construct(QuestionRepository $question_repositories)
+    public function __construct(QuestionSelfRepository $question_repositories)
     {
         $this->question_repositories = $question_repositories;
         $this->middleware('auth')->except('index', 'show');
