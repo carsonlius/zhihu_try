@@ -66,6 +66,16 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * 问题关注者(多对多)
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follower_question', 'question_id', 'user_id')->withTimestamps();
+    }
+
+
     public static function boot()
     {
         parent::boot();

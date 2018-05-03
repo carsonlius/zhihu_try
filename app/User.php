@@ -44,4 +44,13 @@ class User extends Authenticatable
     {
         return \Auth::check() ? (\Auth::id() == $model->user_id) : false;
     }
+
+    /**
+     * 关注的问题(多对多)
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function questionFollow()
+    {
+        return $this->belongsToMany(Question::class, 'follower_question', 'user_id', 'question_id')->withTimestamps();
+    }
 }

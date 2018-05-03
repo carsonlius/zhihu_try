@@ -16,7 +16,6 @@
             width: 80px;
             height: 80px;
         }
-
     </style>
 
     <div class="container">
@@ -58,12 +57,12 @@
                                 <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span>
                                 </li>
                             @endif
-
                         </ul>
-
                     </div>
                 </div>
             </div>
+
+            {{-- 右侧的状态栏 --}}
             <div class="col-md-3">
                 <div class="panel panel-default question_flower">
                     <div class="panel-heading">
@@ -71,7 +70,7 @@
                         <span>{{ $question->answers_count }}个回答</span>
                     </div>
                     <div class="panel-body">
-                        <a href="/Quetion/{{$question->id}}/follow" class="btn btn-default btn-sm">关注该问题</a>
+                        <a href="/Follower/{{$question->id}}" class="btn btn-default btn-sm">关注该问题</a>
                         <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
                     </div>
                 </div>
