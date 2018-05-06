@@ -81,7 +81,7 @@
 
                                     {{-- 回答 --}}
         <div class="row">
-            <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {{ $question->answers_count }}个回答

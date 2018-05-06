@@ -45,8 +45,7 @@ class User extends Authenticatable
         if (!\Auth::check()) {
             return false;
         }
-        $user_id = \Auth::id();
-        return !!FollowerQuestion::where(compact('user_id', 'question_id'))->count();
+        return \Auth::user()->questionFollow->contains('id', $question_id);
     }
 
     /**
