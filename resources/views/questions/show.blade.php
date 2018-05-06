@@ -70,14 +70,16 @@
                         <span>{{ $question->answers_count }}个回答</span>
                     </div>
                     <div class="panel-body">
-                        <a href="/Follower/{{$question->id}}" class="btn btn-default btn-sm">关注该问题</a>
-                        <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <a href="/Follower/{{$question->id}}" class="btn btn-sm
+{{(\Auth::check() && \Auth::user()->followThisQuestion($question->id)) ? 'btn-success' : 'btn-default' }}">
+                            {{ (\Auth::check() && \Auth::user()->followThisQuestion($question->id)) ? '已关注' : '关注该问题' }}</a>
+                                                    <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-        {{-- 回答 --}}
+                                    {{-- 回答 --}}
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">

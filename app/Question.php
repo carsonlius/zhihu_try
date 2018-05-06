@@ -12,7 +12,7 @@ class Question extends Model
     // 解决sync不触发事件的问题
     use PivotEventTrait;
 
-    protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment','answers_count', 'is_hidden'];
+    protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment', 'answers_count', 'is_hidden'];
 
     public function isHidden()
     {
@@ -54,7 +54,7 @@ class Question extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('is_hidden','F');
+        return $query->where('is_hidden', 'F');
     }
 
     /**
@@ -75,7 +75,9 @@ class Question extends Model
         return $this->belongsToMany(User::class, 'follower_question', 'question_id', 'user_id')->withTimestamps();
     }
 
-
+    /**
+     * relationship事件
+     */
     public static function boot()
     {
         parent::boot();
@@ -85,22 +87,43 @@ class Question extends Model
         });
 
         static::pivotAttached(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
-            // 因为触发 所以$pivotIds一定是有值的
-            array_map(function($topic_id){
-                Topic::find($topic_id)->increment('questions_count', 1);
-            }, $pivotIds);
+
+            // 问题和关注者attached事件
+            if ($relationName === 'followers') {
+                $followers_count = count($pivotIds);
+                $model->increment('flowers_count', $followers_count);
+            }
+
+
+            // 问题和话题的attached事件
+            if ($relationName == 'topic') {
+                array_map(function ($topic_id) {
+                    Topic::find($topic_id)->increment('questions_count', 1);
+                }, $pivotIds);
+            }
+
+
         });
 
         static::pivotDetaching(function ($model, $relationName, $pivotIds) {
 
         });
 
-        // 当问题关联的话题被detached 话题下面的问题数量自然要减去一个
         static::pivotDetached(function ($model, $relationName, $pivotIds) {
-            // 因为触发 所以$pivotIds一定是有值的
-            array_map(function($topic_id){
-                Topic::find($topic_id)->increment('questions_count', -1);
-            }, $pivotIds);
+
+            if ($relationName === 'followers') {
+                $followers_count = count($pivotIds);
+                $model->decrement('flowers_count', $followers_count);
+            }
+
+
+            // 当问题关联的话题被detached 话题下面的问题数量自然要减去一个
+            if ($relationName === 'topic') {
+                // 因为触发 所以$pivotIds一定是有值的
+                array_map(function ($topic_id) {
+                    Topic::find($topic_id)->increment('questions_count', -1);
+                }, $pivotIds);
+            }
         });
 
         static::pivotUpdating(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {

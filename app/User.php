@@ -36,6 +36,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * 当前用户是否关注了当前问题
+     * @param $question_id
+     * @return boolean
+     */
+    public function followThisQuestion($question_id)
+    {
+        if (!\Auth::check()) {
+            return false;
+        }
+        $user_id = \Auth::id();
+        return !!FollowerQuestion::where(compact('user_id', 'question_id'))->count();
+    }
+
+    /**
      * 判断登录用户是不是该Model里面的user_id字段是一个
      * @param Model $model
      * @return boolean
