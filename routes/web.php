@@ -27,7 +27,7 @@ Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function () {
 
 // 关注者
 Route::group(['prefix' => 'Follower', 'middleware' => ['auth']], function (){
-    Route::get('/{question}', 'FollowerQuestionController@store'); // 关注问题
+    Route::get('/{question}', 'FollowerQuestionController@store'); // 关注问
 });
 
 
@@ -38,11 +38,9 @@ Route::get('/mail', function () {
 });
 
 // 测试问题的路由,内容自行填充
-Route::get('/delete', function () {
-    $question_id = 20;
+Route::get('/vue_test', function () {
+    return view('test.test');
 
-    // 删除
-    \App\Question::find($question_id)->topic()->sync([120, 121]);
 });
 
 

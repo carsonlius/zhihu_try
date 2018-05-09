@@ -5,10 +5,10 @@ namespace App\Repositories;
 use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Topic;
-use App\FollowerQuestion;
 
 class QuestionSelfRepository
 {
+
     /**
      * 倒叙获得没有隐藏的question列表
      * @return mixed
@@ -26,7 +26,9 @@ class QuestionSelfRepository
      */
     public function byIdWithTopicsAndAnswers($id)
     {
-        return Question::where(compact('id'))->with(['topic', 'answers'])->first();
+        return Question::where(compact('id'))->with(['topic', 'answers' => function($query) {
+            $query->orderBy('id', 'desc');
+        }])->first();
     }
 
     /**
