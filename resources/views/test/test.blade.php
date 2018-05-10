@@ -20,12 +20,12 @@
     </template>
 
     <script>
-
         Vue.component('list_question_template', {
             template : '#list_question',
-            props : ['question_lists', 'wang'],
+            // props : ['question_lists'],
             data : function(){
                 return {
+                    question_lists : {}
                 }
             },
             created : function () {

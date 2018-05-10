@@ -21,6 +21,7 @@ Route::group(['prefix' => '/Question'], function () {
 });
 
 // 答案
+
 Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function () {
     Route::post('', 'AnswerController@store'); // 创建答案
 });
