@@ -31,9 +31,14 @@
             created : function () {
                 var vm = this;
                 var url = '/api/test';
-                $.getJSON(url).done(function(response){
-                    vm.question_lists = response;
+                console.log('da da da da');
+                this.$http.get(url, {responseType : 'json'}).then(function(response){
+                    console.log(response);
+                    vm.question_lists = response.body;
+                }, function(){
+
                 });
+
             },
             methods : {
                 deleteItem : function (question) {
