@@ -12,11 +12,20 @@
     </div>
 
     <template id="list_question">
-        <ul class="list-group">
-                <li class="list-group-item" v-for="question in question_lists"> @{{ question.body }}
-                <strong @click="deleteItem(question)" style="color:red">x</strong>
+
+        <div>
+            {{ Form::open(['url' => '', 'method' => 'get', @submit=]) }}
+            {{ Form::submit('新增任务',['class' => 'btn btn-success btn-block'] ) }}
+
+            {{ Form::close() }}
+
+            <ul class="list-group">
+                <li class="list-group-item" v-for="question in question_lists"> @{{ question.name }}
+                    <strong @click="deleteItem(question)" style="color:red">x</strong>
                 </li>
-        </ul>
+            </ul>
+        </div>
+
     </template>
 
     <script>
@@ -31,14 +40,9 @@
             created : function () {
                 var vm = this;
                 var url = '/api/test';
-                console.log('da da da da');
-                this.$http.get(url, {responseType : 'json'}).then(function(response){
-                    console.log(response);
-                    vm.question_lists = response.body;
-                }, function(){
-
+                $.getJSON(url).done(function(response){
+                    vm.question_lists = response;
                 });
-
             },
             methods : {
                 deleteItem : function (question) {

@@ -26,5 +26,5 @@ Route::get('/topics' ,function(Request $request){
 })->middleware(['throttle:10000,1']);
 
 Route::get('/test', function() {
-    return \App\Question::latest()->get();
+    return \App\Topic::latest()->get();
 });
