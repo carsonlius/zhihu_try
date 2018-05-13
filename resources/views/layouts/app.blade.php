@@ -20,8 +20,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
     {{-- CDN vue--}}
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    {{--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
