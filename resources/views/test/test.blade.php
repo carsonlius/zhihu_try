@@ -34,56 +34,58 @@
     </template>
 
     <script>
-        var resource = Vue.resource('/api/tasks/{id}');
 
-        Vue.component('list_question_template', {
-            template : '#list_question',
-            // props : ['task_lists'],
-            data : function(){
-                return {
-                    task_lists : [],
-                    notes : ''
-                }
-            },
-            created : function () {
-                var vm = this;
-                var url = '/api/tasks';
-                $.getJSON(url).done(function(response){
-                    vm.task_lists = response;
-                });
-            },
-            computed :{
-                orderTasks: function () {
-                    return _.orderBy(this.task_lists, 'id', 'desc');
-                }
-            },
-            methods : {
-                deleteItem : function (question) {
+            var resource = Vue.resource('/api/tasks/{id}');
+            Vue.component('list_question_template', {
+                template : '#list_question',
+                // props : ['task_lists'],
+                data : function(){
+                    return {
+                        task_lists : [],
+                        notes : ''
+                    }
+                },
+                created : function () {
                     var vm = this;
-                    // 删除问题的请求
-                    resource.delete({id: question.id }).then(function (response) {
-                        // 从页面上也要删除文件
-                        if (response.body.status === 'success') {
-                            var index = vm.task_lists.indexOf(question);
-                            vm.task_lists.splice(index, 1);
-                        }
+                    var url = '/api/tasks';
+                    this.$http.get(url).then(function(response) {
+                        console.log(response);
+                        vm.task_lists = response.body;
                     });
                 },
-                // 创建任务
-                createTask: function(){
-                    var url = $('#form_create_task').attr('action');
-                    this.$http.post(url , {name:this.notes}).then(function (response) {
-                        if (response.body.status === 'success') {
-                            this.task_lists.unshift(response.body.task);
-                            this.notes ='';
-                        }
-                    });
+                computed :{
+                    orderTasks: function () {
+                        return _.orderBy(this.task_lists, 'id', 'desc');
+                    }
+                },
+                methods : {
+                    deleteItem : function (question) {
+                        var vm = this;
+                        // 删除问题的请求
+                        resource.delete({id: question.id }).then(function (response) {
+                            // 从页面上也要删除文件
+                            if (response.body.status === 'success') {
+                                var index = vm.task_lists.indexOf(question);
+                                vm.task_lists.splice(index, 1);
+                            }
+                        });
+                    },
+                    // 创建任务
+                    createTask: function(){
+                        var url = $('#form_create_task').attr('action');
+                        this.$http.post(url , {name:this.notes}).then(function (response) {
+                            if (response.body.status === 'success') {
+                                this.task_lists.unshift(response.body.task);
+                                this.notes ='';
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
 
-        new Vue({
-            el: '#app_test'
-        });
+            new Vue({
+                el: '#app_test'
+            });
+
     </script>
 @endsection
