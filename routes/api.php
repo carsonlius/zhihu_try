@@ -25,6 +25,4 @@ Route::get('/topics' ,function(Request $request){
     return json_encode($topic);
 })->middleware(['throttle:10000,1']);
 
-Route::get('/test', function() {
-    return \App\Topic::latest()->get();
-});
+Route::resource('tasks', 'TaskController');

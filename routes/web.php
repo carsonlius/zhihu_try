@@ -39,7 +39,7 @@ Route::get('/mail', function () {
 });
 
 // 测试问题的路由,内容自行填充
-Route::get('/test', function () {
+Route::get('/tasks', function () {
     return view('test.test');
 
 });
