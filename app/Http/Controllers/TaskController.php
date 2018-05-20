@@ -15,7 +15,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::latest()->get();
+        return Task::latest()->get()->map(function ($item){
+            $item['title'] = $item['name'];
+            $item['computed'] = !! mt_rand(0,1);
+            return $item;
+        });
     }
 
     /**
