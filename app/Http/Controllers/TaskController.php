@@ -15,11 +15,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::latest()->get()->map(function ($item){
+        $response = Task::latest()->get()->map(function ($item){
             $item['title'] = $item['name'];
-            $item['computed'] = !! mt_rand(0,1);
             return $item;
         });
+        return \response()->json($response);
     }
 
     /**
@@ -51,13 +51,14 @@ class TaskController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Task  $task
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return Task
      */
     public function show(Task $task)
     {
-        //
+        $task['title'] = $task['name'];
+        $task['computed'] = !! mt_rand(0,1);
+        return $task;
     }
 
     /**
@@ -80,7 +81,12 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+
+        $task->computed = $request->get('computed');
+        $success = $task->save();
+
+        $msg = $success ? '更新成功' : '更新失败';
+        return compact('msg', 'success');
     }
 
     /**
