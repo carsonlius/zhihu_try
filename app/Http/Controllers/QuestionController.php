@@ -67,8 +67,6 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         $question = $this->question_repositories->byIdWithTopicsAndAnswers($question->id);
-
-        dump($question->toArray());
         return view('questions.show')->with(compact('question'));
     }
 
