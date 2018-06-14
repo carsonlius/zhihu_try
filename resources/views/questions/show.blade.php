@@ -6,12 +6,15 @@
             margin: 0;
             padding: 0;
         }
+
         ul {
             margin-top: 50px;
         }
+
         .second_row {
             margin-top: 10px;
         }
+
         .second_row .media-left img {
             width: 80px;
             height: 80px;
@@ -52,7 +55,8 @@
                                         {{ Form::close() }}
                                     </li>
                                 @endif
-                                <li><span><btton class="btn btn-info btn-xs" id="answer_button">写回答</btton></span></li>
+                                <li><span><button class="btn btn-info btn-xs" id="answer_button">写回答</button></span>
+                                </li>
                             @else
                                 <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span>
                                 </li>
@@ -70,16 +74,15 @@
                         <span>{{ $question->answers_count }}个回答</span>
                     </div>
                     <div class="panel-body">
-                        <a href="/Follower/{{$question->id}}" class="btn btn-sm
-{{(\Auth::check() && \Auth::user()->followThisQuestion($question->id)) ? 'btn-success' : 'btn-default' }}">
-                            {{ (\Auth::check() && \Auth::user()->followThisQuestion($question->id)) ? '已关注' : '关注该问题' }}</a>
-                                                    <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <question-follow-button question_id="{{ $question->id }}"
+                                                id="{{ \Auth::check() ? \Auth::id() : false  }}"></question-follow-button>
+                        <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    {{-- 回答 --}}
+        {{-- 回答 --}}
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
@@ -113,7 +116,7 @@
                         @foreach ($answers as $answer)
                             <div class="media">
                                 <div class="media-left">
-                                    <a href=""> <img src="{{ $answer->user->avatar }}" alt=""></a>
+                                    <a href=""> <img src="{{ $answer->user->avatar }}" alt="" style="height: 100px;width: 100px"></a>
                                 </div>
                                 <div class="media-body">
                                     <div class="media-heading">
@@ -138,7 +141,7 @@
         $(function () {
             // 初始化答案的编辑器
             editorInit();
-
+            console.log('hello world');
             // 回答的开关
             answerClick();
         });
@@ -180,7 +183,5 @@
             });
         }
 
-
     </script>
-
 @endsection

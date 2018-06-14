@@ -10,23 +10,20 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     {{-- select2 需要用到jQ 所以位置需要放到上面 --}}
-    <script src="{{ asset('js/app.js') }}"></script>
 
     {{-- CDN  bootstrap --}}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
-    {{-- CDN select2 --}}
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    {{--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--}}
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 
     {{-- CDN vue--}}
     {{--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>--}}
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>
+
+    {{--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>--}}
+    {{--<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>--}}
 
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?version=1.15') }}" rel="stylesheet">
 </head>
 <body>
@@ -34,7 +31,6 @@
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-
                 <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#app-navbar-collapse" aria-expanded="false">
@@ -99,6 +95,12 @@
 </div>
 
 <!-- Scripts -->
+
+<script src="{{ mix('/js/app.js') }}"></script>
+{{-- CDN select2 --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
 <script>
     $('#flash-overlay-modal').modal();
     $('div.alert').not('.alert-important').delay(3000).fadeOut();
