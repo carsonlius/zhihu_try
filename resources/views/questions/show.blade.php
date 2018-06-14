@@ -55,11 +55,9 @@
                                         {{ Form::close() }}
                                     </li>
                                 @endif
-                                <li><span><button class="btn btn-info btn-xs" id="answer_button">写回答</button></span>
-                                </li>
+                                <li><span><button class="btn btn-info btn-xs" id="answer_button">写回答</button></span></li>
                             @else
-                                <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span>
-                                </li>
+                                <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span></li>
                             @endif
                         </ul>
                     </div>
@@ -74,8 +72,7 @@
                         <span>{{ $question->answers_count }}个回答</span>
                     </div>
                     <div class="panel-body">
-                        <question-follow-button question_id="{{ $question->id }}"
-                                                id="{{ \Auth::check() ? \Auth::id() : false  }}"></question-follow-button>
+                        <question-follow-button question_id="{{ $question->id }}" id="{{ \Auth::check() ? \Auth::id() : false  }}"></question-follow-button>
                         <a href="#editor" class="btn btn-primary btn-sm">撰写答案</a>
                     </div>
                 </div>
@@ -89,8 +86,7 @@
                     <div class="panel-heading">
                         {{ $question->answers_count }}个回答
                     </div>
-                    <div class="panel-body" id="answer_body"
-                         style="display:{{ $errors->has('body') ? 'block' : 'none' }}">
+                    <div class="panel-body" id="answer_body" style="display:{{ $errors->has('body') ? 'block' : 'none' }}">
 
                         <div class="first_row">
                             {!! Form::open(['url' => '/Answer/', 'method' => 'post']) !!}
@@ -126,15 +122,13 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{ $answers->links()  }}
+                        {{ $answers->links() }}
                     </div>
 
                 </div>
 
             </div>
         </div>
-    </div>
-
     </div>
 
     <script>
@@ -182,6 +176,5 @@
                 ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
             });
         }
-
     </script>
 @endsection

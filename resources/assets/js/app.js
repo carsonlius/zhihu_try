@@ -11,8 +11,8 @@ window.Vue = require('vue');
 
 // 引入vue-rsource
 let VueResource = require('vue-resource');
-Vue.use(VueResource);
-// Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+Vue.use(VueResource);Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+
 
 
 /**

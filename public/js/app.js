@@ -45348,9 +45348,7 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 // 引入vue-rsource
 var VueResource = __webpack_require__("./node_modules/vue-resource/dist/vue-resource.esm.js");
-Vue.use(VueResource);
-// Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
-
+Vue.use(VueResource);Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
