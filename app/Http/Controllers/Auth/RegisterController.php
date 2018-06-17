@@ -69,7 +69,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'avatar' => '/images/avatars/default.gif', // 默认头像
-            'confirmation_token' => sha1(str_random(40))
+            'confirmation_token' => sha1(str_random(40)),
+            'api_token' => str_random(64)
         ]);
     }
 

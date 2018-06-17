@@ -19,7 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password','avatar', 'confirmation_token', 'is_active', 'questions_count',
         'answers_count', 'comments_count', 'favorites_count', 'likes_count', 'followers_count', 'following_count',
-        'settings'
+        'settings', 'api_token'
     ];
 
     /**

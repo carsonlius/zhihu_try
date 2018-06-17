@@ -1,28 +1,31 @@
-@extends('layouts.app')
 
+@extends('layouts.app')
+@section('js')
+    @include('vendor.ueditor.assets')
+@endsection
 @section('content')
     <style>
-        li {
+        .show_question_page li {
             margin: 0;
             padding: 0;
         }
 
-        ul {
+        .show_question_page ul {
             margin-top: 50px;
         }
 
-        .second_row {
+        .show_question_page .second_row {
             margin-top: 10px;
         }
 
-        .second_row .media-left img {
+        .show_question_page .second_row .media-left img {
             width: 80px;
             height: 80px;
         }
     </style>
 
-    <div class="container">
-        @include('vendor.ueditor.assets')
+    <div class="container show_question_page">
+
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">

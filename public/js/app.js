@@ -45332,9 +45332,8 @@ module.exports = function(module) {
 /***/ }),
 
 /***/ "./resources/assets/js/app.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -45348,7 +45347,15 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 // 引入vue-rsource
 var VueResource = __webpack_require__("./node_modules/vue-resource/dist/vue-resource.esm.js");
-Vue.use(VueResource);Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+Vue.use(VueResource);
+
+var token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
+    Vue.http.headers.common['Authorization'] = token.getAttribute('api_token');
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -45361,16 +45368,16 @@ Vue.component('button-show', __webpack_require__("./resources/assets/js/componen
 Vue.component('question-follow-button', __webpack_require__("./resources/assets/js/components/QuestionFollowButton.vue"));
 
 var app = new Vue({
-  el: '#app',
-  data: {
-    id: 'what happened'
-  },
-  // mounted: function () {
-  //     console.log('Vue Instance');
-  // },
-  created: function created() {
-    // console.log('怎么没有相应');
-  }
+    el: '#app',
+    data: {
+        id: 'what happened'
+    },
+    // mounted: function () {
+    //     console.log('Vue Instance');
+    // },
+    created: function created() {
+        // console.log('怎么没有相应');
+    }
 });
 
 /***/ }),
@@ -45413,6 +45420,7 @@ var token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
   window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+  window.axios.defaults.headers.common['Authorization'] = token.getAttribute('api_token');
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }

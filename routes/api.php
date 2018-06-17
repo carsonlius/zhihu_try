@@ -38,12 +38,12 @@ Route::post('/question/follower', function(Request $request){
         ->count();
 
     return response()->json(['followed' => !!$is_followed, 'status' => 0, 'where' => $where]);
-})->middleware('api');
+});
 
 // 开启或者关闭关注
 Route::post('/question/follow', function (Request $request) {
-
     try {
+
         // 是否关注了某个问题
         $question_id = $request->post('question_id');
         $user_id = $request->get('id');
@@ -52,16 +52,19 @@ Route::post('/question/follow', function (Request $request) {
         $obj_followed = \App\FollowerQuestion::where($where)
             ->first();
 
-        // 已经关注了 则删掉
+        // 已经关注了 则删掉  && 关注者减一
         if ($obj_followed) {
             $obj_followed->delete();
+
+            \App\Question::find($question_id)->increment('flowers_count', -1);
             return response()->json(['followed' => false, 'status' => 0]);
         }
 
-        // 没有关注 则添加
+        // 没有关注 则添加 && 关着者+1
         \App\FollowerQuestion::create(compact('question_id', 'user_id'));
+        \App\Question::find($question_id)->increment('flowers_count', 1);
         return response()->json(['followed' => true, 'status' =>  0]);
     } catch (\Exception $e) {
         return response(['status' => 9999, 'msg' => $e->getMessage()]);
     }
-});
+})->middleware('auth:api');

@@ -11,8 +11,15 @@ window.Vue = require('vue');
 
 // 引入vue-rsource
 let VueResource = require('vue-resource');
-Vue.use(VueResource);Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name="csrf-token"]').attr('content');
+Vue.use(VueResource);
 
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
+    Vue.http.headers.common['Authorization'] = token.getAttribute('api_token');
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 
 /**
