@@ -42,9 +42,6 @@ class User extends Authenticatable
      */
     public function followThisQuestion($question_id)
     {
-        if (!\Auth::check()) {
-            return false;
-        }
         return \Auth::user()->questionFollow->contains('id', $question_id);
     }
 

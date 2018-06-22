@@ -90,7 +90,6 @@
                         {{ $question->answers_count }}个回答
                     </div>
                     <div class="panel-body" id="answer_body" style="display:{{ $errors->has('body') ? 'block' : 'none' }}">
-
                         <div class="first_row">
                             {!! Form::open(['url' => '/Answer/', 'method' => 'post']) !!}
                             {!! Form::hidden('question_id', $question->id) !!}

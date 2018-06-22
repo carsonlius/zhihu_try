@@ -14,8 +14,7 @@
             // 开关是否关注
             followToggle : function () {
                 let params = {
-                    question_id : this.question_id,
-                    id : this.id
+                    question_id : this.question_id
                 };
                 let vm = this;
                 this.$http.post('/api/question/follow', params).then(function(response){
@@ -33,8 +32,7 @@
                 }
 
                 let params = {
-                    question_id : this.question_id,
-                    id : this.id
+                    question_id : this.question_id
                 };
                 let vm = this;
                 this.$http.post('/api/question/follower', params).then(function(response){
@@ -48,7 +46,6 @@
         mounted : function () {
             //判断是否以及更关注该问题
             this.init_followed();
-
         },
         computed : {
             text_followed : function() {

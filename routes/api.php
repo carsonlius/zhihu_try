@@ -27,26 +27,23 @@ Route::get('/topics' ,function(Request $request){
 
 Route::resource('tasks', 'TaskController');
 
-// 判断当前登录的用户是不是已经登陆的状态
+// 判断当前登录的用户是不是已经
 Route::post('/question/follower', function(Request $request){
     // 判断当前用户是否关注了某个问题
     $question_id = $request->post('question_id');
-    $user_id = $request->get('id');
+    $user = \Auth::guard('api')->user();
 
-    $where = compact('question_id', 'user_id');
-    $is_followed = \App\FollowerQuestion::where($where)
-        ->count();
+    $is_followed = $user->followThisQuestion($question_id);
 
-    return response()->json(['followed' => !!$is_followed, 'status' => 0, 'where' => $where]);
-});
+    return response()->json(['followed' => !!$is_followed, 'status' => 0]);
+})->middleware('auth:api');
 
-// 开启或者关闭关注
+// 开启或者关闭关注了某个问题
 Route::post('/question/follow', function (Request $request) {
     try {
-
         // 是否关注了某个问题
         $question_id = $request->post('question_id');
-        $user_id = $request->get('id');
+        $user_id = \Auth::guard('api')->id();
 
         $where = compact('question_id', 'user_id');
         $obj_followed = \App\FollowerQuestion::where($where)
@@ -56,7 +53,7 @@ Route::post('/question/follow', function (Request $request) {
         if ($obj_followed) {
             $obj_followed->delete();
 
-            \App\Question::find($question_id)->increment('flowers_count', -1);
+            \App\Question::find($question_id)->decrement('flowers_count', 1);
             return response()->json(['followed' => false, 'status' => 0]);
         }
 

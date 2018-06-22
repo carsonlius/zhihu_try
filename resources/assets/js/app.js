@@ -29,7 +29,6 @@ if (token) {
  */
 
 Vue.component('example', require('./components/Example.vue'));
-Vue.component('button-show', require('./components/ButtonShow.vue'));
 Vue.component('question-follow-button', require('./components/QuestionFollowButton.vue'));
 
 const app = new Vue({
