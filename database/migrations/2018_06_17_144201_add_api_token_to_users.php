@@ -15,7 +15,6 @@ class AddApiTokenToUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('api_token', 64)->comment('api_token 唯一的字段');
-            $table->unique('api_token');
         });
     }
 

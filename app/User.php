@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','avatar', 'confirmation_token', 'is_active', 'questions_count',
+        'name', 'email', 'password', 'avatar', 'confirmation_token', 'is_active', 'questions_count',
         'answers_count', 'comments_count', 'favorites_count', 'likes_count', 'followers_count', 'following_count',
         'settings', 'api_token'
     ];
@@ -31,9 +31,19 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected  $dispatchesEvents = [
+    protected $dispatchesEvents = [
         'created' => UserCreateEvent::class
     ];
+
+    /**
+     * 关注当前用户的用户
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'follower_id','followed_id')
+            ->withTimestamps();
+    }
 
     /**
      * 当前用户是否关注了当前问题

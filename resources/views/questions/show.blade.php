@@ -80,6 +80,25 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2>关于作者</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#"><img class="media-object" src="{{ $question->user->avatar }}" alt="{{ $question->user->name }}"></a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href=""> {{ $question->user->name }}</a></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         {{-- 回答 --}}
@@ -94,10 +113,10 @@
                             {!! Form::open(['url' => '/Answer/', 'method' => 'post']) !!}
                             {!! Form::hidden('question_id', $question->id) !!}
                             <div class="form-group {{ $errors->has('body') ?  'has-error' : '' }}">
-                                <script id="container" name="body" type="text/plain"> {{ old('body') }} </script>
+                                <script id="container" name="body" type="text/plain"> {!! old('body') !!} </script>
                                 @if($errors->has('body'))
                                     <span class="help-block">
-                                    <strong>{{ $errors->first('body') }}</strong>
+                                    <strong>{!! $errors->first('body') !!}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}" api_token="{{ \Auth::check() ? 'Bearer ' . \Auth::user()->api_token : 'Bearer '  }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="api-token" content="{{ \Auth::check() ? 'Bearer ' . \Auth::user()->api_token : 'Bearer '  }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     {{-- select2 需要用到jQ 所以位置需要放到上面 --}}
