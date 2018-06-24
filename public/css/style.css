@@ -1,5 +1,5 @@
 .panel-body img {
-    width: 100%;
+    /*width: 100%;*/
 }
 a .topic{
     background: #eff6fa;
@@ -54,4 +54,16 @@ a .topic:hover{
 .question_flower .panel-heading span {
     margin: 0 5px;
     color: #3d6983;
+}
+
+.user-statics, user-actions {
+    margin-top:20px;
+}
+
+.user-statics {
+    display: flex;
+}
+
+.statics-item {
+    padding:2px 20px;
 }
