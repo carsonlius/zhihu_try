@@ -36,14 +36,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * 关注当前用户的用户
+     * 关注当前用户的
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function followers()
     {
-        return $this->belongsToMany(self::class, 'followers', 'follower_id','followed_id')
+        return $this->belongsToMany(self::class, 'followers', 'followed_id','follower_id')->withTimestamps()
             ->withTimestamps();
     }
+
+    /**
+     * 被当前用户关注的用户
+     */
+    public function followed()
+    {
+        return $this->belongsToMany(self::class, 'followers', 'follower_id', 'followed_id');
+    }
+
 
     /**
      * 当前用户是否关注了当前问题

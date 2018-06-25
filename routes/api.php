@@ -65,3 +65,10 @@ Route::post('/question/follow', function (Request $request) {
         return response(['status' => 9999, 'msg' => $e->getMessage()]);
     }
 })->middleware('auth:api');
+
+
+// 当前用户是否关注了这个问题的作者
+Route::get('/user/follower', 'FollowersController@index')->middleware('auth:api');
+
+// toggle当前用户关注或者不在关注某个用户
+Route::post('user/follow', 'FollowersController@follow')->middleware('auth:api');

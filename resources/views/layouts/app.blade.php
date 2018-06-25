@@ -25,7 +25,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css?version=' . time()) }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?version=1.78')}}" rel="stylesheet">
 </head>
 <body>
 <div id="app">
