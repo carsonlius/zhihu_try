@@ -45,3 +45,6 @@ Route::get('/tasks', function () {
 });
 
 
+Route::get('notifications', 'NotificationsController@index');
+
+

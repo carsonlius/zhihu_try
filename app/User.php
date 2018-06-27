@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Events\UserCreateEvent;
+use App\Notifications\UserFollowedNotifycation;
+use App\Notifications\UserFollowingNotification;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -50,10 +52,14 @@ class User extends Authenticatable
                 $count_attached = count($pivotIds);
                 $model->increment('followers_count', $count_attached);
 
+                // 发起关注的notifications
+                $model->notify(new UserFollowingNotification($pivotIds));
+
+
                 // 下面的用户的被关注数目加1
                 array_walk($pivotIds, function ($user_id) {
-
                     self::find($user_id)->increment('following_count');
+                    self::find($user_id)->notify(new UserFollowedNotifycation());
                 });
             }
         });
