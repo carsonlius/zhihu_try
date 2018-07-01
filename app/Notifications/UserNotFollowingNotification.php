@@ -2,22 +2,29 @@
 
 namespace App\Notifications;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserFollowedNotifycation extends Notification
+class UserNotFollowingNotification extends Notification
 {
     use Queueable;
+
+    /*
+     * 不再被关注的用户ID列表
+     * */
+    private $list_ids;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param array $list_ids 不再被关注的用户ID列表
      */
-    public function __construct()
+    public function __construct($list_ids)
     {
-        //
+        $this->list_ids = $list_ids;
     }
 
     /**
@@ -28,21 +35,17 @@ class UserFollowedNotifycation extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['database'];
     }
 
-
-    /**
-     *
-     * @param mixed $notifiable
-     */
-    public function toDatabase($notifiable)
+    public function toDatabase()
     {
-        return [
-            'name' => \Auth::guard('api')->user()->name, // 发起关注的用户
-        ];
+        $list_user =  array_map(function($id){
+            $name = User::find($id)->name;
+            return compact('name', 'id');
+        }, $this->list_ids);
+        return compact('list_user');
     }
-
 
     /**
      * Get the mail representation of the notification.
@@ -58,4 +61,16 @@ class UserFollowedNotifycation extends Notification
                     ->line('Thank you for using our application!');
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
+    }
 }

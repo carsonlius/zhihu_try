@@ -11,7 +11,6 @@ class Question extends Model
 {
     // 解决sync不触发事件的问题
     use PivotEventTrait;
-
     protected $fillable = ['title', 'user_id', 'body', 'flowers_count', 'comments_count', 'close_comment', 'answers_count', 'is_hidden'];
 
     public function isHidden()
@@ -21,7 +20,7 @@ class Question extends Model
 
     public function isClose()
     {
-        return $this->close_comment = 'T';
+        return $this->close_comment === 'T';
     }
 
     protected $dispatchesEvents = [

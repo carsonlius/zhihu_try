@@ -111,8 +111,10 @@
                                 </div>
                             </div>
                             <div class="panel-body">
+                                @if(\Auth::check() && \Auth::id() !== $question->user->id)
                                 <user-follow-button user="{{ $question->user->id }}" id="{{ \Auth::check() ? \Auth::id() : ''}}"></user-follow-button>
                                 <a href="#" class="btn btn-default btn-sm">发送私信</a>
+                                @endif
                             </div>
 
                         </div>

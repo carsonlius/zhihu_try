@@ -4,11 +4,14 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class UserFollowedNotifycation extends Notification
+class UserFollowedNotification extends Notification
 {
     use Queueable;
+
+    public $user_following;
 
     /**
      * Create a new notification instance.
@@ -17,7 +20,7 @@ class UserFollowedNotifycation extends Notification
      */
     public function __construct()
     {
-        //
+        $this->user_following = \Auth::guard('api')->user()->name; // 发起关注的用户
     }
 
     /**
@@ -28,21 +31,15 @@ class UserFollowedNotifycation extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['mail'];
     }
 
-
-    /**
-     *
-     * @param mixed $notifiable
-     */
-    public function toDatabase($notifiable)
+    public function toDatabase()
     {
         return [
-            'name' => \Auth::guard('api')->user()->name, // 发起关注的用户
+            'name' => $this->user_following
         ];
     }
-
 
     /**
      * Get the mail representation of the notification.
@@ -52,10 +49,19 @@ class UserFollowedNotifycation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        return (new MailMessage)->subject('技术论坛关注提醒')->markdown('notifications.user_followed_notification');
     }
 
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            //
+        ];
+    }
 }
