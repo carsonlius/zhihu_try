@@ -10,7 +10,7 @@
             padding: 0;
         }
 
-        .show_question_page ul {
+        .show_question_page ul{
             margin-top: 50px;
         }
 
@@ -71,8 +71,8 @@
             <div class="col-md-3">
                 <div class="panel panel-default question_flower">
                     <div class="panel-heading">
-                        <span>{{ $question->flowers_count }}个关注</span>
-                        <span>{{ $question->answers_count }}个回答</span>
+                        <span><a id="question_following">{{ $question->flowers_count }}</a>个关注</span>
+                        <span><a>{{ $question->answers_count }}</a>个回答</span>
                     </div>
                     <div class="panel-body">
                         <question-follow-button question_id="{{ $question->id }}" id="{{ \Auth::check() ? \Auth::id() : false  }}"></question-follow-button>
@@ -83,7 +83,7 @@
 
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
+                    <div class="panel-heading text-center">
                         <h5>关于作者</h5>
                     </div>
                     <div class="panel-body">
@@ -91,15 +91,14 @@
                             <div class="media-left">
                                 <a href="#"><img width="50px" src="{{ $question->user->avatar }}" alt="{{ $question->user->name }}"></a>
                             </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href=""> {{ $question->user->name }}</a></h4>
+                            <div class="media-body center-align">
+                               <p><h4 class="media-heading"><a href=""> {{ $question->user->name }}</a></h4></p>
                             </div>
 
                             <div class="user-statics">
                                 <div class="statics-item text-center">
                                     <div class="statics-text">问题</div>
                                     <div class="statics-count"> {{ $question->user->questions_count }}</div>
-
                                 </div>
                                 <div class="statics-item text-center">
                                     <div class="statics-text">回答</div>
@@ -107,13 +106,13 @@
                                 </div>
                                 <div class="statics-item text-center">
                                     <div class="statics-text"> 关注者</div>
-                                    <div class="statics-count"> {{ $question->user->followers_count }}</div>
+                                    <div class="statics-count" id="following_count"> {{ $question->user->following_count }}</div>
                                 </div>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body text-center">
                                 @if(\Auth::check() && \Auth::id() !== $question->user->id)
-                                <user-follow-button user="{{ $question->user->id }}" id="{{ \Auth::check() ? \Auth::id() : ''}}"></user-follow-button>
-                                <a href="#" class="btn btn-default btn-sm">发送私信</a>
+                                <span style="margin-right: 10px"><user-follow-button user="{{ $question->user->id }}" id="{{ \Auth::check() ? \Auth::id() : ''}}"></user-follow-button></span>
+                                <span><a href="#" class="btn btn-default btn-sm">发送私信</a></span>
                                 @endif
                             </div>
 
@@ -179,7 +178,6 @@
         $(function () {
             // 初始化答案的编辑器
             editorInit();
-            console.log('hello world');
             // 回答的开关
             answerClick();
         });

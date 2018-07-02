@@ -1654,6 +1654,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['question_id', 'id'],
@@ -1670,8 +1671,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
             var vm = this;
             this.$http.post('/api/question/follow', params).then(function (response) {
-                if (response.data.status === 0) {
-                    vm.followed = response.data.followed;
+                if (response.body.status === 0) {
+                    vm.followed = response.body.followed;
+                    var obj_question_following = $('#question_following');
+                    var number_question_following = parseInt(obj_question_following.text());
+                    if (vm.followed) {
+                        // 关注者增加一
+                        obj_question_following.text(number_question_following + 1);
+                    } else {
+                        obj_question_following.text(number_question_following - 1);
+                    }
                 }
             });
         },
@@ -1716,7 +1725,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user', 'id'],
@@ -1736,6 +1744,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(response);
                 if (response.data.status === 0) {
                     vm.followed = response.data.followed;
+                    // 动态的调整关注者的数量
+                    var count_obj = $('#following_count');
+                    var following_count = parseInt(count_obj.text());
+                    if (response.data.followed) {
+                        // 关注者加1
+                        count_obj.text(following_count + 1);
+                    } else {
+                        // 关注者减1
+                        count_obj.text(following_count - 1);
+                    }
                 }
             });
         },
@@ -4166,7 +4184,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -4181,7 +4199,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -32432,7 +32450,12 @@ var render = function() {
     staticClass: "btn btn-sm",
     class: [_vm.followed ? "btn-success" : "btn-default"],
     domProps: { textContent: _vm._s(_vm.text_followed) },
-    on: { click: _vm.followToggle }
+    on: {
+      click: function($event) {
+        $event.preventDefault()
+        return _vm.followToggle($event)
+      }
+    }
   })
 }
 var staticRenderFns = []

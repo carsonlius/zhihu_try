@@ -1,6 +1,5 @@
 <template>
-    <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" v-text="text_followed"
-            @click="followToggle"></button>
+    <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" v-text="text_followed" @click="followToggle"></button>
 </template>
 
 <script>
@@ -22,7 +21,19 @@
                     console.log(response);
                     if (response.data.status === 0) {
                         vm.followed = response.data.followed;
+                        // 动态的调整关注者的数量
+                        let count_obj = $('#following_count');
+                        let following_count = parseInt(count_obj.text());
+                        if (response.data.followed) {
+                            // 关注者加1
+                            count_obj.text(following_count+1);
+                        } else {
+                            // 关注者减1
+                            count_obj.text(following_count-1);
+                        }
                     }
+
+
                 });
 
             },
