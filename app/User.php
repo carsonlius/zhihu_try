@@ -40,6 +40,15 @@ class User extends Authenticatable
         'created' => UserCreateEvent::class
     ];
 
+    /**
+     * 当前用户点赞过的答案（多对多关系）
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function votesAnswer()
+    {
+       return $this->belongsToMany(Answer::class, 'votes', 'user_id', 'answer_id')->withTimestamps();
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -64,6 +73,15 @@ class User extends Authenticatable
                     self::find($user_id)->notify(new UserFollowedNotification());
                 });
             }
+
+
+            // 答案点赞事件
+            if ($relationName == 'votesAnswer') {
+                array_walk($pivotIds, function($answer_id){
+                    Answer::find($answer_id)->increment('votes_count');
+                });
+            }
+
         });
 
         static::pivotDetaching(function ($model, $relationName, $pivotIds) {
@@ -85,6 +103,15 @@ class User extends Authenticatable
                     self::find($user_id)->decrement('following_count');
                 });
             }
+
+            // 答案取消点赞事件
+            if ($relationName == 'votesAnswer') {
+                array_walk($pivotIds, function($answer_id){
+                    Answer::find($answer_id)->decrement('votes_count');
+                });
+            }
+
+
         });
 
         static::pivotUpdating(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
@@ -105,8 +132,6 @@ class User extends Authenticatable
             dump($model);
         });
     }
-
-
 
     /**
      * 关注当前用户的

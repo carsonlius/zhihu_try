@@ -30,4 +30,13 @@ class Answer extends Model
     {
         return $this->belongsTo(Question::class);
     }
+
+    /**
+     * 给当前答案点过赞的用
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function votesUser()
+    {
+        return $this->belongsToMany(User::class, 'votes', 'answer_id', 'user_id')->withTimestamps();
+    }
 }
