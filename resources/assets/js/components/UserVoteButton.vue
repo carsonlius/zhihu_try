@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-sm" :class="[voted ? 'btn-primary' : 'btn-default']" @click="followToggle" :title="text_title">
+    <button class="btn btn-sm tip" :class="[voted ? 'btn-primary' : 'btn-default']" @click="followToggle" :title="text_title">
         <span class="glyphicon glyphicon-triangle-top" aria-hidden="true" v-if="voted"></span>
         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" v-else></span>
         <span class="btn_margin">{{text_voted}}</span>
@@ -76,5 +76,4 @@
     .btn_margin{
         margin-left: 5px;
     }
-
 </style>
