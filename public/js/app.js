@@ -1802,13 +1802,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['answer_id', 'votes_count'],
     data: function data() {
         return {
-            voted: false
+            voted: false,
+            count: 0
         };
+    },
+    created: function created() {
+        this.count = this.votes_count;
     },
     methods: {
         // 开关是否关注
@@ -1818,15 +1825,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
             var vm = this;
             this.$http.post('/api/answer/vote', params).then(function (response) {
-                console.log(response);
                 if (response.data.status === 0) {
                     vm.voted = response.data.voted;
 
                     // 调整点赞者的数量
                     if (response.data.voted) {
-                        vm.votes_count++;
+                        vm.count++;
                     } else {
-                        vm.votes_count--;
+                        vm.count--;
                     }
                 }
             });
@@ -1840,7 +1846,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var vm = this;
 
             this.$http.get(url, params).then(function (response) {
-                console.log(response);
                 if (response.data.status === 0) {
                     vm.voted = response.data.voted;
                 }
@@ -1850,11 +1855,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         //判断是否以及更关注该问题
+        this.voted = !!this.count;
         this.init_voted();
     },
     computed: {
         text_voted: function text_voted() {
-            return this.votes_count;
+            return this.count;
+        },
+        text_title: function text_title() {
+            return this.voted ? '已经点赞' : '未点赞';
         }
     }
 });
@@ -4283,7 +4292,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.btn_margin[data-v-8be06144]{\n    margin-left: 5px;\n}\n\n", ""]);
 
 // exports
 
@@ -32561,12 +32570,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("button", {
-    staticClass: "btn btn-sm",
-    class: [_vm.voted ? "btn-primary" : "btn-default"],
-    domProps: { textContent: _vm._s(_vm.text_voted) },
-    on: { click: _vm.followToggle }
-  })
+  return _c(
+    "button",
+    {
+      staticClass: "btn btn-sm",
+      class: [_vm.voted ? "btn-primary" : "btn-default"],
+      attrs: { title: _vm.text_title },
+      on: { click: _vm.followToggle }
+    },
+    [
+      _vm.voted
+        ? _c("span", {
+            staticClass: "glyphicon glyphicon-triangle-top",
+            attrs: { "aria-hidden": "true" }
+          })
+        : _c("span", {
+            staticClass: "glyphicon glyphicon-triangle-bottom",
+            attrs: { "aria-hidden": "true" }
+          }),
+      _vm._v(" "),
+      _c("span", { staticClass: "btn_margin" }, [
+        _vm._v(_vm._s(_vm.text_voted))
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -45575,8 +45602,9 @@ var app = new Vue({
 /***/ }),
 
 /***/ "./resources/assets/js/bootstrap.js":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 
 window._ = __webpack_require__("./node_modules/lodash/lodash.js");
 

@@ -155,13 +155,15 @@
                         @foreach ($answers as $answer)
                             <div class="media">
                                 <div class="media-left">
-                                    {{--<a href=""> <img src="{{ $answer->user->avatar }}" alt="" style="height: 100px;width: 100px"></a>--}}
-                                    <user-vote-button answer_id="{{ $answer->id }}" votes_count="{{ $answer->votes_count }}"></user-vote-button>
+                                    <a href=""> <img src="{{ $answer->user->avatar }}" alt="" style="height: 100px;width: 100px"></a>
                                 </div>
                                 <div class="media-body">
                                     <div class="media-heading">
                                         <h4>{!! $answer->user->name !!}</h4>
                                         {!! $answer->body !!}
+                                    </div>
+                                    <div class="">
+                                        <user-vote-button answer_id="{{ $answer->id }}" votes_count="{{ $answer->votes_count }}"></user-vote-button>
                                     </div>
                                 </div>
                             </div>

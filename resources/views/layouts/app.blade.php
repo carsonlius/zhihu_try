@@ -16,22 +16,17 @@
     {{--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--}}
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 
-    {{-- CDN vue--}}
-    {{--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>--}}
-
-    {{--<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>--}}
-    {{--<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.0"></script>--}}
-
-
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?version=1.78')}}" rel="stylesheet">
+
 </head>
 <body>
 <div id="app">
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
+
                 <!-- Collapsed Hamburger -->
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#app-navbar-collapse" aria-expanded="false">

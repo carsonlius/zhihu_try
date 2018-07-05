@@ -1,6 +1,6 @@
 <template>
-    <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" v-text="text_followed"
-            @click.prevent="followToggle"></button>
+        <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']"  v-text="text_followed" @click.prevent="followToggle">
+        </button>
 </template>
 
 <script>
