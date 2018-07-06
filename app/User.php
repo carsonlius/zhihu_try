@@ -41,6 +41,24 @@ class User extends Authenticatable
     ];
 
     /**
+     * 发起的私信（一对多）
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    protected function hasFromMessage()
+    {
+        return $this->hasMany(Message::class, 'id', 'from_id');
+    }
+
+    /**
+     * 接受的私信(一对多)
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    protected function hasToMessage()
+    {
+        return $this->hasMany(Message::class, 'id', 'to_id');
+    }
+
+    /**
      * 当前用户点赞过的答案（多对多关系）
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
