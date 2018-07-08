@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\MessageRepository;
 use App\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    private $repository_message;
+
+    public function __construct(MessageRepository $message_repository)
+    {
+        $this->repository_message = $message_repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +43,16 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $result_store = $this->repository_message->store();
+            $status = $result_store ? 0 : 7777;
+            $msg = $result_store ? '私信已发送' : '网络故障，请再次发送私信';
+            return response()->json(compact('status', 'msg', 'result_store'));
+        } catch (\Exception $e) {
+            $status = 7777;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
     }
 
     /**

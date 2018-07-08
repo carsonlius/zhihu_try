@@ -16,7 +16,7 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'from_user_id', 'id');
 
-
+    }
     /**
      * 接收私信的用户(多对一)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

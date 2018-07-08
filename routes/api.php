@@ -73,9 +73,21 @@ Route::get('/user/follower', 'FollowersController@index')->middleware('auth:api'
 // toggle当前用户关注或者不在关注某个用户
 Route::post('user/follow', 'FollowersController@follow')->middleware('auth:api');
 
-// 用户点赞
-// 当前用户是否是点赞用户
-Route::get('/answer/{answer_id}/votes/users', 'VoteController@users')->middleware('auth:api');
 
-// 点赞或者取消点赞的董卓
-Route::post('/answer/vote', 'VoteController@vote')->middleware('auth:api');
+
+Route::group(['prefix' => 'answer', 'middleware' => 'auth:api'], function (){
+    // 用户点赞
+    // 当前用户是否是点赞用户
+    Route::get('/{answer_id}/votes/users', 'VoteController@users')->middleware('auth:api');
+
+    // 点赞或者取消点赞的董卓
+    Route::post('/vote', 'VoteController@vote')->middleware('auth:api');
+});
+
+
+
+// 私信的功能
+Route::group(['prefix' => 'message', 'middleware' => ['auth:api']], function (){
+    // 发送私信
+    Route::post('/store', 'MessageController@store');
+});

@@ -9,6 +9,14 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// 引入表单验证插件
+import zh from 'vee-validate/dist/locale/zh_CN';
+import VeeValidate,{ Validator } from 'vee-validate';
+// Localize takes the locale object as the second argument (optional) and merges it.
+Validator.localize('zh', zh);
+
+Vue.use(VeeValidate);
+
 // 引入vue-rsource
 let VueResource = require('vue-resource');
 Vue.use(VueResource);
@@ -38,6 +46,7 @@ Vue.component('question-follow-button', require('./components/QuestionFollowButt
 Vue.component('user-follow-button', require('./components/UserFollowButton'));
 Vue.component('user-vote-button', require('./components/UserVoteButton'));
 Vue.component('tooltip', require('./components/Title'));
+Vue.component('send-message-button', require('./components/SendMessage'));
 
 const app = new Vue({
     el: '#app',
