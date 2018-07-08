@@ -14,7 +14,6 @@ import zh from 'vee-validate/dist/locale/zh_CN';
 import VeeValidate,{ Validator } from 'vee-validate';
 // Localize takes the locale object as the second argument (optional) and merges it.
 Validator.localize('zh', zh);
-
 Vue.use(VeeValidate);
 
 // 引入vue-rsource

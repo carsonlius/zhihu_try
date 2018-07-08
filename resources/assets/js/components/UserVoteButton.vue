@@ -1,9 +1,14 @@
 <template>
-    <button class="btn btn-sm tip" :class="[voted ? 'btn-primary' : 'btn-default']" @click="followToggle" :title="text_title">
-        <span class="glyphicon glyphicon-triangle-top" aria-hidden="true" v-if="voted"></span>
-        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" v-else></span>
-        <span class="btn_margin">{{text_voted}}</span>
-    </button>
+    <div>
+        <div class="alert alert-success message_span text-center" v-if="text_status">
+            <strong>{{text_show}}</strong>
+        </div>
+        <button class="btn btn-sm tip" :class="[voted ? 'btn-primary' : 'btn-default']" @click="followToggle" :title="text_title">
+            <span class="glyphicon glyphicon-triangle-top" aria-hidden="true" v-if="voted"></span>
+            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true" v-else></span>
+            <span class="btn_margin">{{text_voted}}</span>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -12,7 +17,9 @@
         data: function () {
             return {
                 voted: false,
-                count : 0
+                count : 0,
+                text_show : '',
+                text_status : false
             };
         },
         created : function(){
@@ -29,13 +36,21 @@
                     if (response.data.status === 0) {
                         vm.voted = response.data.voted;
 
+                        // 展示提示框，说明本次动作的意义
+                        vm.text_status = true;
+
                         // 调整点赞者的数量
                         if (response.data.voted) {
                             vm.count++;
+                            vm.text_show = '点赞成功';
                         } else {
                             vm.count--;
+                            vm.text_show = '取消点赞';
                         }
-
+                        // 两秒钟后 取消提示框
+                        setTimeout(function(){
+                            vm.text_status = false;
+                        }, 2000);
                     }
                 });
 
@@ -75,5 +90,8 @@
 <style scoped>
     .btn_margin{
         margin-left: 5px;
+    }
+    .message_span{
+        width: 20%;
     }
 </style>

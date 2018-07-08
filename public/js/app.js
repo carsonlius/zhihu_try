@@ -1910,13 +1910,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['answer_id', 'votes_count'],
     data: function data() {
         return {
             voted: false,
-            count: 0
+            count: 0,
+            text_show: '',
+            text_status: false
         };
     },
     created: function created() {
@@ -1933,12 +1940,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (response.data.status === 0) {
                     vm.voted = response.data.voted;
 
+                    // 展示提示框，说明本次动作的意义
+                    vm.text_status = true;
+
                     // 调整点赞者的数量
                     if (response.data.voted) {
                         vm.count++;
+                        vm.text_show = '点赞成功';
                     } else {
                         vm.count--;
+                        vm.text_show = '取消点赞';
                     }
+                    // 两秒钟后 取消提示框
+                    setTimeout(function () {
+                        vm.text_status = false;
+                    }, 2000);
                 }
             });
         },
@@ -4412,7 +4428,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.btn_margin[data-v-8be06144]{\n    margin-left: 5px;\n}\n", ""]);
+exports.push([module.i, "\n.btn_margin[data-v-8be06144]{\n    margin-left: 5px;\n}\n.message_span[data-v-8be06144]{\n    width: 20%;\n}\n", ""]);
 
 // exports
 
@@ -40508,30 +40524,40 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "button",
-    {
-      staticClass: "btn btn-sm tip",
-      class: [_vm.voted ? "btn-primary" : "btn-default"],
-      attrs: { title: _vm.text_title },
-      on: { click: _vm.followToggle }
-    },
-    [
-      _vm.voted
-        ? _c("span", {
-            staticClass: "glyphicon glyphicon-triangle-top",
-            attrs: { "aria-hidden": "true" }
-          })
-        : _c("span", {
-            staticClass: "glyphicon glyphicon-triangle-bottom",
-            attrs: { "aria-hidden": "true" }
-          }),
-      _vm._v(" "),
-      _c("span", { staticClass: "btn_margin" }, [
-        _vm._v(_vm._s(_vm.text_voted))
-      ])
-    ]
-  )
+  return _c("div", [
+    _vm.text_status
+      ? _c(
+          "div",
+          { staticClass: "alert alert-success message_span text-center" },
+          [_c("strong", [_vm._v(_vm._s(_vm.text_show))])]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-sm tip",
+        class: [_vm.voted ? "btn-primary" : "btn-default"],
+        attrs: { title: _vm.text_title },
+        on: { click: _vm.followToggle }
+      },
+      [
+        _vm.voted
+          ? _c("span", {
+              staticClass: "glyphicon glyphicon-triangle-top",
+              attrs: { "aria-hidden": "true" }
+            })
+          : _c("span", {
+              staticClass: "glyphicon glyphicon-triangle-bottom",
+              attrs: { "aria-hidden": "true" }
+            }),
+        _vm._v(" "),
+        _c("span", { staticClass: "btn_margin" }, [
+          _vm._v(_vm._s(_vm.text_voted))
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40584,7 +40610,8 @@ var render = function() {
                       value: _vm.errors.has("body"),
                       expression: "errors.has('body')"
                     }
-                  ]
+                  ],
+                  staticClass: "alert-danger"
                 },
                 [_vm._v(_vm._s(_vm.errors.first("body")))]
               ),
@@ -53695,7 +53722,6 @@ window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
 // Localize takes the locale object as the second argument (optional) and merges it.
 __WEBPACK_IMPORTED_MODULE_1_vee_validate__["a" /* Validator */].localize('zh', __WEBPACK_IMPORTED_MODULE_0_vee_validate_dist_locale_zh_CN___default.a);
-
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vee_validate__["b" /* default */]);
 
 // 引入vue-rsource

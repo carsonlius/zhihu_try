@@ -15,8 +15,8 @@
                     </div>
 
                     <div class="modal-body">
-                        <span v-show="errors.has('body')">{{ errors.first('body') }}</span>
-                        <textarea class="form-control" placeholder="私信内容" rows="3"  data-vv-as="私信内容" data-vv-name="body" v-validate.initial="'required'"
+                        <span v-show="errors.has('body')" class="alert-danger">{{ errors.first('body') }}</span>
+                        <textarea class="form-control" placeholder="私信内容" rows="3" data-vv-as="私信内容"  data-vv-name="body" v-validate.initial="'required'"
                                   v-model="body" v-if="!success_status"></textarea>
                         <div class="alert alert-success" v-if="success_status">
                             <strong>私信发送成功</strong>
