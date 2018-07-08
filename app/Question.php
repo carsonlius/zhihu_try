@@ -25,8 +25,17 @@ class Question extends Model
 
     protected $dispatchesEvents = [
         'created' => QuestionCreatedEvent::class,
-//        'deleted' => QuestionDeletedEvent::class
     ];
+
+    /**
+     * 当前问题的多态关联
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    protected function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentale');
+    }
+
 
     /**
      * 定义问题答案的relationship （一对多）

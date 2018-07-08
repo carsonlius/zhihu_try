@@ -39,4 +39,13 @@ class Answer extends Model
     {
         return $this->belongsToMany(User::class, 'votes', 'answer_id', 'user_id')->withTimestamps();
     }
+
+    /**
+     * 评论的多态关联
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
