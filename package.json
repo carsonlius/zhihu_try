@@ -19,7 +19,8 @@
         "lodash": "^4.17.4",
         "vee-validate": "^2.1.0-beta.6",
         "vue": "^2.1.10",
-        "vue-resource": "^1.5.1"
+        "vue-resource": "^1.5.1",
+        "vue-select": "^2.4.0"
     },
     "dependencies": {
         "font-awesome": "^4.7.0",

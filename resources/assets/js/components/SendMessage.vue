@@ -48,8 +48,6 @@
         methods: {
             // 发送私信
             sendMessage: function () {
-                console.log(this.errors);
-                console.log(this.$data);
                 let url = '/api/message/store';
                 let vm = this;
                 this.$http.post(url, {to_user_id: vm.user_id, body: this.body}).then(function (response) {
@@ -70,12 +68,6 @@
                     console.log(response);
                 })
             },
-            // 定制错误提示
-            customErrorMessage: function () {
-                console.log(this.errors);
-
-            }
-
         }
     }
 </script>

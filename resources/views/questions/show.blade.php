@@ -62,6 +62,9 @@
                             @else
                                 <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span></li>
                             @endif
+                            <li>
+                                <comment-button count="{{ $question->comments_count }}" type="question" id="{{ $question->id }}"></comment-button>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -115,14 +118,11 @@
                                             <li><send-message-button user_id="{{ $question->user->id }}"></send-message-button></li>
                                         </ul>
                                     @endif
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         {{-- 回答 --}}

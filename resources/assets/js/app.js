@@ -16,6 +16,10 @@ import VeeValidate,{ Validator } from 'vee-validate';
 Validator.localize('zh', zh);
 Vue.use(VeeValidate);
 
+// 引入vue-select组件
+import vSelect from 'vue-select';
+Vue.component('v-select', vSelect);
+
 // 引入vue-rsource
 let VueResource = require('vue-resource');
 Vue.use(VueResource);
@@ -44,18 +48,12 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('question-follow-button', require('./components/QuestionFollowButton'));
 Vue.component('user-follow-button', require('./components/UserFollowButton'));
 Vue.component('user-vote-button', require('./components/UserVoteButton'));
-Vue.component('tooltip', require('./components/Title'));
 Vue.component('send-message-button', require('./components/SendMessage'));
+Vue.component('comment-button', require('./components/Comment'));
 
 const app = new Vue({
     el: '#app',
     data : {
-      id : 'what happened'
+
     },
-    // mounted: function () {
-    //     console.log('Vue Instance');
-    // },
-    created: function () {
-        // console.log('怎么没有相应');
-    }
 });

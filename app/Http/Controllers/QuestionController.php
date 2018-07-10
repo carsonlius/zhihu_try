@@ -15,7 +15,14 @@ class QuestionController extends Controller
     public function __construct(QuestionSelfRepository $question_repositories)
     {
         $this->question_repositories = $question_repositories;
-        $this->middleware('auth')->except('index', 'show');
+    }
+
+    /**
+     * 当前问题下所有的评论
+     */
+    public function comments()
+    {
+
     }
 
     /**

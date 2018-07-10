@@ -33,7 +33,7 @@ class Question extends Model
      */
     protected function comments()
     {
-        return $this->morphMany(Comment::class, 'commentale');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
 
