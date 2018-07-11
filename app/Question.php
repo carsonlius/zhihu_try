@@ -31,7 +31,7 @@ class Question extends Model
      * 当前问题的多态关联
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    protected function comments()
+    public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
     }

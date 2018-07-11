@@ -1620,8 +1620,6 @@ module.exports = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 //
 //
 //
@@ -1686,10 +1684,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             return this.count + '评论';
         }
     },
-    mounted: function mounted() {
-        // 初始化comments
-        this.iniComments();
-    },
     methods: {
         // 获取当前问题或者答案的评论列表
         iniComments: function iniComments() {
@@ -1703,10 +1697,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 if (response.body.status === 0) {
                     vm.comments = response.body.list_comments;
                 }
-                console.log(vm.comments);
-                console.log(_typeof(vm.comments));
-                console.log(vm.comments === undefined);
-                console.log(!vm.comments === true);
             });
         },
         // 发送私信
@@ -1724,6 +1714,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 vm.success_status = response.body.status === 0;
                 if (response.body.status === 0) {
+                    // 新增列表加入到当前的体系中
+                    vm.comments.push(response.body.result_store);
+                    vm.body = '';
+
                     // 防止一瞬间关闭模态框 导致看不到提示
                     setTimeout(function () {
                         $(vm.dialogId).modal('toggle');
@@ -4513,7 +4507,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\nimg[data-v-82b07a10] {\n    width: 64px; height: 64px;\n}\n.btn_margin[data-v-82b07a10] {\n    margin-top : 10px\n}\n\n", ""]);
 
 // exports
 
@@ -40586,7 +40580,8 @@ var render = function() {
     _c("button", {
       staticClass: "btn btn-xs btn-default",
       attrs: { "data-target": _vm.dialogId, "data-toggle": "modal" },
-      domProps: { textContent: _vm._s(_vm.text) }
+      domProps: { textContent: _vm._s(_vm.text) },
+      on: { click: _vm.iniComments }
     }),
     _vm._v(" "),
     _c(
@@ -40601,7 +40596,7 @@ var render = function() {
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              !_vm.comments
+              _vm.comments
                 ? _c(
                     "div",
                     _vm._l(_vm.comments, function(comment) {
@@ -40631,7 +40626,7 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
+            _c("div", { staticClass: "modal-footer btn_margin" }, [
               _c("input", {
                 directives: [
                   {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-xs btn-default" :data-target="dialogId" data-toggle="modal" v-text="text"></button>
+        <button class="btn btn-xs btn-default" :data-target="dialogId" data-toggle="modal" @click="iniComments"  v-text="text"></button>
         <div class="modal fade" :id="dialog_id" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -11,7 +11,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <div v-if="!comments">
+                        <div v-if="comments">
                             <div class="media" v-for="comment in comments">
                                 <div class="media-left">
                                     <a href="#">
@@ -27,7 +27,7 @@
                     </div>
 
                     <!-- Modal Actions -->
-                    <div class="modal-footer">
+                    <div class="modal-footer btn_margin">
                         <input type="text" class="form-control" v-model="body" data-vv-as="评论内容" placeholder="评论内容" v-validate.initial="'required'">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" @click.prevent="store">评论</button>
@@ -62,11 +62,6 @@
                 return this.count + '评论';
             }
         },
-        mounted : function(){
-            // 初始化comments
-            this.iniComments();
-
-        },
         methods: {
             // 获取当前问题或者答案的评论列表
             iniComments : function() {
@@ -78,12 +73,8 @@
                 this.$http.get(url, params).then(function (response) {
                     console.log(response);
                     if (response.body.status === 0) {
-                        vm.comments = response.body.list_comments;
+                        vm.comments = (response.body.list_comments);
                     }
-                    console.log(vm.comments);
-                    console.log(typeof vm.comments);
-                    console.log(vm.comments === undefined);
-                    console.log(!vm.comments === true);
                 });
 
             },
@@ -102,6 +93,10 @@
 
                     vm.success_status = response.body.status === 0;
                     if (response.body.status === 0) {
+                        // 新增列表加入到当前的体系中
+                        vm.comments.push(response.body.result_store);
+                        vm.body = '';
+
                         // 防止一瞬间关闭模态框 导致看不到提示
                         setTimeout(function () {
                             $(vm.dialogId).modal('toggle');
@@ -111,8 +106,6 @@
                             vm.body = '';
                         }, 2000);
                     }
-
-
                 }, function (response) {
                     console.log(response);
                 })
@@ -122,5 +115,13 @@
 </script>
 
 <style scoped>
+    img {
+        width: 64px; height: 64px;
+    }
+    .btn_margin {
+        margin-top : 10px
+
+
+    }
 
 </style>

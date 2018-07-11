@@ -5,29 +5,29 @@ namespace App\Http\Repositories;
 use App\Answer;
 use App\Comment;
 use App\Question;
-use function Symfony\Component\Debug\Tests\testHeader;
 
 class CommentRepository
 {
-
     /**
      * 获取某个问题下面所有的评论
-     * @param $question_id
+     * @param int $id
      * @return Question|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
-    public function question($question_id)
+    public function question($id)
     {
-        return Question::find($question_id)->comments;
+        $question_info = Question::with('comments', 'comments.user')->where(compact('id'))->first();
+        return $question_info->comments;
     }
 
     /**
      * 获取某个回答下面所有的评论
-     * @param integer $answer_id
+     * @param integer $id 传入的答案ID
      * @return Answer|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
-    public function answer($answer_id)
+    public function answer($id)
     {
-        return Question::find($answer_id)->comments;
+        $answer = Answer::with('comments', 'comments.user')->where(compact('id'))->first();
+        return $answer->comments();
     }
 
     /**
@@ -43,7 +43,10 @@ class CommentRepository
         $params = $this->genParams();
 
         // 存储
-        return Comment::create($params);
+        $comment_store = Comment::create($params);
+
+        // return 带有user预加载的信息
+        return Comment::with('user')->where('id', $comment_store->id)->first();
     }
 
     /**

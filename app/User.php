@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Events\UserCreateEvent;
-use App\Notifications\bak;
 use App\Notifications\UserFollowedNotification;
 use App\Notifications\UserFollowingNotification;
 use App\Notifications\UserNotFollowingNotification;
