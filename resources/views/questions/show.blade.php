@@ -58,7 +58,7 @@
                                         {{ Form::close() }}
                                     </li>
                                 @endif
-                                <li><span><button class="btn btn-info btn-xs" id="answer_button">写回答</button></span></li>
+                                <li><span><button class="btn btn-info btn-sm" id="answer_button">写回答</button></span></li>
                             @else
                                 <li><span><a href="{{ url('login') }}" class="btn btn-info btn-xs">登录并提交答案</a></span></li>
                             @endif
@@ -164,8 +164,11 @@
                                         <h4>{!! $answer->user->name !!}</h4>
                                         {!! $answer->body !!}
                                     </div>
-                                    <div class="">
-                                        <user-vote-button answer_id="{{ $answer->id }}" votes_count="{{ $answer->votes_count }}"></user-vote-button>
+                                    <div>
+                                        <ul class="list-inline">
+                                            <li><user-vote-button answer_id="{{ $answer->id }}" votes_count="{{ $answer->votes_count }}"></user-vote-button></li>
+                                            <li><comment-button count="{{ $answer->comments_count }}" type="answer" id="{{ $answer->id }}"></comment-button></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -1660,6 +1660,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     // id是question_id或者answer_id
@@ -1682,6 +1687,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         text: function text() {
             return this.count + '评论';
+        },
+        data_vv_name: function data_vv_name() {
+            return this.dialog_id + '-body';
         }
     },
     methods: {
@@ -1708,24 +1716,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: this.id
             };
             var vm = this;
-            console.log(params);
             this.$http.post(url, params, { jsonType: 'json' }).then(function (response) {
                 console.log(response);
-
                 vm.success_status = response.body.status === 0;
                 if (response.body.status === 0) {
                     // 新增列表加入到当前的体系中
                     vm.comments.push(response.body.result_store);
                     vm.body = '';
-
-                    // 防止一瞬间关闭模态框 导致看不到提示
-                    setTimeout(function () {
-                        $(vm.dialogId).modal('toggle');
-
-                        // 将模态框重置为默认的状态 方便再次发送私信
-                        vm.success_status = false;
-                        vm.body = '';
-                    }, 2000);
                 }
             }, function (response) {
                 console.log(response);
@@ -4507,7 +4504,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\nimg[data-v-82b07a10] {\n    width: 64px; height: 64px;\n}\n.btn_margin[data-v-82b07a10] {\n    margin-top : 10px\n}\n\n", ""]);
+exports.push([module.i, "\nimg[data-v-82b07a10] {\n    width: 64px; height: 64px;\n}\n", ""]);
 
 // exports
 
@@ -40578,7 +40575,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("button", {
-      staticClass: "btn btn-xs btn-default",
+      staticClass: "btn btn-sm btn-default",
       attrs: { "data-target": _vm.dialogId, "data-toggle": "modal" },
       domProps: { textContent: _vm._s(_vm.text) },
       on: { click: _vm.iniComments }
@@ -40595,9 +40592,9 @@ var render = function() {
           _c("div", { staticClass: "modal-content" }, [
             _vm._m(0),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _vm.comments
-                ? _c(
+            _vm.comments.length
+              ? _c("div", { staticClass: "modal-body" }, [
+                  _c(
                     "div",
                     _vm._l(_vm.comments, function(comment) {
                       return _c("div", { staticClass: "media" }, [
@@ -40623,66 +40620,87 @@ var render = function() {
                       ])
                     })
                   )
-                : _vm._e()
-            ]),
+                ])
+              : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-footer btn_margin" }, [
-              _c("input", {
-                directives: [
+            _c("div", { staticClass: "modal-footer" }, [
+              _c("div", { staticClass: "form-group text-center" }, [
+                _c(
+                  "span",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.body,
-                    expression: "body"
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.errors.has(_vm.data_vv_name),
+                        expression: "errors.has(data_vv_name)"
+                      }
+                    ],
+                    staticClass: "alert-danger"
                   },
-                  {
-                    name: "validate",
-                    rawName: "v-validate.initial",
-                    value: "required",
-                    expression: "'required'",
-                    modifiers: { initial: true }
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: {
-                  type: "text",
-                  "data-vv-as": "评论内容",
-                  placeholder: "评论内容"
-                },
-                domProps: { value: _vm.body },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                  [_vm._v(_vm._s(_vm.errors.first(_vm.data_vv_name)))]
+                ),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.body,
+                      expression: "body"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate.initial",
+                      value: "required",
+                      expression: "'required'",
+                      modifiers: { initial: true }
                     }
-                    _vm.body = $event.target.value
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-default",
-                  attrs: { type: "button", "data-dismiss": "modal" }
-                },
-                [_vm._v("关闭")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
+                  ],
+                  staticClass: "form-control",
+                  attrs: {
+                    type: "text",
+                    "data-vv-name": _vm.data_vv_name,
+                    "data-vv-as": "评论内容",
+                    placeholder: "评论内容"
+                  },
+                  domProps: { value: _vm.body },
                   on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.store($event)
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.body = $event.target.value
                     }
                   }
-                },
-                [_vm._v("评论")]
-              )
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-default btn-sm",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("关闭")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary btn-sm",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.store($event)
+                      }
+                    }
+                  },
+                  [_vm._v("评论")]
+                )
+              ])
             ])
           ])
         ])

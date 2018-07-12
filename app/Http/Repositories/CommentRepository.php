@@ -27,7 +27,7 @@ class CommentRepository
     public function answer($id)
     {
         $answer = Answer::with('comments', 'comments.user')->where(compact('id'))->first();
-        return $answer->comments();
+        return $answer->comments;
     }
 
     /**

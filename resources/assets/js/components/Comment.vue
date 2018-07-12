@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-xs btn-default" :data-target="dialogId" data-toggle="modal" @click="iniComments"  v-text="text"></button>
+        <button class="btn btn-sm btn-default" :data-target="dialogId" data-toggle="modal" @click="iniComments"  v-text="text"></button>
         <div class="modal fade" :id="dialog_id" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -10,8 +10,8 @@
                         </h4>
                     </div>
 
-                    <div class="modal-body">
-                        <div v-if="comments">
+                    <div class="modal-body" v-if="comments.length">
+                        <div>
                             <div class="media" v-for="comment in comments">
                                 <div class="media-left">
                                     <a href="#">
@@ -27,10 +27,15 @@
                     </div>
 
                     <!-- Modal Actions -->
-                    <div class="modal-footer btn_margin">
-                        <input type="text" class="form-control" v-model="body" data-vv-as="评论内容" placeholder="评论内容" v-validate.initial="'required'">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary" @click.prevent="store">评论</button>
+                    <div class="modal-footer">
+                        <div class="form-group text-center">
+                            <span v-show="errors.has(data_vv_name)" class="alert-danger">{{ errors.first(data_vv_name) }}</span>
+                            <input type="text" class="form-control"  v-model="body"  :data-vv-name="data_vv_name" data-vv-as="评论内容" placeholder="评论内容" v-validate.initial="'required'">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary btn-sm" @click.prevent="store">评论</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -60,6 +65,9 @@
             },
             text : function(){
                 return this.count + '评论';
+            },
+            data_vv_name : function(){
+                return this.dialog_id + '-body';
             }
         },
         methods: {
@@ -87,24 +95,13 @@
                       id : this.id,
                 };
                 let vm = this;
-                console.log(params);
                 this.$http.post(url, params, {jsonType : 'json'}).then(function (response) {
                     console.log(response);
-
                     vm.success_status = response.body.status === 0;
                     if (response.body.status === 0) {
                         // 新增列表加入到当前的体系中
                         vm.comments.push(response.body.result_store);
                         vm.body = '';
-
-                        // 防止一瞬间关闭模态框 导致看不到提示
-                        setTimeout(function () {
-                            $(vm.dialogId).modal('toggle');
-
-                            // 将模态框重置为默认的状态 方便再次发送私信
-                            vm.success_status = false;
-                            vm.body = '';
-                        }, 2000);
                     }
                 }, function (response) {
                     console.log(response);
@@ -118,10 +115,4 @@
     img {
         width: 64px; height: 64px;
     }
-    .btn_margin {
-        margin-top : 10px
-
-
-    }
-
 </style>
