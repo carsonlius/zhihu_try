@@ -9,6 +9,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// 引入字体图标
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+library.add(faCoffee);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 // 引入表单验证插件
 import zh from 'vee-validate/dist/locale/zh_CN';
 import VeeValidate,{ Validator } from 'vee-validate';

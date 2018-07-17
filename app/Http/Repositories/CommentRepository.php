@@ -15,7 +15,7 @@ class CommentRepository
      */
     public function question($id)
     {
-        $question_info = Question::with('comments', 'comments.user')->where(compact('id'))->first();
+        $question_info = Question::with(['comments', 'comments.user'])->where(compact('id'))->first();
         return $question_info->comments;
     }
 

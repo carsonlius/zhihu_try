@@ -1,6 +1,8 @@
 <template>
     <div>
-        <button class="btn btn-sm btn-default" :data-target="dialogId" data-toggle="modal" @click="iniComments"  v-text="text"></button>
+        <span class="btn btn-sm btn-default" :data-target="dialogId" data-toggle="modal" @click="iniComments">
+           <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="btn-margin">{{text}}</span>
+        </span>
         <div class="modal fade" :id="dialog_id" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -54,6 +56,7 @@
                 body: '',
                 success_status: false,
                 comments : [],
+                count_format : this.count
             };
         },
         computed : {
@@ -63,12 +66,13 @@
             dialogId : function () {
                 return '#' + this.dialog_id;
             },
-            text : function(){
-                return this.count + '评论';
-            },
+
             data_vv_name : function(){
                 return this.dialog_id + '-body';
-            }
+            },
+            text : function(){
+                return this.count_format + '评论';
+            },
         },
         methods: {
             // 获取当前问题或者答案的评论列表
@@ -102,6 +106,7 @@
                         // 新增列表加入到当前的体系中
                         vm.comments.push(response.body.result_store);
                         vm.body = '';
+                        vm.count_format++;
                     }
                 }, function (response) {
                     console.log(response);
@@ -114,5 +119,8 @@
 <style scoped>
     img {
         width: 64px; height: 64px;
+    }
+    .btn-margin{
+        margin-left: 5px;
     }
 </style>

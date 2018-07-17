@@ -92,6 +92,6 @@
         margin-left: 5px;
     }
     .message_span{
-        width: 20%;
+        /*width: 20%;*/
     }
 </style>

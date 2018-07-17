@@ -48,5 +48,5 @@ Route::get('/tasks', function () {
 Route::get('notifications', 'NotificationsController@index');
 
 
-Route::get('test/{question_id}', 'CommentController@answer');
+Route::get('test/{question_id}', 'CommentController@question');
 

@@ -30,7 +30,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\AnswerCreatedEvent' => [
             'App\Listeners\AnswerCreatedListener'
-        ]
+        ],
+        'App\Events\CommentCreatedEvent' => [
+            'App\Listeners\CommentCreatedListen'
+        ],
     ];
 
     /**

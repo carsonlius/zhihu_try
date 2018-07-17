@@ -41,11 +41,10 @@
                                 <a href="#"><span class="topic">{{ $topic['name'] }}</span></a>
                             @endforeach
                         </div>
-
                     </div>
                     <div class="panel-body">
-                        {!! $question->body !!}
 
+                        {!! $question->body !!}
                         <ul class="list-inline">
                             @if (\Auth::check())
                                 @if($question->user_id == \Auth::id())
@@ -74,6 +73,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default question_flower">
                     <div class="panel-heading">
+
                         <span><a id="question_following">{{ $question->flowers_count }}</a>个关注</span>
                         <span><a>{{ $question->answers_count }}</a>个回答</span>
                     </div>
