@@ -1,5 +1,6 @@
 <template>
-        <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']"  v-text="text_followed" @click.prevent="followToggle">
+        <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" @click.prevent="followToggle">
+                <font-awesome-icon icon="plus" v-if="!followed"/> {{ text_followed }}
         </button>
 </template>
 
@@ -60,7 +61,7 @@
         },
         computed: {
             text_followed: function () {
-                return this.followed ? '已关注' : '关注该问题';
+                return this.followed ? '已关注' : '关注问题';
             },
         }
     }

@@ -1,5 +1,7 @@
 <template>
-    <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" v-text="text_followed" @click="followToggle"></button>
+    <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" @click="followToggle">
+        <font-awesome-icon icon="plus" v-if="!followed"/> {{ text_followed }}
+    </button>
 </template>
 
 <script>

@@ -87,6 +87,8 @@ Route::group(['prefix' => 'answer', 'middleware' => 'auth:api'], function (){
 Route::group(['prefix' => 'message', 'middleware' => ['auth:api']], function (){
     // 发送私信
     Route::post('/store', 'MessageController@store');
+
+    Route::post('/unreadNum', 'MessageController@unreadNum');
 });
 
 // 评论部分

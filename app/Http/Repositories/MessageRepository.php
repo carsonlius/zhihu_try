@@ -7,6 +7,15 @@ use App\Message;
 class MessageRepository
 {
     /**
+     * 没有阅读的私信的数量
+     */
+    public function unreadNum()
+    {
+        $to_user_id = \Auth::guard('api')->id();
+        return Message::where(compact('to_user_id'))->unread()->count();
+    }
+
+    /**
      * 存储私信
      * @throws \Exception
      * @return boolean

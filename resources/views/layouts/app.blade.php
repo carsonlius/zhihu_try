@@ -20,6 +20,9 @@
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css?version=1.78')}}" rel="stylesheet">
 
+    {{-- 最完美的bootstrap图标 --}}
+    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+
 </head>
 <body>
 <div id="app">
@@ -50,6 +53,10 @@
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <bell-message></bell-message>
+                    </li>
+
                     <!-- Authentication Links -->
                     @guest
                         <li><a href="{{ route('login') }}">登录</a></li>

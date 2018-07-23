@@ -25,4 +25,14 @@ class Message extends Model
     {
         return $this->belongsTo(User::class, 'to_user_id', 'id');
     }
+
+    /**
+     * only没有阅读的私信
+     * @param $query
+     * @return mixed
+     */
+    public function scopeUnread($query)
+    {
+        return $query->where('is_read', 'F');
+    }
 }

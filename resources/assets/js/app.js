@@ -52,11 +52,24 @@ if (api_token) {
  */
 
 Vue.component('example', require('./components/Example.vue'));
+
+// 问题关注组件
 Vue.component('question-follow-button', require('./components/QuestionFollowButton'));
+
+// 用户互相关注组件
 Vue.component('user-follow-button', require('./components/UserFollowButton'));
+
+// 关注组件
 Vue.component('user-vote-button', require('./components/UserVoteButton'));
+
+// 私信组件
 Vue.component('send-message-button', require('./components/SendMessage'));
+
+// 评论组件
 Vue.component('comment-button', require('./components/Comment'));
+
+// 私信通知
+Vue.component('bell-message', require('./components/BellMessage'));
 
 const app = new Vue({
     el: '#app',

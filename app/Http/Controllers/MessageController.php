@@ -16,6 +16,22 @@ class MessageController extends Controller
     }
 
     /**
+     * 没有阅读的私信的数量
+     */
+    public function unreadNum()
+    {
+        try {
+            $number_unread = $this->repository_message->unreadNum();
+            $status = 0;
+            return response()->json(compact('status', 'number_unread'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
