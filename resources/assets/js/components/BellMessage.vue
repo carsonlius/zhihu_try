@@ -1,10 +1,12 @@
 <template>
-    <div class="fa-2x">
+    <a href="" @click="">
+        <div class="fa-2x">
         <span class="fa-layers fa-fw">
-            <i class="icon-bell-alt"></i>
-        <span class="fa-layers-counter" style="background:Tomato">{{ count }}</span>
+            <i class="icon-bell-alt fa-sm"></i>
+            <span class="fa-layers-counter" style="background:Tomato" v-show="count">{{ count }}</span>
         </span>
-    </div>
+        </div>
+    </a>
 </template>
 
 <script>
@@ -28,11 +30,13 @@
 
         },
         mounted: function () {
+            this.messageCount();
+
             // 每隔10分钟，更新一次私信的数量
             let vm = this;
             setInterval(function(){
                 vm.messageCount();
-            }, 3000);
+            }, 600000);
         }
     }
 </script>

@@ -49,11 +49,11 @@
                             @if (\Auth::check())
                                 @if($question->user_id == \Auth::id())
                                     <li>
-                                        <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-xs">编辑</a></span>
+                                        <span><a href="/Question/edit/{{ $question->id }}" class="btn btn-info btn-sm">编辑</a></span>
                                     </li>
                                     <li>
                                         {{ Form::open(['url' => ('/Question/' . $question->id), 'method' => 'DELETE']) }}
-                                        {{ Form::submit('删除', ['class' => 'btn btn-info btn-xs']) }}
+                                        {{ Form::submit('删除', ['class' => 'btn btn-info btn-sm']) }}
                                         {{ Form::close() }}
                                     </li>
                                 @endif

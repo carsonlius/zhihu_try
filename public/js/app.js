@@ -11876,6 +11876,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -11897,11 +11899,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     },
     mounted: function mounted() {
+        this.messageCount();
+
         // 每隔10分钟，更新一次私信的数量
         var vm = this;
         setInterval(function () {
             vm.messageCount();
-        }, 3000);
+        }, 600000);
     }
 });
 
@@ -14773,7 +14777,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -50786,18 +50790,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "fa-2x" }, [
-    _c("span", { staticClass: "fa-layers fa-fw" }, [
-      _c("i", { staticClass: "icon-bell-alt" }),
-      _vm._v(" "),
-      _c(
-        "span",
-        {
-          staticClass: "fa-layers-counter",
-          staticStyle: { background: "Tomato" }
-        },
-        [_vm._v(_vm._s(_vm.count))]
-      )
+  return _c("a", { attrs: { href: "" }, on: { click: function($event) {} } }, [
+    _c("div", { staticClass: "fa-2x" }, [
+      _c("span", { staticClass: "fa-layers fa-fw" }, [
+        _c("i", { staticClass: "icon-bell-alt fa-sm" }),
+        _vm._v(" "),
+        _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.count,
+                expression: "count"
+              }
+            ],
+            staticClass: "fa-layers-counter",
+            staticStyle: { background: "Tomato" }
+          },
+          [_vm._v(_vm._s(_vm.count))]
+        )
+      ])
     ])
   ])
 }

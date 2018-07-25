@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
 use App\Question;
-use App\Repositories\QuestionRepository;
 use App\Repositories\QuestionSelfRepository;
+use App\FollowerQuestion;
 
 class QuestionController extends Controller
 {
@@ -16,6 +16,53 @@ class QuestionController extends Controller
     {
         $this->question_repositories = $question_repositories;
     }
+
+    /**
+     * 判断当前用户是否关注了某个问题
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function follower()
+    {
+        $question_id = request()->post('question_id');
+        $user = \Auth::guard('api')->user();
+
+        $is_followed = $user->followThisQuestion($question_id);
+
+        return response()->json(['followed' => !!$is_followed, 'status' => 0]);
+    }
+
+    /**
+     * 关注或者不再关注某个问题
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function toggle()
+    {
+        try {
+            // 是否关注了某个问题
+            $question_id = request()->post('question_id');
+            $user_id = \Auth::guard('api')->id();
+
+            $where = compact('question_id', 'user_id');
+            $obj_followed = \App\FollowerQuestion::where($where)
+                ->first();
+
+            // 已经关注了 则删掉  && 关注者减一
+            if ($obj_followed) {
+                $obj_followed->delete();
+
+                Question::find($question_id)->decrement('flowers_count', 1);
+                return response()->json(['followed' => false, 'status' => 0]);
+            }
+
+            // 没有关注 则添加 && 关着者+1
+            FollowerQuestion::create(compact('question_id', 'user_id'));
+            Question::find($question_id)->increment('flowers_count', 1);
+            return response()->json(['followed' => true, 'status' =>  0]);
+        } catch (\Exception $e) {
+            return response(['status' => 9999, 'msg' => $e->getMessage()]);
+        }
+    }
+
 
     /**
      * 当前问题下所有的评论
