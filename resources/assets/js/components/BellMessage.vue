@@ -1,5 +1,5 @@
 <template>
-    <a href="" @click="">
+    <a href=""  @click.prevent="jumpList">
         <div class="fa-2x">
         <span class="fa-layers fa-fw">
             <i class="icon-bell-alt fa-sm"></i>
@@ -17,6 +17,10 @@
             };
         },
         methods: {
+            jumpList: function(){
+                let url = '/message/inbox';
+                window.open(url, '_blank');
+            },
             // 初始化私信
            messageCount : function () {
                let url = '/api/message/unreadNum';

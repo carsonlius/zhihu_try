@@ -33,6 +33,9 @@ Vue.use(VueResource);
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
 let api_token = document.head.querySelector('meta[name="api-token"]');
+
+console.log(token);
+console.log(api_token);
 if (token) {
     Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {

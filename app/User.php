@@ -54,7 +54,7 @@ class User extends Authenticatable
      */
     public function hasFromMessage()
     {
-        return $this->hasMany(Message::class, 'id', 'from_id');
+        return $this->hasMany(Message::class, 'from_user_id', 'id');
     }
 
     /**
@@ -63,7 +63,7 @@ class User extends Authenticatable
      */
     public function hasToMessage()
     {
-        return $this->hasMany(Message::class, 'id', 'to_id');
+        return $this->hasMany(Message::class, 'to_user_id', 'id');
     }
 
     /**

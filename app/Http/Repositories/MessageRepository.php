@@ -3,9 +3,18 @@
 namespace App\Http\Repositories;
 
 use App\Message;
+use App\User;
 
 class MessageRepository
 {
+    /**
+     * 登陆用户收到的私信列表
+     */
+    public function getMessageList()
+    {
+        return user()->hasToMessage->groupBy('from_user_id')->toArray();
+    }
+
     /**
      * 没有阅读的私信的数量
      */

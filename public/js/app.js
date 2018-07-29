@@ -11886,6 +11886,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     methods: {
+        jumpList: function jumpList() {
+            var url = '/message/inbox';
+            window.open(url, '_blank');
+        },
         // 初始化私信
         messageCount: function messageCount() {
             var url = '/api/message/unreadNum';
@@ -14777,7 +14781,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -50790,30 +50794,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { attrs: { href: "" }, on: { click: function($event) {} } }, [
-    _c("div", { staticClass: "fa-2x" }, [
-      _c("span", { staticClass: "fa-layers fa-fw" }, [
-        _c("i", { staticClass: "icon-bell-alt fa-sm" }),
-        _vm._v(" "),
-        _c(
-          "span",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.count,
-                expression: "count"
-              }
-            ],
-            staticClass: "fa-layers-counter",
-            staticStyle: { background: "Tomato" }
-          },
-          [_vm._v(_vm._s(_vm.count))]
-        )
+  return _c(
+    "a",
+    {
+      attrs: { href: "" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          return _vm.jumpList($event)
+        }
+      }
+    },
+    [
+      _c("div", { staticClass: "fa-2x" }, [
+        _c("span", { staticClass: "fa-layers fa-fw" }, [
+          _c("i", { staticClass: "icon-bell-alt fa-sm" }),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.count,
+                  expression: "count"
+                }
+              ],
+              staticClass: "fa-layers-counter",
+              staticStyle: { background: "Tomato" }
+            },
+            [_vm._v(_vm._s(_vm.count))]
+          )
+        ])
       ])
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64391,6 +64407,9 @@ Vue.use(VueResource);
 
 var token = document.head.querySelector('meta[name="csrf-token"]');
 var api_token = document.head.querySelector('meta[name="api-token"]');
+
+console.log(token);
+console.log(api_token);
 if (token) {
     Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {

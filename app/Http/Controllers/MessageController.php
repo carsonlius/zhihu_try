@@ -32,13 +32,16 @@ class MessageController extends Controller
     }
 
     /**
+     * 当前用户收到的私信列表
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $message = $this->repository_message->getMessageList();
+        dump($message);
+        return view('message.inbox')->with(compact('message'));
     }
 
     /**

@@ -38,15 +38,21 @@ Route::get('/mail', function () {
     return new \App\Mail\UserVerifyMail(\App\User::find(1));
 });
 
+
+// 私信
+Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
+    // 当前用户收到的私信列表
+    Route::get('/inbox', 'MessageController@index');
+});
+
 // 测试问题的路由,内容自行填充
 Route::get('/tasks', function () {
     return view('test.test');
-
 });
-
 
 Route::get('notifications', 'NotificationsController@index');
 
-
 Route::get('test/{question_id}', 'CommentController@question');
+
+
 
