@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Repositories\MessageRepository;
 use App\Message;
+use App\User;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -39,9 +40,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $message = $this->repository_message->getMessageList();
-        dump($message);
-        return view('message.inbox')->with(compact('message'));
+        $messages = $this->repository_message->getMessageList();
+        return view('message.inbox')->with(compact('messages'));
     }
 
     /**
@@ -57,7 +57,7 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -76,19 +76,24 @@ class MessageController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Message  $message
+     * @param integer $friend_id
      * @return \Illuminate\Http\Response
      */
-    public function show(Message $message)
+    public function show($friend_id)
     {
-        //
+        try {
+            $list_message = $this->repository_message->show($friend_id);
+            return view('message.show')->with(compact('list_message'));
+        } catch (\Exception $e) {
+
+
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Message  $message
+     * @param  \App\Message $message
      * @return \Illuminate\Http\Response
      */
     public function edit(Message $message)
@@ -99,8 +104,8 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Message $message
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Message $message)
@@ -111,7 +116,7 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Message  $message
+     * @param  \App\Message $message
      * @return \Illuminate\Http\Response
      */
     public function destroy(Message $message)

@@ -43,6 +43,9 @@ Route::get('/mail', function () {
 Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
     // 当前用户收到的私信列表
     Route::get('/inbox', 'MessageController@index');
+
+    // 来自某个特定用户发送给登陆用户的信息
+    Route::get('/{friend_id}', 'MessageController@show');
 });
 
 // 测试问题的路由,内容自行填充

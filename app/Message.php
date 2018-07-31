@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
-    protected $fillable = ['from_user_id', 'to_user_id', 'body', 'is_read', 'read_at'];
+    protected $fillable = ['from_user_id', 'to_user_id', 'body', 'is_read', 'read_at', 'user_id', 'friend_id'];
+
+    /**
+     * 和当前私信相关联的用户
+     */
+    public function friendUser()
+    {
+        return $this->belongsTo(User::class, 'friend_id', 'id');
+    }
 
     /**
      * 发起私信的用户（多对一）
