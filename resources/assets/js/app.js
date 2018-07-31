@@ -34,8 +34,6 @@ Vue.use(VueResource);
 let token = document.head.querySelector('meta[name="csrf-token"]');
 let api_token = document.head.querySelector('meta[name="api-token"]');
 
-console.log(token);
-console.log(api_token);
 if (token) {
     Vue.http.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
@@ -73,6 +71,9 @@ Vue.component('comment-button', require('./components/Comment'));
 
 // 私信通知
 Vue.component('bell-message', require('./components/BellMessage'));
+
+// 用户私信通话列表
+Vue.component('inbox-list', require('./components/InboxDetail'));
 
 const app = new Vue({
     el: '#app',

@@ -78,15 +78,30 @@ class MessageController extends Controller
      * Display the specified resource.
      * @param integer $friend_id
      * @return \Illuminate\Http\Response
-     */
+    */
+
     public function show($friend_id)
     {
+        $login_name = \Auth::user()->name;
+        return view('message.show')->with(compact('friend_id', 'login_name'));
+    }
+
+    /**
+     * 获取登陆用户和特定用户之间所有私信信息
+     * @return array
+     */
+    public function inboxShow()
+    {
         try {
-            $list_message = $this->repository_message->show($friend_id);
-            return view('message.show')->with(compact('list_message'));
+            $data = $this->repository_message->inboxShow();
+            $msg = '查询成功';
+            $status = 0;
+            return response()->json(compact('data', 'msg', 'status'));
         } catch (\Exception $e) {
 
-
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
         }
     }
 

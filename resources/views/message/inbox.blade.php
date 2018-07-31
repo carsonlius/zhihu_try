@@ -8,7 +8,7 @@
                         私信列表
                     </div>
                     <div class="panel-body">
-                        @foreach($messages as $friend_id => $messageGroup)
+                        @foreach($messages as $messageGroup)
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#"><img src="{{ $messageGroup->first()->friendUser->avatar }}" alt="私信来源" height="60px" width="60px"></a>
@@ -23,7 +23,6 @@
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

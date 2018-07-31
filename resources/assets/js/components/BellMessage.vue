@@ -36,11 +36,11 @@
         mounted: function () {
             this.messageCount();
 
-            // 每隔10分钟，更新一次私信的数量
+            // 每隔1分钟，更新一次私信的数量
             let vm = this;
             setInterval(function(){
                 vm.messageCount();
-            }, 600000);
+            }, 30000);
         }
     }
 </script>

@@ -50,6 +50,8 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth:api']], function (){
     Route::post('/store', 'MessageController@store');
 
     Route::post('/unreadNum', 'MessageController@unreadNum');
+
+    Route::get('/inboxShow', 'MessageController@inboxShow');
 });
 
 // 评论部分

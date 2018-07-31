@@ -9,12 +9,12 @@ class MessageRepository
 
     /**
      * 获取某个对话列表
-     * @param integer $friend_id
      * @return array
      */
-    public function show($friend_id)
+    public function inboxShow()
     {
-        $user_id = \Auth::id();
+        $user_id = user('api')->id;
+        $friend_id = request()->get('friend_id');
         return Message::where(compact('user_id', 'friend_id'))->with('fromUser')->orderBy('id', 'desc')->get();
     }
 
@@ -62,6 +62,9 @@ class MessageRepository
          // 第二条私信属于接受者
         $user_id = $to_user_id;
         $friend_id = user('api')->id;
-        return Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
+        $message_store = Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
+
+        $id = $message_store->id;
+        return Message::where(compact('id'))->with('fromUser')->first();
     }
 }
