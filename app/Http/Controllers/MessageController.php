@@ -57,10 +57,9 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         try {
             $result_store = $this->repository_message->store();
@@ -78,12 +77,12 @@ class MessageController extends Controller
      * Display the specified resource.
      * @param integer $friend_id
      * @return \Illuminate\Http\Response
-    */
+     */
 
     public function show($friend_id)
     {
-        $login_name = \Auth::user()->name;
-        return view('message.show')->with(compact('friend_id', 'login_name'));
+        $friend_name = User::find($friend_id)->name;
+        return view('message.show')->with(compact('friend_id', 'friend_name'));
     }
 
     /**

@@ -8,6 +8,11 @@ class Message extends Model
 {
     protected $fillable = ['from_user_id', 'to_user_id', 'body', 'is_read', 'read_at', 'user_id', 'friend_id'];
 
+    public function getDates()
+    {
+        return ['created_at', 'updated_at'];
+    }
+
     /**
      * 和当前私信相关联的用户
      */
@@ -25,6 +30,7 @@ class Message extends Model
         return $this->belongsTo(User::class, 'from_user_id', 'id');
 
     }
+
     /**
      * 接收私信的用户(多对一)
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

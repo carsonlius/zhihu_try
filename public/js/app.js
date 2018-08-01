@@ -12099,10 +12099,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "InboxDetail",
-    props: ['friend_id', 'login_name'],
+    props: ['friend_id', 'friend_name'],
     data: function data() {
         return {
             list_message: [],
@@ -12111,13 +12112,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     computed: {
         placeholder: function placeholder() {
-            return '发私信给' + this.login_name;
+            return '发私信给 ' + this.friend_name;
         }
     },
     mounted: function mounted() {
         this.requestMessage();
     },
     methods: {
+        // 是否需要展示回复按钮
+        showBtn: function showBtn(from_user_id) {
+            return from_user_id === parseInt(this.friend_id);
+        },
+        // 获取焦点
+        focusTextarea: function focusTextarea() {
+            $('#message_textarea')[0].focus();
+        },
         // 回复私信
         responseMessage: function responseMessage() {
             var params = {
@@ -12127,6 +12136,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(params);
             var vm = this;
             this.$http.post('/api/message/store', params, { responseType: 'json' }).then(function (response) {
+                console.log(response);
                 if (response.body.status === 0) {
                     vm.list_message.unshift(response.body.result_store);
                     vm.body = '';
@@ -14880,7 +14890,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.textarea-inherit[data-v-1d3f0a90] {\n    width: 98%;\n    overflow-y: auto;\n}\n.btn_right[data-v-1d3f0a90] {\n    margin-right: 1%;\n}\n\n", ""]);
+exports.push([module.i, "\n.textarea-inherit[data-v-1d3f0a90] {\n    width: 100%;\n    overflow: auto;\n    word-break: break-all;\n}\n.div_bottom[data-v-1d3f0a90] {\n    margin-bottom: 30px;\n}\n\n", ""]);
 
 // exports
 
@@ -50950,9 +50960,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("span", [_vm._v(_vm._s(_vm.placeholder))]),
-    _vm._v(" "),
-    _c("div", { staticClass: "form-group" }, [
+    _c("div", { staticClass: "form-group div_bottom" }, [
       _c("textarea", {
         directives: [
           {
@@ -50963,7 +50971,11 @@ var render = function() {
           }
         ],
         staticClass: "textarea-inherit",
-        attrs: { name: "body", rows: "5", placeholder: _vm.placeholder },
+        attrs: {
+          placeholder: _vm.placeholder,
+          id: "message_textarea",
+          rows: "3"
+        },
         domProps: { value: _vm.body },
         on: {
           input: function($event) {
@@ -50978,7 +50990,8 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-sm btn-primary pull-right btn_right",
+          staticClass: "btn btn-xs btn-primary pull-right",
+          attrs: { type: "submit" },
           on: {
             click: function($event) {
               $event.preventDefault()
@@ -50986,7 +50999,7 @@ var render = function() {
             }
           }
         },
-        [_vm._v("回复")]
+        [_vm._v("发送")]
       )
     ]),
     _vm._v(" "),
@@ -51013,10 +51026,38 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "media-body" }, [
               _c("h4", { staticClass: "media-heading" }, [
-                _vm._v(_vm._s(message.from_user.name))
+                _vm._v(
+                  _vm._s(
+                    message.from_user.name !== _vm.friend_name
+                      ? "我"
+                      : message.from_user.name
+                  )
+                )
               ]),
               _vm._v(" "),
-              _c("p", [_vm._v(_vm._s(message.body))])
+              _c("p", { staticStyle: { "white-space": "pre-line" } }, [
+                _vm._v(_vm._s(message.body))
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "pull-left" }, [
+                _vm._v(_vm._s("2018-09-28"))
+              ]),
+              _vm._v(" "),
+              _vm.showBtn(message.from_user_id)
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "pull-right btn btn-xs btn-primary",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.focusTextarea($event)
+                        }
+                      }
+                    },
+                    [_vm._v("回复")]
+                  )
+                : _vm._e()
             ])
           ])
         })

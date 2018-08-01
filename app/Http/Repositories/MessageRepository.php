@@ -23,7 +23,8 @@ class MessageRepository
      * @return mixed
      */
     public function getMessageList()
-    {   $user_id = $from_user_id = \Auth::id();
+    {
+        $user_id = $from_user_id = \Auth::id();
         return Message::where(compact('user_id'))
             ->with('friendUser')
             ->orderBy('id', 'desc')
@@ -55,11 +56,11 @@ class MessageRepository
         $from_user_id = user('api')->id;
 
         // 第一条私信属于发送者的
-         $user_id = user('api')->id;
-         $friend_id = $to_user_id;
-         Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
+        $user_id = user('api')->id;
+        $friend_id = $to_user_id;
+        Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
 
-         // 第二条私信属于接受者
+        // 第二条私信属于接受者
         $user_id = $to_user_id;
         $friend_id = user('api')->id;
         $message_store = Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));

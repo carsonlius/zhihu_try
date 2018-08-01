@@ -1,9 +1,8 @@
 <template>
     <div>
-        <span>{{ placeholder }}</span>
-        <div class="form-group">
-            <textarea name="body" rows="5" class="textarea-inherit" v-model="body" :placeholder="placeholder"></textarea>
-            <button class="btn btn-sm btn-primary pull-right btn_right" @click.prevent="responseMessage">回复</button>
+        <div class="form-group div_bottom">
+            <textarea v-model="body" :placeholder="placeholder" class="textarea-inherit" id="message_textarea" rows="3"></textarea>
+            <button type="submit" class="btn btn-xs btn-primary pull-right" @click.prevent="responseMessage">发送</button>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -15,8 +14,10 @@
                         <img :src="message.from_user.avatar" alt="" width="60" height="60">
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">{{ message.from_user.name }}</h4>
-                        <p>{{ message.body }}</p>
+                        <h4 class="media-heading">{{ message.from_user.name !== friend_name ? '我' : message.from_user.name}}</h4>
+                        <p style="white-space: pre-line">{{ message.body }}</p>
+                        <span class="pull-left">{{ '2018-09-28' }}</span>
+                        <button @click.prevent="focusTextarea" v-if="showBtn(message.from_user_id)" class="pull-right btn btn-xs btn-primary">回复</button>
                     </div>
                 </div>
             </div>
@@ -27,7 +28,7 @@
 <script>
     export default {
         name: "InboxDetail",
-        props: ['friend_id', 'login_name'],
+        props: ['friend_id', 'friend_name'],
         data: function () {
             return {
                 list_message: [],
@@ -36,13 +37,21 @@
         },
         computed: {
             placeholder: function () {
-                return '发私信给' + this.login_name;
+                return '发私信给 ' + this.friend_name;
             }
         },
         mounted: function () {
             this.requestMessage();
         },
         methods: {
+            // 是否需要展示回复按钮
+            showBtn : function(from_user_id){
+                return from_user_id === parseInt(this.friend_id);
+            },
+            // 获取焦点
+            focusTextarea: function(){
+                $('#message_textarea')[0].focus();
+            },
             // 回复私信
             responseMessage: function () {
                 let params = {
@@ -52,6 +61,7 @@
                 console.log(params);
                 let vm = this;
                 this.$http.post('/api/message/store', params, {responseType: 'json'}).then(function (response) {
+                    console.log(response);
                     if (response.body.status === 0) {
                         vm.list_message.unshift(response.body.result_store);
                         vm.body = '';
@@ -78,12 +88,13 @@
 
 <style scoped>
     .textarea-inherit {
-        width: 98%;
-        overflow-y: auto;
+        width: 100%;
+        overflow: auto;
+        word-break: break-all;
     }
 
-    .btn_right {
-        margin-right: 1%;
+    .div_bottom {
+        margin-bottom: 30px;
     }
 
 </style>
