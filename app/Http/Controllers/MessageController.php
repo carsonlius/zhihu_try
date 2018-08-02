@@ -6,6 +6,7 @@ use App\Http\Repositories\MessageRepository;
 use App\Message;
 use App\User;
 use Illuminate\Http\Request;
+use League\Flysystem\Exception;
 
 class MessageController extends Controller
 {
@@ -29,6 +30,27 @@ class MessageController extends Controller
             $status = 1478;
             $msg = $e->getMessage();
             return response()->json(compact('status', 'msg'));
+        }
+    }
+
+    /**
+     * 将未读私信标记为已读私信
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function markAsRead()
+    {
+        try {
+            $result_mark = $this->repository_message->markAsRead();
+            if ($result_mark === false) {
+                throw new \Exception('标记已读失败');
+            }
+            $status = 0;
+            $msg = '已经标记为已读';
+            return response()->json(compact('msg', 'status'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('msg', 'status'));
         }
     }
 

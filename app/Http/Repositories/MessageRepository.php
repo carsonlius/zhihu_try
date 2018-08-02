@@ -6,6 +6,20 @@ use App\Message;
 
 class MessageRepository
 {
+    /**
+     * 将私信标记为已读
+     */
+    public function markAsRead()
+    {
+        $user_id = user('api')->id;
+        $friend_id = request()->get('friend_id');
+        $is_read = 'F';
+        $where = compact('is_read', 'user_id', 'friend_id');
+        $is_read = 'T';
+        $read_at = now();
+        return Message::where($where)
+            ->update(compact('is_read', 'read_at'));
+    }
 
     /**
      * 获取某个对话列表

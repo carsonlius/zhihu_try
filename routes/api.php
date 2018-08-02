@@ -49,9 +49,14 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth:api']], function (){
     // 发送私信
     Route::post('/store', 'MessageController@store');
 
+    // 未读私信的数量
     Route::post('/unreadNum', 'MessageController@unreadNum');
 
+    // 私信详情
     Route::get('/inboxShow', 'MessageController@inboxShow');
+
+    // 标记为已读
+    Route::get('/markAsRead', 'MessageController@markAsRead');
 });
 
 // 评论部分

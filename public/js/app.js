@@ -12125,6 +12125,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         // 获取焦点
         focusTextarea: function focusTextarea() {
+            var _this = this;
+
+            this.$nextTick(function () {
+                return _this.$refs.input.focus();
+            });
             $('#message_textarea')[0].focus();
         },
         // 回复私信
@@ -12133,25 +12138,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 to_user_id: this.friend_id,
                 body: this.body
             };
-            console.log(params);
             var vm = this;
             this.$http.post('/api/message/store', params, { responseType: 'json' }).then(function (response) {
-                console.log(response);
                 if (response.body.status === 0) {
                     vm.list_message.unshift(response.body.result_store);
                     vm.body = '';
                 }
             });
         },
+        // 将未读私信标记为已读私信
+        markRead: function markRead() {
+            var params = {
+                responseType: 'json', params: { friend_id: this.friend_id }
+            };
+            this.$http.get('/api/message/markAsRead', params).then(function (response) {
+                if (response.body.status !== 0) {
+                    console.log(response.body.msg);
+                }
+            });
+        },
+
         // 获取私信信息
         requestMessage: function requestMessage() {
             var params = {
                 params: { friend_id: this.friend_id },
                 responseType: 'json'
             };
+            var vm = this;
             this.$http.get('/api/message/inboxShow', params).then(function (response) {
                 if (response.body.status === 0) {
                     this.list_message = response.body.data;
+                    // 将未读标记为已经读了
+                    vm.markRead();
                 } else {
                     console.log(response);
                 }
@@ -51040,7 +51058,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("span", { staticClass: "pull-left" }, [
-                _vm._v(_vm._s("2018-09-28"))
+                _vm._v(_vm._s(message.created_at_human))
               ]),
               _vm._v(" "),
               _vm.showBtn(message.from_user_id)

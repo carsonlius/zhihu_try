@@ -2,15 +2,36 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
     protected $fillable = ['from_user_id', 'to_user_id', 'body', 'is_read', 'read_at', 'user_id', 'friend_id'];
 
-    public function getDates()
+    protected $dates = ['created_at', 'updated_at', 'read_at'];
+
+    /*
+     * 增加一个数据库中没有的字段
+     * */
+    protected $appends = ['created_at_human'];
+
+    /**
+     * 设置
+     * @param $timestamp
+     */
+//    public function setReadAtAttribute($timestamp)
+//    {
+//        $this->attributes['read_at'] = Carbon::createFromTimestamp($timestamp);
+//    }
+
+    /**
+     * 设置关于 create_at_human 字段的获取器
+     * @return mixed
+     */
+    public function getCreatedAtHumanAttribute()
     {
-        return ['created_at', 'updated_at'];
+        return Carbon::createFromTimeString($this->attributes['created_at'])->diffForHumans();
     }
 
     /**

@@ -16,7 +16,7 @@
                     <div class="media-body">
                         <h4 class="media-heading">{{ message.from_user.name !== friend_name ? '我' : message.from_user.name}}</h4>
                         <p style="white-space: pre-line">{{ message.body }}</p>
-                        <span class="pull-left">{{ '2018-09-28' }}</span>
+                        <span class="pull-left">{{ message.created_at_human }}</span>
                         <button @click.prevent="focusTextarea" v-if="showBtn(message.from_user_id)" class="pull-right btn btn-xs btn-primary">回复</button>
                     </div>
                 </div>
@@ -50,6 +50,8 @@
             },
             // 获取焦点
             focusTextarea: function(){
+
+                this.$nextTick(() => this.$refs.input.focus());
                 $('#message_textarea')[0].focus();
             },
             // 回复私信
@@ -58,25 +60,38 @@
                     to_user_id: this.friend_id,
                     body: this.body
                 };
-                console.log(params);
                 let vm = this;
                 this.$http.post('/api/message/store', params, {responseType: 'json'}).then(function (response) {
-                    console.log(response);
                     if (response.body.status === 0) {
                         vm.list_message.unshift(response.body.result_store);
                         vm.body = '';
                     }
                 });
             },
+            // 将未读私信标记为已读私信
+            markRead: function(){
+                let params = {
+                    responseType: 'json', params: { friend_id : this.friend_id}
+                };
+                this.$http.get('/api/message/markAsRead', params).then(function (response) {
+                    if (response.body.status !== 0) {
+                        console.log(response.body.msg);
+                    }
+                });
+            },
+
             // 获取私信信息
             requestMessage: function () {
                 let params = {
                     params: {friend_id: this.friend_id},
                     responseType: 'json'
                 };
+                let vm = this;
                 this.$http.get('/api/message/inboxShow', params).then(function (response) {
                     if (response.body.status === 0) {
                         this.list_message = response.body.data;
+                        // 将未读标记为已经读了
+                        vm.markRead();
                     } else {
                         console.log(response);
                     }
