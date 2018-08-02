@@ -12169,7 +12169,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (response.body.status === 0) {
                     this.list_message = response.body.data;
                     // 将未读标记为已经读了
-                    vm.markRead();
+                    // vm.markRead();
                 } else {
                     console.log(response);
                 }

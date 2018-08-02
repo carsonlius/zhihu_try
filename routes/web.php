@@ -55,7 +55,11 @@ Route::get('/tasks', function () {
 
 Route::get('notifications', 'NotificationsController@index');
 
-Route::get('test/{question_id}', 'CommentController@question');
+Route::get('test', function (){
+
+    \App\Message::find(1)->sayHello();
+    \App\Message::get()->sayHello();
+});
 
 
 

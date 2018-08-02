@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Collection\MessageCollection;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,13 +18,16 @@ class Message extends Model
     protected $appends = ['created_at_human'];
 
     /**
-     * 设置
-     * @param $timestamp
+     * 将未阅读的私信标记为已阅读
      */
-//    public function setReadAtAttribute($timestamp)
-//    {
-//        $this->attributes['read_at'] = Carbon::createFromTimestamp($timestamp);
-//    }
+    public function  markAsRead()
+    {
+        if ($this->is_read === 'F') {
+            $is_read = 'T';
+            $read_at = now();
+            $this->fill(compact('is_read', 'read_at'))->save();
+        }
+    }
 
     /**
      * 设置关于 create_at_human 字段的获取器
@@ -69,5 +73,11 @@ class Message extends Model
     public function scopeUnread($query)
     {
         return $query->where('is_read', 'F');
+    }
+
+
+    public function newCollection(array $models = [])
+    {
+        return new MessageCollection($models);
     }
 }

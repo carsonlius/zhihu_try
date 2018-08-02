@@ -115,6 +115,9 @@ class MessageController extends Controller
     {
         try {
             $data = $this->repository_message->inboxShow();
+            // 将查询到数据标记为阅读
+            $data->markAsRead();
+
             $msg = '查询成功';
             $status = 0;
             return response()->json(compact('data', 'msg', 'status'));
