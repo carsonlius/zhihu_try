@@ -12308,9 +12308,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         // 发送私信
         sendMessage: function sendMessage() {
-            vm.send_disabled = true;
             var url = '/api/message/store';
             var vm = this;
+            vm.send_disabled = true;
             this.$http.post(url, { to_user_id: vm.user_id, body: this.body }).then(function (response) {
                 vm.success_status = response.body.status === 0;
                 if (response.body.status === 0) {

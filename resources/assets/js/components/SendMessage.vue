@@ -48,9 +48,9 @@
         methods: {
             // 发送私信
             sendMessage: function () {
-                vm.send_disabled = true;
                 let url = '/api/message/store';
                 let vm = this;
+                vm.send_disabled = true;
                 this.$http.post(url, {to_user_id: vm.user_id, body: this.body}).then(function (response) {
                     vm.success_status = response.body.status === 0;
                     if (response.body.status === 0) {
