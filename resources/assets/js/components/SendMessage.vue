@@ -25,7 +25,7 @@
                     <!-- Modal Actions -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-primary" @click="sendMessage">
+                        <button type="button" class="btn btn-primary" :disabled="send_disabled" @click="sendMessage">
                             发送
                         </button>
                     </div>
@@ -41,12 +41,14 @@
         data: function () {
             return {
                 body: '',
-                success_status: false
+                success_status: false,
+                send_disabled : false,
             };
         },
         methods: {
             // 发送私信
             sendMessage: function () {
+                vm.send_disabled = true;
                 let url = '/api/message/store';
                 let vm = this;
                 this.$http.post(url, {to_user_id: vm.user_id, body: this.body}).then(function (response) {
@@ -59,6 +61,7 @@
                             // 将模态框重置为默认的状态 方便再次发送私信
                             vm.success_status = false;
                             vm.body = '';
+                            vm.send_disabled = false;
                         }, 2000);
                     }
 

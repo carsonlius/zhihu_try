@@ -88,6 +88,7 @@
                 };
                 let vm = this;
                 this.$http.get('/api/message/inboxShow', params).then(function (response) {
+                    console.log(response);
                     if (response.body.status === 0) {
                         this.list_message = response.body.data;
                         // 将未读标记为已经读了

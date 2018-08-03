@@ -12166,6 +12166,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
             var vm = this;
             this.$http.get('/api/message/inboxShow', params).then(function (response) {
+                console.log(response);
                 if (response.body.status === 0) {
                     this.list_message = response.body.data;
                     // 将未读标记为已经读了
@@ -12300,12 +12301,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             body: '',
-            success_status: false
+            success_status: false,
+            send_disabled: false
         };
     },
     methods: {
         // 发送私信
         sendMessage: function sendMessage() {
+            vm.send_disabled = true;
             var url = '/api/message/store';
             var vm = this;
             this.$http.post(url, { to_user_id: vm.user_id, body: this.body }).then(function (response) {
@@ -12318,6 +12321,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         // 将模态框重置为默认的状态 方便再次发送私信
                         vm.success_status = false;
                         vm.body = '';
+                        vm.send_disabled = false;
                     }, 2000);
                 }
             }, function (response) {
@@ -51549,7 +51553,7 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
+                  attrs: { type: "button", disabled: _vm.send_disabled },
                   on: { click: _vm.sendMessage }
                 },
                 [_vm._v("\n                        发送\n                    ")]

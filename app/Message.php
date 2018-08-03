@@ -12,6 +12,19 @@ class Message extends Model
 
     protected $dates = ['created_at', 'updated_at', 'read_at'];
 
+
+    /**
+     * 是否有未读信息
+     */
+    public function addUnreadClass($from_user_id)
+    {
+        // 如果最新一条的信息是登陆用户发送的,则返回false （现在的逻辑是如果最新的一条有被阅读 则所有的私信肯定也是被阅读过的）
+        if ($from_user_id == \Auth::id()) {
+            return false;
+        }
+
+        return $this->is_read === 'F';
+    }
     /*
      * 增加一个数据库中没有的字段
      * */

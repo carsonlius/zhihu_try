@@ -57,8 +57,9 @@ Route::get('notifications', 'NotificationsController@index');
 
 Route::get('test', function (){
 
-    \App\Message::find(1)->sayHello();
-    \App\Message::get()->sayHello();
+    $user_id =1;
+
+    return App\Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
 });
 
 

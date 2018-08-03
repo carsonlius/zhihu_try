@@ -67,3 +67,8 @@ a .topic:hover{
 .statics-item {
     padding:2px 20px;
 }
+
+.unread_bg{
+    background-color: #d3e0e9;
+    opacity:0.5;
+}

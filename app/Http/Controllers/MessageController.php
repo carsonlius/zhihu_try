@@ -63,6 +63,7 @@ class MessageController extends Controller
     public function index()
     {
         $messages = $this->repository_message->getMessageList();
+//        dump($messages->toArray());
         return view('message.inbox')->with(compact('messages'));
     }
 
@@ -114,7 +115,9 @@ class MessageController extends Controller
     public function inboxShow()
     {
         try {
+            // 对话列表
             $data = $this->repository_message->inboxShow();
+
             // 将查询到数据标记为阅读
             $data->markAsRead();
 

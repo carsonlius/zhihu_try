@@ -29,7 +29,10 @@ class MessageRepository
     {
         $user_id = user('api')->id;
         $friend_id = request()->get('friend_id');
-        return Message::where(compact('user_id', 'friend_id'))->with('fromUser')->orderBy('id', 'desc')->get();
+        return Message::where(compact('user_id', 'friend_id'))
+            ->with(['fromUser' => function ($query) {
+                $query->select(['id', 'name', 'avatar']);
+            }])->orderBy('id', 'desc')->get();
     }
 
     /**
@@ -38,12 +41,52 @@ class MessageRepository
      */
     public function getMessageList()
     {
-        $user_id = $from_user_id = \Auth::id();
-        return Message::where(compact('user_id'))
-            ->with('friendUser')
+        $user_id = \Auth::id();
+        $list_messages = Message::where(compact('user_id'))
+            ->with(['friendUser' => function ($query) {
+                $query->select(['name', 'id', 'avatar']);
+            }])
             ->orderBy('id', 'desc')
             ->get()
             ->groupBy('friend_id');
+
+        // 为私信列表整理数据
+        return $this->tidyMessageForList($list_messages);
+    }
+
+    /**
+     *  为私信列表整理数据
+     * @param array $list_messages
+     * @return mixed
+     */
+    protected function tidyMessageForList($list_messages)
+    {
+        return  $list_messages->map(function ($item) {
+            // 获取最新的一条信息
+            $item_group = $item->first();
+
+            // 当前数据中是否需要添加unread的类
+            $item_group->unread_class = $this->unreadClass($item);
+            return $item_group;
+        });
+    }
+
+    /**
+     * 当前数据中是否需要添加unread的类
+     * @param array $item_messages
+     * @return boolean
+     */
+    protected function unreadClass($item_messages)
+    {
+        $unread_class = false;
+        $item_messages->each(function ($item) use (&$unread_class) {
+            if ($item->user_id != $item->from_user_id && $item->is_read === 'F') {
+                $unread_class = true;
+                return false;
+            }
+        });
+
+        return $unread_class;
     }
 
     /**
@@ -52,7 +95,7 @@ class MessageRepository
     public function unreadNum()
     {
         $user_id = \Auth::guard('api')->id();
-        return Message::where(compact('user_id'))->unread()->count();
+        return Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
     }
 
     /**
@@ -80,6 +123,8 @@ class MessageRepository
         $message_store = Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
 
         $id = $message_store->id;
-        return Message::where(compact('id'))->with('fromUser')->first();
+        return Message::where(compact('id'))->with(['fromUser' => function ($query) {
+            $query->select(['id', 'name', 'avatar']);
+        }])->first();
     }
 }

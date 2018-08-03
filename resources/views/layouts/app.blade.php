@@ -18,7 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/style.css?version=1.78')}}" rel="stylesheet">
+    <link href="{{ asset('css/style.css?version=1.79')}}" rel="stylesheet">
 
     {{-- 最完美的bootstrap图标 --}}
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
