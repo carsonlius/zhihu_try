@@ -12,7 +12,6 @@ class Message extends Model
 
     protected $dates = ['created_at', 'updated_at', 'read_at'];
 
-
     /**
      * 是否有未读信息
      */

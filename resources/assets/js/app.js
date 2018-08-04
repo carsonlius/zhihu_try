@@ -75,6 +75,9 @@ Vue.component('bell-message', require('./components/BellMessage'));
 // 用户私信通话列表
 Vue.component('inbox-list', require('./components/InboxDetail'));
 
+// 通知组件
+Vue.component('bell-notification', require('./components/BellNotification'));
+
 const app = new Vue({
     el: '#app',
     data : {

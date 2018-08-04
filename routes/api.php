@@ -71,3 +71,9 @@ Route::group(['prefix' => 'comments', 'middleware' => ['auth:api']], function ()
     Route::get('/{answer_id}/answer', 'CommentController@answer');
 });
 
+// 通知部分
+Route::group(['prefix' => 'notification', 'middleware' => 'auth:api'], function (){
+    // 未阅读通知数量
+    Route::get('unreadNum', 'NotificationsController@unreadNum');
+});
+

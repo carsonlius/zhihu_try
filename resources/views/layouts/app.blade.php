@@ -59,6 +59,9 @@
                         <li><a href="{{ route('register') }}">注册</a></li>
                     @else
                         <li>
+                            <bell-notification></bell-notification>
+                        </li>
+                        <li>
                             <bell-message></bell-message>
                         </li>
                         <li class="dropdown">

@@ -2,7 +2,7 @@
     <a href=""  @click.prevent="jumpList">
         <div class="fa-2x">
         <span class="fa-layers fa-fw">
-            <i class="icon-comments fa-sm"></i>
+            <i class="icon-bell-alt fa-sm"></i>
             <span class="fa-layers-counter" style="background:Tomato" v-show="count">{{ count }}</span>
         </span>
         </div>
@@ -18,19 +18,19 @@
         },
         methods: {
             jumpList: function(){
-                let url = '/message/inbox';
+                let url = '/notifications';
                 window.open(url, '_blank');
             },
             // 初始化私信
-           messageCount : function () {
-               let url = '/api/message/unreadNum';
-               let vm = this;
-               this.$http.post(url, {}, {responseType : 'json'}).then(function (response) {
-                   if (response.body.status === 0) {
+            messageCount : function () {
+                let url = '/api/notification/unreadNum';
+                let vm = this;
+                this.$http.get(url, {}, {responseType : 'json'}).then(function (response) {
+                    if (response.body.status === 0) {
                         vm.count = response.body.number_unread;
-                   }
-               });
-           }
+                    }
+                });
+            }
 
         },
         mounted: function () {

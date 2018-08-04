@@ -52,7 +52,6 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
 Route::get('/tasks', function () {
     return view('test.test');
 });
-
 Route::get('notifications', 'NotificationsController@index');
 
 Route::get('test', function (){

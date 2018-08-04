@@ -3,6 +3,8 @@
 namespace App\Http\Repositories;
 
 use App\Message;
+use App\Notifications\MessageNotification;
+use App\User;
 
 class MessageRepository
 {
@@ -122,6 +124,10 @@ class MessageRepository
         $friend_id = user('api')->id;
         $message_store = Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
 
+        // 生成notification(这个和私信插件功能有些重复,后期拿掉，现在只是学习使用)
+        $message_store->toUser->notify(new MessageNotification($message_store));
+
+        // 返回新插入的私信
         $id = $message_store->id;
         return Message::where(compact('id'))->with(['fromUser' => function ($query) {
             $query->select(['id', 'name', 'avatar']);

@@ -3,7 +3,6 @@
         <span class="btn btn-sm btn-default" data-target="#modal-send-message" data-toggle="modal">
             <font-awesome-icon icon="comment"/>发送私信
         </span>
-
         <div class="modal fade" id="modal-send-message" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
