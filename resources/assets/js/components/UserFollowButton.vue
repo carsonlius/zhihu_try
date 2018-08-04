@@ -34,10 +34,7 @@
                             count_obj.text(following_count-1);
                         }
                     }
-
-
                 });
-
             },
             // 判断是否以及更关注该问题
             init_followed: function () {
@@ -59,7 +56,6 @@
                     }
                 });
             }
-
         },
         mounted: function () {
             //判断是否以及更关注该问题

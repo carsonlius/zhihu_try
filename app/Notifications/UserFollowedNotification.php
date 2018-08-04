@@ -31,7 +31,7 @@ class UserFollowedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     public function toDatabase()

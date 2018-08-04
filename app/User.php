@@ -92,7 +92,6 @@ class User extends Authenticatable
                 // 发起关注的notifications
                 $model->notify(new UserFollowingNotification($pivotIds));
 
-
                 // 下面的用户的被关注数目加1
                 array_walk($pivotIds, function ($user_id) {
                     self::find($user_id)->increment('following_count');
@@ -122,7 +121,7 @@ class User extends Authenticatable
                 $model->decrement('followers_count', $count_detached);
 
                 // 取消关注的notification
-                $model->notify(new UserNotFollowingNotification($pivotIds));
+//                $model->notify(new UserNotFollowingNotification($pivotIds));
 
                 // 下面的用户不再受关注
                 array_walk($pivotIds, function($user_id){
@@ -136,8 +135,6 @@ class User extends Authenticatable
                     Answer::find($answer_id)->decrement('votes_count');
                 });
             }
-
-
         });
 
         static::pivotUpdating(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {

@@ -1,12 +1,3 @@
-@component('mail::message')
-# Introduction
-
-#The body of your message.
-您被
-@component('mail::button', ['url' => '#', 'color' => 'green'])
-    {{--{{ $user_following }}--}}
-@endcomponent
-关注了。
-<br>
-{{ config('app.name') }}
-@endcomponent
+<li class="notifications">
+    <a href="">{{ $notification->data['name'] }}</a> 关注了你。
+</li>
