@@ -9,6 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// 引入vue-image-crop-upload
+
 // 引入字体图标
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
@@ -77,6 +79,9 @@ Vue.component('inbox-list', require('./components/InboxDetail'));
 
 // 通知组件
 Vue.component('bell-notification', require('./components/BellNotification'));
+
+// 上传头像组建
+Vue.component('avatar-user', require('./components/AvatarUser'));
 
 const app = new Vue({
     el: '#app',

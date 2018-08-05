@@ -62,6 +62,11 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
     Route::get('/{notification}', 'NotificationsController@show');
 });
 
+
+// 用户头像
+Route::get('/avatar', 'UserController@avatar')->middleware('auth');
+
+
 Route::get('test', function (){
 
     $user_id =1;
