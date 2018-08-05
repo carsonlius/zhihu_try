@@ -52,7 +52,15 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
 Route::get('/tasks', function () {
     return view('test.test');
 });
-Route::get('notifications', 'NotificationsController@index');
+
+// 消息通知
+Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
+    // 消息通知列表
+    Route::get('/', 'NotificationsController@index');
+
+    // 消息详情列表
+    Route::get('/{notification}', 'NotificationsController@show');
+});
 
 Route::get('test', function (){
 

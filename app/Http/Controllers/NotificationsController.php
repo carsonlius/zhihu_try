@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\NotificationsRepository;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\Notification;
 
 class NotificationsController extends Controller
 {
@@ -24,7 +26,6 @@ class NotificationsController extends Controller
     public function index()
     {
         $user = \Auth::user();
-        $user->unreadNotifications->markAsRead();
         return view('notifications.index', compact('user'));
     }
 
@@ -43,5 +44,18 @@ class NotificationsController extends Controller
             $msg = $e->getMessage();
             return response()->json(compact('status', 'msg'));
         }
+    }
+
+    /**
+     * 展示特定的notification
+     * @param DatabaseNotification $notification
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function show(DatabaseNotification $notification)
+    {
+        $notification->markAsRead();
+        $redirect = request()->get('redirect_url');
+//        \Request::query('redirect_url')
+        return redirect($redirect);
     }
 }

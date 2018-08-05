@@ -69,6 +69,23 @@ a .topic:hover{
 }
 
 .unread_bg{
-    background-color: #d3e0e9;
-    opacity:0.5;
+    background-color: #FFF6D9;
+    position: relative;
+    padding:8px 15px 8px 25px;
+    color:#666;
+    border:none;
+    border-top:1px dotted #eee;
+}
+
+.notifications {
+    position: relative;
+    padding:8px 15px 8px 25px;
+    color:#666;
+    border:none;
+    border-top:1px dotted #eee;
+    background: transparent;
+}
+
+.notifications.unread {
+    background: #FFF6D9;
 }
