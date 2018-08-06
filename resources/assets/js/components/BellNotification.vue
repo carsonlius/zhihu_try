@@ -40,7 +40,7 @@
             let vm = this;
             setInterval(function(){
                 vm.messageCount();
-            }, 30000);
+            }, 60000);
         }
     }
 </script>

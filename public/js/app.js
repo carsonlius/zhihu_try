@@ -12887,7 +12887,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var vm = this;
         setInterval(function () {
             vm.messageCount();
-        }, 30000);
+        }, 60000);
     }
 });
 
@@ -12940,7 +12940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var vm = this;
         setInterval(function () {
             vm.messageCount();
-        }, 30000);
+        }, 60000);
     }
 });
 
