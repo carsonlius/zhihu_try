@@ -1,5 +1,9 @@
 <template>
     <div style="text-align: center">
+        <sweet-modal :icon="icon_type" ref="nestedChild" overlay-theme="dark" modal-theme="dark">
+            <p style="white-space: pre-line">{{ msg_error }}</p>
+            <button v-on:click="closeModel()" class="btn btn-primary pull-right">确认</button>
+        </sweet-modal>
         <img :src="imgDataUrl" height="200px" width="160px">
         <div style="margin-top:10px"><button class="btn btn-primary" @click="toggleShow">修改头像</button></div>
         <my-upload field="img_avatar"
@@ -19,6 +23,7 @@
 <script>
     import 'babel-polyfill'; // es6 shim
     import myUpload from 'vue-image-crop-upload';
+    import { SweetModal, SweetModalTab  } from 'sweet-modal-vue';
     export default {
         name: "AvatarUser",
         props : ['avatar_user', 'csrf_token'],
@@ -32,13 +37,18 @@
                 headers: {
                     smail: '*_~'
                 },
-                imgDataUrl: this.avatar_user
+                imgDataUrl: this.avatar_user,
+                msg_error : '',
+                icon_type : 'success'
             }
         },
         components: {
-            'my-upload': myUpload
+            'my-upload': myUpload,
         },
         methods: {
+            closeModel : function(){
+              this.$refs.nestedChild.close();
+            },
             toggleShow() {
                 this.show = !this.show;
             },
@@ -58,10 +68,18 @@
              * [param] jsonData   服务器返回数据，已进行json转码
              * [param] field
              */
-            cropUploadSuccess(jsonData, field){
-                console.log('-------- upload success --------');
-                console.log(jsonData);
+            cropUploadSuccess(response, field){
+                console.log('-------- uploading --------');
+                console.log(response);
                 console.log('field: ' + field);
+                if (response.status !== 0) {
+                    this.msg_error = '上传出错，请稍后再试';
+                    this.icon_type = 'error';
+                    this.$refs.nestedChild.open();
+                } else {
+                    this.imgDataUrl = response.img_url;
+                    console.log(this.imgDataUrl);
+                }
             },
             /**
              * upload fail
@@ -70,6 +88,9 @@
              * [param] field
              */
             cropUploadFail(status, field){
+                this.msg_error = '上传出错，请稍后再试';
+                this.icon_type = 'error';
+                this.$refs.nestedChild.open();
                 console.log('-------- upload fail --------');
                 console.log(status);
                 console.log('field: ' + field);

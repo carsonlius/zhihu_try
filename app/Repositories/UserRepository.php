@@ -2,9 +2,8 @@
 
 namespace App\Repositories;
 
-
 use App\User;
-use Qiniu\Http\Request;
+use phpDocumentor\Reflection\Types\Compound;
 
 class UserRepository
 {
@@ -21,10 +20,10 @@ class UserRepository
 
     public function follow($user_created)
     {
-        \Auth::guard('api')->user()->followed()->toggle($user_created);
+        user('api')->followed()->toggle($user_created);
 
         // 查看当前登陆用户是否已经关注了创建问题的用户
-        $followed = \Auth::guard('api')->user()->followed->contains('id', $user_created);
+        $followed = user('api')->followed->contains('id', $user_created);
         $status = 0;
         return compact('followed', 'status');
     }
@@ -51,5 +50,6 @@ class UserRepository
         $avatar = asset('/avatars/' . $file_name);
         $id = user()->id;
         User::where(compact('id'))->update(compact('avatar'));
+        return $avatar;
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
-use App\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -34,14 +32,13 @@ class UserController extends Controller
     public function avatarUpload()
     {
         try {
-            $this->repository_user->avatarUpload();
+            $img_url = $this->repository_user->avatarUpload();
 
             $msg = '更新上传成功';
             $status = 0;
-            $img_url = user()->avatar;
             return response()->json(compact('status', 'msg', 'img_url'));
         } catch (\Exception $e) {
-            $status = 500;
+            $status = 1478;
             $msg = $e->getMessage();
             return response()->json(compact('status', 'msg'));
         }

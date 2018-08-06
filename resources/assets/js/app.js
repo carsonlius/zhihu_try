@@ -9,7 +9,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-// 引入vue-image-crop-upload
+// 引入modal组件
+import SweetModal from 'sweet-modal-vue/src/plugin.js'
+Vue.use(SweetModal);
 
 // 引入字体图标
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -82,6 +84,9 @@ Vue.component('bell-notification', require('./components/BellNotification'));
 
 // 上传头像组建
 Vue.component('avatar-user', require('./components/AvatarUser'));
+
+// 公用的模态框
+Vue.component('prompt-modal', require('./components/PromptModal'));
 
 const app = new Vue({
     el: '#app',
