@@ -1,15 +1,15 @@
 <template>
-    <div>
-        <img :src="imgDataUrl" height="60" width="60">
-        <a class="btn" @click="toggleShow">修改头像</a>
-        <my-upload field="img"
+    <div style="text-align: center">
+        <img :src="imgDataUrl" height="200px" width="160px">
+        <div style="margin-top:10px"><button class="btn btn-primary" @click="toggleShow">修改头像</button></div>
+        <my-upload field="img_avatar"
                    @crop-success="cropSuccess"
                    @crop-upload-success="cropUploadSuccess"
                    @crop-upload-fail="cropUploadFail"
                    v-model="show"
                    :width="300"
                    :height="300"
-                   url="/upload"
+                   url="/avatar"
                    :params="params"
                    :headers="headers"
                    img-format="png"></my-upload>
@@ -21,12 +21,12 @@
     import myUpload from 'vue-image-crop-upload';
     export default {
         name: "AvatarUser",
-        props : ['avatar_user'],
+        props : ['avatar_user', 'csrf_token'],
         data: function(){
             return {
                 show: false,
                 params: {
-                    token: '123456798',
+                    _token: this.csrf_token,
                     name: 'avatar'
                 },
                 headers: {

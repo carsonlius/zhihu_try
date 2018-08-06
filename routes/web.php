@@ -65,6 +65,7 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
 
 // 用户头像
 Route::get('/avatar', 'UserController@avatar')->middleware('auth');
+Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
 
 Route::get('test', function (){

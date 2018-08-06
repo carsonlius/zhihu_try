@@ -12779,12 +12779,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "AvatarUser",
-    props: ['avatar_user'],
+    props: ['avatar_user', 'csrf_token'],
     data: function data() {
         return {
             show: false,
             params: {
-                token: '123456798',
+                _token: this.csrf_token,
                 name: 'avatar'
             },
             headers: {
@@ -62442,19 +62442,26 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticStyle: { "text-align": "center" } },
     [
-      _c("img", { attrs: { src: _vm.imgDataUrl, height: "60", width: "60" } }),
+      _c("img", {
+        attrs: { src: _vm.imgDataUrl, height: "200px", width: "160px" }
+      }),
       _vm._v(" "),
-      _c("a", { staticClass: "btn", on: { click: _vm.toggleShow } }, [
-        _vm._v("修改头像")
+      _c("div", { staticStyle: { "margin-top": "10px" } }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.toggleShow } },
+          [_vm._v("修改头像")]
+        )
       ]),
       _vm._v(" "),
       _c("my-upload", {
         attrs: {
-          field: "img",
+          field: "img_avatar",
           width: 300,
           height: 300,
-          url: "/upload",
+          url: "/avatar",
           params: _vm.params,
           headers: _vm.headers,
           "img-format": "png"
