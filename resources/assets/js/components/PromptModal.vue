@@ -18,7 +18,7 @@
                     <!-- Modal Actions -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                        <button type="button" class="btn btn-secondary" @click="redirectUrl" data-dismiss="modal">确定</button>
                     </div>
                 </div>
             </div>
@@ -30,13 +30,20 @@
     export default {
         name: "PromptModal",
         props : ["title", 'body', 'redirect_url'],
-        mounted : function () {
-            // 触发模态框
-            $('#modal-prompt').modal('toggle');
+        data : function(){
+            return {
+                modal_show : false
+            }
         },
         methods : {
+            open: function(){
+                console.log('hello world');
+                $('#modal-prompt').modal('toggle');
+            },
             redirectUrl : function () {
-                window.open(this.redirect_url, '_blank');
+                if (this.redirect_url) {
+                    window.open(this.redirect_url, '_blank');
+                }
             }
         }
 

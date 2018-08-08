@@ -1,6 +1,6 @@
 <template>
     <div style="text-align: center">
-        <sweet-modal :icon="icon_type" ref="nestedChild" overlay-theme="dark" modal-theme="dark">
+        <sweet-modal :icon="icon_type" ref="modal_prompt" overlay-theme="dark" modal-theme="dark">
             <p style="white-space: pre-line">{{ msg_error }}</p>
             <button v-on:click="closeModel()" class="btn btn-primary pull-right">确认</button>
         </sweet-modal>
@@ -47,7 +47,7 @@
         },
         methods: {
             closeModel : function(){
-              this.$refs.nestedChild.close();
+              this.$refs.modal_prompt.close();
             },
             toggleShow() {
                 this.show = !this.show;
@@ -75,7 +75,7 @@
                 if (response.status !== 0) {
                     this.msg_error = '上传出错，请稍后再试';
                     this.icon_type = 'error';
-                    this.$refs.nestedChild.open();
+                    this.$refs.modal_prompt.open();
                 } else {
                     this.imgDataUrl = response.img_url;
                     console.log(this.imgDataUrl);
@@ -90,7 +90,7 @@
             cropUploadFail(status, field){
                 this.msg_error = '上传出错，请稍后再试';
                 this.icon_type = 'error';
-                this.$refs.nestedChild.open();
+                this.$refs.modal_prompt.open();
                 console.log('-------- upload fail --------');
                 console.log(status);
                 console.log('field: ' + field);

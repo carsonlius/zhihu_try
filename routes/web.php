@@ -69,9 +69,7 @@ Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
 
 Route::get('test', function (){
-
     $user_id =1;
-
     return App\Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
 });
 

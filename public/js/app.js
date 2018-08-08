@@ -13298,7 +13298,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         closeModel: function closeModel() {
-            this.$refs.nestedChild.close();
+            this.$refs.modal_prompt.close();
         },
         toggleShow: function toggleShow() {
             this.show = !this.show;
@@ -13328,7 +13328,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (response.status !== 0) {
                 this.msg_error = '上传出错，请稍后再试';
                 this.icon_type = 'error';
-                this.$refs.nestedChild.open();
+                this.$refs.modal_prompt.open();
             } else {
                 this.imgDataUrl = response.img_url;
                 console.log(this.imgDataUrl);
@@ -13344,7 +13344,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         cropUploadFail: function cropUploadFail(status, field) {
             this.msg_error = '上传出错，请稍后再试';
             this.icon_type = 'error';
-            this.$refs.nestedChild.open();
+            this.$refs.modal_prompt.open();
             console.log('-------- upload fail --------');
             console.log(status);
             console.log('field: ' + field);
@@ -13763,13 +13763,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "PromptModal",
     props: ["title", 'body', 'redirect_url'],
-    mounted: function mounted() {
-        // 触发模态框
-        $('#modal-prompt').modal('toggle');
+    data: function data() {
+        return {
+            modal_show: false
+        };
     },
     methods: {
+        open: function open() {
+            console.log('hello world');
+            $('#modal-prompt').modal('toggle');
+        },
         redirectUrl: function redirectUrl() {
-            window.open(this.redirect_url, '_blank');
+            if (this.redirect_url) {
+                window.open(this.redirect_url, '_blank');
+            }
         }
     }
 
@@ -62743,39 +62750,33 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _vm._m(0)
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("取消")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  attrs: { type: "button", "data-dismiss": "modal" },
+                  on: { click: _vm.redirectUrl }
+                },
+                [_vm._v("确定")]
+              )
+            ])
           ])
         ])
       ]
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("取消")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("确定")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -63278,7 +63279,7 @@ var render = function() {
       _c(
         "sweet-modal",
         {
-          ref: "nestedChild",
+          ref: "modal_prompt",
           attrs: {
             icon: _vm.icon_type,
             "overlay-theme": "dark",

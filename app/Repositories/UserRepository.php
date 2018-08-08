@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\User;
-use phpDocumentor\Reflection\Types\Compound;
 
 class UserRepository
 {
@@ -34,20 +33,17 @@ class UserRepository
      */
     public function avatarUpload()
     {
-        try {
-            if (!request()->hasFile('img_avatar')) {
-                throw new \Exception('缺少上传的图像文件');
-            }
-
-            // 存储图片
-            $file_name = md5(time() . user()->id) . '.' . request()->img_avatar->extension();
-            request()->img_avatar->move(public_path('/avatars'), $file_name);
-        } catch (\FileException $e) {
-            throw new \Exception($e->getMessage());
+        if (!request()->hasFile('img_avatar')) {
+            throw new \Exception('缺少上传的图像文件');
         }
 
+        // 存储图片
+        $file_name = '/avatars/' . md5(time() . user()->id) . '.' . request()->img_avatar->extension();
+        // 存储到七牛云
+        \Storage::disk('qiniu')->put($file_name, fopen(request()->img_avatar, 'r'));
+
         // 更新用户的avatar
-        $avatar = asset('/avatars/' . $file_name);
+        $avatar = 'http://' . env('QINIU_DOMAIN') . $file_name;
         $id = user()->id;
         User::where(compact('id'))->update(compact('avatar'));
         return $avatar;

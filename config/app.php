@@ -171,6 +171,7 @@ return [
         \Laracasts\Flash\FlashServiceProvider::class,
         \Overtrue\LaravelUEditor\UEditorServiceProvider::class,
         \Collective\Html\HtmlServiceProvider::class,
+        Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
         /*
          * Application Service Providers...
          */
