@@ -2,8 +2,6 @@
 
 namespace App\Http\Repositories;
 
-use App\User;
-
 class PasswordRepository
 {
     /**
@@ -15,13 +13,12 @@ class PasswordRepository
         // 判断原始密码是否正确
         $old_password = request()->get('old_password');
         if (!\Hash::check($old_password, user()->password)) {
-            flash('原始密码不正确', 'danger');
+            flash('原始密码不正确')->error();
             throw new \Exception('原始密码不正确');
         }
 
         user()->password = \Hash::make(request()->get('password'));
         user()->save();
-
-        flash('密码修改成功', 'success');
+        flash('密码修改成功')->success();
     }
 }

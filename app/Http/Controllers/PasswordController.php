@@ -29,6 +29,7 @@ class PasswordController extends Controller
     /**
      * 更新密码
      * @param PasswordChangeRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(PasswordChangeRequest $request)
     {
@@ -36,7 +37,7 @@ class PasswordController extends Controller
             $this->repository_password->update();
             return redirect('/');
         } catch (\Exception $e) {
-            return redirect()->back();
+            return redirect()->back()->withInput();
         }
     }
 }
