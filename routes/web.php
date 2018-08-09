@@ -32,12 +32,6 @@ Route::group(['prefix' => 'Follower', 'middleware' => ['auth']], function (){
 });
 
 
-// 邮箱激活测试
-Route::get('/mail', function () {
-
-    return new \App\Mail\UserVerifyMail(\App\User::find(1));
-});
-
 
 // 私信
 Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
@@ -67,10 +61,25 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
 Route::get('/avatar', 'UserController@avatar')->middleware('auth');
 Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
+// 用户密码
+Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
+    // 密码得更新页面
+    Route::get('', 'PasswordController@password');
+
+    // 密码更新
+    Route::post('update', 'PasswordController@update');
+});
+
 
 Route::get('test', function (){
     $user_id =1;
     return App\Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
+});
+
+
+// 邮箱激活测试
+Route::get('/mail', function () {
+    return new \App\Mail\UserVerifyMail(\App\User::find(1));
 });
 
 

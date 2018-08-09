@@ -25,7 +25,6 @@ class QuestionTopicDeleteEvent
      */
     public function __construct(QuestionTopic $question_topic)
     {
-        dump('已经触发了删除操作');
         $this->question_topic = $question_topic;
     }
 

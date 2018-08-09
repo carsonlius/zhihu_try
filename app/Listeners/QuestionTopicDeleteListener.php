@@ -27,7 +27,6 @@ class QuestionTopicDeleteListener
      */
     public function handle(QuestionTopicDeleteEvent $event)
     {
-        dump('删除操作的监听者模式');
        $topic_id  = $event->question_topic->topic_id;
        Topic::find($topic_id)->increment('questions_count', -1);
     }

@@ -34,7 +34,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
     protected $dispatchesEvents = [
         'created' => UserCreateEvent::class
     ];
@@ -138,21 +137,21 @@ class User extends Authenticatable
         });
 
         static::pivotUpdating(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
-            dump($model);
-            dump($relationName);
-            dump($pivotIds);
-            dump($pivotIdsAttributes);
+//            dump($model);
+//            dump($relationName);
+//            dump($pivotIds);
+//            dump($pivotIdsAttributes);
         });
 
         static::pivotUpdated(function ($model, $relationName, $pivotIds, $pivotIdsAttributes) {
-            dump($model);
-            dump($relationName);
-            dump($pivotIds);
-            dump($pivotIdsAttributes);
+//            dump($model);
+//            dump($relationName);
+//            dump($pivotIds);
+//            dump($pivotIdsAttributes);
         });
 
         static::updating(function ($model) {
-            dump($model);
+//            dump($model);
         });
     }
 

@@ -63,7 +63,6 @@ class MessageController extends Controller
     public function index()
     {
         $messages = $this->repository_message->getMessageList();
-//        dump($messages->toArray());
         return view('message.inbox')->with(compact('messages'));
     }
 
