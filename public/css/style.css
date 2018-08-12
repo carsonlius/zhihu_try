@@ -89,3 +89,9 @@ a .topic:hover{
 .notifications.unread {
     background: #FFF6D9;
 }
+
+.textarea-inherit {
+    width: 100%;
+    overflow: auto;
+    word-break: break-all; //解决兼容问题
+}

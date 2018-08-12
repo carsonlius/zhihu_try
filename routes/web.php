@@ -70,12 +70,13 @@ Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
     Route::post('update', 'PasswordController@update');
 });
 
+// 用户设置列表 && 更新
+Route::get('setting', 'UserController@settingList')->middleware('auth');
 
 Route::get('test', function (){
     $user_id =1;
     return App\Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
 });
-
 
 // 邮箱激活测试
 Route::get('/mail', function () {

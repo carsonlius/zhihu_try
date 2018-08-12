@@ -16,7 +16,9 @@
         "@fortawesome/fontawesome-free-regular": "^5.0.13",
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
         "@fortawesome/free-brands-svg-icons": "^5.1.1",
+        "area-data": "^5.0.6",
         "axios": "^0.16.2",
+        "babel-plugin-on-demand-import": "^1.1.1",
         "babel-polyfill": "^6.26.0",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.0.1",
@@ -26,6 +28,7 @@
         "sweet-modal-vue": "^2.0.0",
         "vee-validate": "^2.1.0-beta.6",
         "vue": "^2.1.10",
+        "vue-area-linkage": "^5.0.0",
         "vue-image-crop-upload": "^2.3.3",
         "vue-resource": "^1.5.1",
         "vue-select": "^2.4.0"

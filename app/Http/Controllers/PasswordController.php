@@ -11,7 +11,7 @@ class PasswordController extends Controller
 
     /**
      * PasswordController constructor.
-     * @param $repository_password
+     * @param $repository_passworden
      */
     public function __construct(PasswordRepository $repository_password)
     {

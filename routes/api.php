@@ -77,3 +77,7 @@ Route::group(['prefix' => 'notification', 'middleware' => 'auth:api'], function 
     Route::get('unreadNum', 'NotificationsController@unreadNum');
 });
 
+
+// 更新配置
+Route::post('setting', 'UserController@update')->middleware('auth:api');
+

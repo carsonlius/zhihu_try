@@ -9,6 +9,12 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+// 引入省市区组件
+import 'vue-area-linkage/dist/index.css'; // v2 or higher
+import VueAreaLinkage from 'vue-area-linkage';
+Vue.use(VueAreaLinkage);
+
+
 // 引入modal组件
 import SweetModal from 'sweet-modal-vue/src/plugin.js'
 Vue.use(SweetModal);
@@ -87,6 +93,9 @@ Vue.component('avatar-user', require('./components/AvatarUser'));
 
 // 公用的模态框
 Vue.component('prompt-modal', require('./components/PromptModal'));
+
+// 用户设置组件
+Vue.component('setting-user', require('./components/UserSetting'));
 
 const app = new Vue({
     el: '#app',

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Collection\SettingCollection;
 use App\Events\UserCreateEvent;
 use App\Notifications\UserFollowedNotification;
 use App\Notifications\UserFollowingNotification;
@@ -14,6 +15,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable, PivotEventTrait;
+
+    protected $casts = [
+        'settings' => 'array'
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +42,16 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => UserCreateEvent::class
     ];
+
+
+    /**
+     * 用户设置
+     * @return SettingCollection
+     */
+    public function settings()
+    {
+        return new SettingCollection($this);
+    }
 
     /**
      * 当前用户发起的评论(一对多)
