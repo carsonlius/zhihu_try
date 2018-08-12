@@ -97,6 +97,9 @@ Vue.component('prompt-modal', require('./components/PromptModal'));
 // 用户设置组件
 Vue.component('setting-user', require('./components/UserSetting'));
 
+// 用户信息组件
+Vue.component('info_user', require('./components/UserInfo'));
+
 const app = new Vue({
     el: '#app',
     data : {
