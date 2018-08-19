@@ -32,7 +32,6 @@ Route::group(['prefix' => 'Follower', 'middleware' => ['auth']], function (){
 });
 
 
-
 // 私信
 Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
     // 当前用户收到的私信列表
@@ -42,10 +41,6 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
     Route::get('/{friend_id}', 'MessageController@show');
 });
 
-// 测试问题的路由,内容自行填充
-Route::get('/tasks', function () {
-    return view('test.test');
-});
 
 // 消息通知
 Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
@@ -63,7 +58,7 @@ Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
 // 用户密码
 Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
-    // 密码得更新页面
+    // 密码得更新
     Route::get('', 'PasswordController@password');
 
     // 密码更新
@@ -73,14 +68,32 @@ Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
 // 用户设置列表 && 更新
 Route::get('setting', 'UserController@settingList')->middleware('auth');
 
-Route::get('test', function (){
-    $user_id =1;
-    return App\Message::where(compact('user_id'))->where('from_user_id', '!=', $user_id)->unread()->count();
+Route::get('permission', function (){
+    return view('home');
+});
+
+
+// 用户角色
+Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
+    // 角色列表
+    Route::get('/', 'RoleController@index');
+
+    // 新建角色
+    Route::get('/create', 'RoleController@create');
+
+    // 编辑角色
+    Route::get('/{role}/edit', 'RoleController@edit');
 });
 
 // 邮箱激活测试
 Route::get('/mail', function () {
     return new \App\Mail\UserVerifyMail(\App\User::find(1));
+});
+
+
+// 测试问题的路由,内容自行填充
+Route::get('/tasks', function () {
+    return view('test.test');
 });
 
 

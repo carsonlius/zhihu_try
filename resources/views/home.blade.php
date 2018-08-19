@@ -6,7 +6,7 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">控制面板</div>
-
+                {!! Menu::get('NavPermission')->asUl(['class' => 'nav nav-list'], ['class' => '']) !!}
                 <div class="panel-body">
                     @if (session('status'))
                         <div class="alert alert-success">

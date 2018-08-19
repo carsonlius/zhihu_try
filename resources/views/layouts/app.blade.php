@@ -48,10 +48,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    &nbsp;
+                    @include(config('laravel-menu.views.bootstrap-items'), ['items' => Menu::get('NavBar')->roots()])
                 </ul>
 
-                <!-- Right Side Of Navbar -->
+
+            <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @guest
@@ -75,6 +76,7 @@
                             </a>
 
                             <ul class="dropdown-menu">
+                                <li><a href="/avatar"><i class="icon-user"></i> 更换头像</a></li>
                                 <li>
                                     <a href="/setting" ><i class="icon-cogs"></i> 用户设置</a>
                                 </li>
@@ -83,7 +85,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">退出</a>
+                                    document.getElementById('logout-form').submit();"> <i class="icon-ban-circle"></i> 退出</a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}

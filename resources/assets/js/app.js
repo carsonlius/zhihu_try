@@ -9,6 +9,19 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+
+// 引入vue-easytable
+// import css
+import 'vue-easytable/libs/themes-base/index.css'
+
+// import table and pagination comp
+import {VTable,VPagination} from 'vue-easytable'
+
+// Register to global
+Vue.component(VTable.name, VTable);
+Vue.component(VPagination.name, VPagination);
+
+
 // 引入省市区组件
 import 'vue-area-linkage/dist/index.css'; // v2 or higher
 import VueAreaLinkage from 'vue-area-linkage';
@@ -100,9 +113,15 @@ Vue.component('setting-user', require('./components/UserSetting'));
 // 用户信息组件
 Vue.component('info_user', require('./components/UserInfo'));
 
+// 新建角色
+Vue.component('role-create', require('./components/RoleCreate'));
+
+// 角色列表
+Vue.component('role-list', require('./components/RoleList'));
+
+// 编辑角色
+Vue.component('role-edit', require('./components/RoleEdit'));
+
 const app = new Vue({
     el: '#app',
-    data : {
-
-    },
 });

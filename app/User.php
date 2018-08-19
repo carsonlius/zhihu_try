@@ -11,10 +11,12 @@ use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Ultraware\Roles\Traits\HasRoleAndPermission;
+use Ultraware\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasRoleAndPermissionContract
 {
-    use Notifiable, PivotEventTrait;
+    use Notifiable, PivotEventTrait,HasRoleAndPermission;
 
     protected $casts = [
         'settings' => 'array'

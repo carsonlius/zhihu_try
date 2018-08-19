@@ -81,3 +81,20 @@ Route::group(['prefix' => 'notification', 'middleware' => 'auth:api'], function 
 // 更新配置
 Route::post('setting', 'UserController@update')->middleware('auth:api');
 
+// 角色
+Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
+
+    // 编辑角色
+    Route::post('/edit', 'RoleController@update');
+
+    // 存储角色
+    Route::post('/', 'RoleController@store');
+
+    // 角色列表
+    Route::get('/', 'RoleController@list');
+
+    // 删除角色
+    Route::post('/{role}', 'RoleController@delete');
+});
+
+
