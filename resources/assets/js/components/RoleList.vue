@@ -18,7 +18,7 @@
         ></v-table>
 
         <div class="mt20 mb20 bold"></div>
-        <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="50" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
+        <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="total" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
     </div>
 </template>
 
@@ -29,6 +29,7 @@
             return {
                 tableDate : [],
                 pageIndex:1,
+                total : 0,
                 pageSize:20,
                 tableConfig: {
                     multipleSort: false,
@@ -56,7 +57,8 @@
                     console.log(response);
                     if (response.body.status === 0) {
                         vm.tableDate  = response.body.list_roles;
-                        this.getTableData();
+                        vm.total = vm.tableDate.length;
+                        vm.getTableData();
                     }
                 });
             },

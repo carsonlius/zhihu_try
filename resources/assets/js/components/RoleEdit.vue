@@ -72,7 +72,7 @@
                 placeholder_level : '级别'
             }
         },
-        mounted () {
+        created () {
             // 初始化组件
             this.initComponent();
         },
@@ -84,7 +84,7 @@
               this.slug = this.role_obj.slug;
               this.description = this.role_obj.description;
               let level = parseInt(this.role_obj.level);
-              this.level = { label: level , level : level};
+              this.level = { label: level , value : level};
             },
 
             // 关闭模态框
@@ -107,7 +107,6 @@
                     role_id : this.role_obj.id
                 };
                 let url = '/api/role/edit';
-                console.log(url,params);
 
                 // 存储角色
                 let vm = this;
