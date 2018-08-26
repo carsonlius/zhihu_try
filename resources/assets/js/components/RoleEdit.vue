@@ -78,7 +78,7 @@
         },
         methods: {
             // 初始化参数
-            initComponent() {
+            initComponent:function() {
                 this.role_obj = JSON.parse(this.role);
               this.name = this.role_obj.name;
               this.slug = this.role_obj.slug;

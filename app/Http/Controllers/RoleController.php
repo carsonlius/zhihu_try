@@ -19,6 +19,14 @@ class RoleController extends Controller
     }
 
     /**
+     * 角色分配权限
+     */
+    public function permission()
+    {
+        return view('roles.permission')->with(request()->only(['role_id', 'role_name']));
+    }
+
+    /**
      * API编辑角色
      */
     public function update()

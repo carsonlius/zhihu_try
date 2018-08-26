@@ -9,7 +9,6 @@
                 </div>
             </div>
             <role-list></role-list>
-
         </div>
     </div>
 @endsection

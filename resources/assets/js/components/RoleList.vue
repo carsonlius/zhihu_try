@@ -17,104 +17,160 @@
                 @on-custom-comp="customCompFunc"
         ></v-table>
 
-        <div class="mt20 mb20 bold"></div>
-        <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="total" :page-size="pageSize" :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
+        <div class="mt20 mtop-20 mb20 bold"></div>
+        <v-pagination @page-change="pageChange" @page-size-change="pageSizeChange" :total="total" :page-size="pageSize"
+                      :layout="['total', 'prev', 'pager', 'next', 'sizer', 'jumper']"></v-pagination>
     </div>
 </template>
 
 <script>
     export default {
         name: "RoleList",
-        data(){
+        data() {
             return {
-                tableDate : [],
-                pageIndex:1,
-                total : 0,
-                pageSize:20,
+                tableDate: [],
+                pageIndex: 1,
+                total: 0,
+                pageSize: 20,
                 tableConfig: {
                     multipleSort: false,
                     tableData: [],
                     columns: [
-                    {field: 'id', title: 'ID', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                    {field: 'name', title: '角色名称', width: 150, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                    {field: 'slug', title: '角色Slug', width: 150, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                    {field: 'level', title: '角色等级', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                    {field: 'description', title: '角色描述', width: 400, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                    {field: 'custome-adv', title: '操作',width: 200, titleAlign: 'center',columnAlign:'center',componentName:'table-operation',isResize:true}
-                ]
+                        {
+                            field: 'id',
+                            title: 'ID',
+                            width: 80,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'name',
+                            title: '角色名称',
+                            width: 150,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'slug',
+                            title: '角色Slug',
+                            width: 150,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'level',
+                            title: '角色等级',
+                            width: 80,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'what',
+                            title: '权限分配',
+                            width: 100,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true,
+                            componentName: 'role_permission'
+                        },
+                        {
+                            field: 'description',
+                            title: '角色描述',
+                            width: 200,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            isResize: true
+                        },
+                        {
+                            field: 'custome-adv',
+                            title: '操作',
+                            width: 200,
+                            titleAlign: 'center',
+                            columnAlign: 'center',
+                            componentName: 'table-operation',
+                            isResize: true
+                        }
+                    ]
                 }
             }
         },
-        mounted : function(){
+        mounted: function () {
             // 获取数据源
             this.initList();
         },
-        methods:{
+        methods: {
             // 获取数据源
-            initList: function(){
+            initList: function () {
                 let vm = this;
-                this.$http.get('/api/role', {responseType:'json'}).then(function(response){
+                this.$http.get('/api/role', {responseType: 'json'}).then(function (response) {
                     console.log(response);
                     if (response.body.status === 0) {
-                        vm.tableDate  = response.body.list_roles;
+                        vm.tableDate = response.body.list_roles;
                         vm.total = vm.tableDate.length;
                         vm.getTableData();
                     }
                 });
             },
-            getTableData(){
-                this.tableConfig.tableData = this.tableDate.slice((this.pageIndex-1)*this.pageSize,(this.pageIndex)*this.pageSize)
+            getTableData() {
+                this.tableConfig.tableData = this.tableDate.slice((this.pageIndex - 1) * this.pageSize, (this.pageIndex) * this.pageSize)
             },
-            pageChange(pageIndex){
+            pageChange(pageIndex) {
 
                 this.pageIndex = pageIndex;
                 this.getTableData();
                 console.log(pageIndex)
             },
-            pageSizeChange(pageSize){
+            pageSizeChange(pageSize) {
 
                 this.pageIndex = 1;
                 this.pageSize = pageSize;
                 this.getTableData();
             },
-            sortChange(params){
+            sortChange(params) {
 
-                if (params.height.length > 0){
+                if (params.height.length > 0) {
 
                     this.tableConfig.tableData.sort(function (a, b) {
 
-                        if (params.height === 'asc'){
+                        if (params.height === 'asc') {
 
                             return a.height - b.height;
-                        }else if(params.height === 'desc'){
+                        } else if (params.height === 'desc') {
 
                             return b.height - a.height;
-                        }else{
+                        } else {
 
                             return 0;
                         }
                     });
                 }
             },
-            customCompFunc(params){
-
-                console.log(params);
-                let vm = this;
-                if (params.type === 'delete'){ // do delete operation
-                    // del
-                    this.$http.post('/api/role/' + params.rowData.id, {}, {responseType: 'json'}).then(function(response){
-                        console.log(response);
-                        if (response.body.status === 0) {
-                            // 从列表中删除
-                            Vue.delete( vm.tableDate, params.index);
-                            this.getTableData();
-                        }
-                    });
-
-                }else if (params.type === 'edit'){ // do edit operation
-                    // 编辑
-                    let url_edit = '/Role/' + params.rowData.id + '/edit';
-                    window.open(url_edit, '_blank');
+            customCompFunc(params) {
+                switch (params.type) {
+                    case 'assign':
+                        // 编辑
+                        let url_permission = '/Role/permission?role_id=' + params.rowData.id + '&role_name="' + params.rowData.name + '"';
+                        window.open(url_permission, '_blank');
+                        break;
+                    case 'edit':
+                        // 编辑
+                        let url_edit = '/Role/' + params.rowData.id + '/edit';
+                        window.open(url_edit, '_blank');
+                        break;
+                    case 'delete':
+                        this.$http.post('/api/role/' + params.rowData.id, {}, {responseType: 'json'}).then(function (response) {
+                            console.log(response);
+                            if (response.body.status === 0) {
+                                // 从列表中删除
+                                Vue.delete(vm.tableDate, params.index);
+                                this.getTableData();
+                            }
+                        });
+                        break;
                 }
             }
         },
@@ -147,9 +203,34 @@
             },
             deleteRow() {
                 // 参数根据业务场景随意构造
-                let params = {type: 'delete', index: this.index,rowData: this.rowData};
+                let params = {type: 'delete', index: this.index, rowData: this.rowData};
                 this.$emit('on-custom-comp', params);
 
+            }
+        }
+    });
+
+    // 自定义列组件
+    Vue.component('role_permission', {
+        template: `<span>
+        <a href="" class="btn btn-info btn-xs" @click.stop.prevent="assignPermission(rowData,index)">分配权限</a>
+        </span>`,
+        props: {
+            rowData: {
+                type: Object
+            },
+            field: {
+                type: String
+            },
+            index: {
+                type: Number
+            }
+        },
+        methods: {
+            assignPermission() {
+                // 参数根据业务场景随意构造
+                let params = {type: 'assign', index: this.index, rowData: this.rowData};
+                this.$emit('on-custom-comp', params);
             }
         }
     });
@@ -158,10 +239,15 @@
 <style scoped>
     .title-cell-class-name-test1 {
         background-color: #2db7f5;
-        color:#fff;
+        color: #fff;
     }
+
     .title-cell-class-name-test2 {
         background-color: #f60;
-        color:#fff;
+        color: #fff;
+    }
+
+    .mtop-20 {
+        margin-top: 15px
     }
 </style>

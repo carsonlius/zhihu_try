@@ -10,6 +10,12 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 
+// 引入Vue树形结构
+import 'vue-tree-halower/dist/halower-tree.min.css';
+import { VTree, VSelectTree } from 'vue-tree-halower';
+Vue.use (VTree);
+Vue.use (VSelectTree);
+
 // 引入vue-easytable
 // import css
 import 'vue-easytable/libs/themes-base/index.css'
@@ -21,15 +27,13 @@ import {VTable,VPagination} from 'vue-easytable'
 Vue.component(VTable.name, VTable);
 Vue.component(VPagination.name, VPagination);
 
-
 // 引入省市区组件
 import 'vue-area-linkage/dist/index.css'; // v2 or higher
 import VueAreaLinkage from 'vue-area-linkage';
 Vue.use(VueAreaLinkage);
 
-
 // 引入modal组件
-import SweetModal from 'sweet-modal-vue/src/plugin.js'
+import SweetModal from 'sweet-modal-vue/src/plugin.js';
 Vue.use(SweetModal);
 
 // 引入字体图标
@@ -121,6 +125,21 @@ Vue.component('role-list', require('./components/RoleList'));
 
 // 编辑角色
 Vue.component('role-edit', require('./components/RoleEdit'));
+
+// 新建权限
+Vue.component('permission-create', require('./components/PermissionCreate'));
+
+// 权限列表
+Vue.component('permission-list', require('./components/PermissionList'));
+
+// 权限编辑
+Vue.component('permission-edit', require('./components/PermissionEdit'));
+
+// 树形结构测试
+Vue.component('tree', require('./components/Tree'));
+
+// 角色权限分配
+Vue.component('role-permission', require('./components/RolePermission'));
 
 const app = new Vue({
     el: '#app',

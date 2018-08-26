@@ -72,7 +72,6 @@ Route::get('permission', function (){
     return view('home');
 });
 
-
 // 用户角色
 Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
     // 角色列表
@@ -83,18 +82,29 @@ Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
 
     // 编辑角色
     Route::get('/{role}/edit', 'RoleController@edit');
+
+    // 角色权限分配
+    Route::get('/permission', 'RoleController@permission');
 });
 
-// 邮箱激活测试
-Route::get('/mail', function () {
-    return new \App\Mail\UserVerifyMail(\App\User::find(1));
+// 权限
+Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
+    // 权限列表
+    Route::get('/', 'PermissionController@index');
+
+    // 编辑权限
+    Route::get('/{permission}/edit', 'PermissionController@edit');
+
+    // 新建权限
+    Route::get('/create', 'PermissionController@create');
 });
 
-
-// 测试问题的路由,内容自行填充
-Route::get('/tasks', function () {
+// 测试使用的路由
+Route::get('/test', function (){
     return view('test.test');
 });
+
+Route::get('test_permission', 'PermissionController@recursiveList');
 
 
 

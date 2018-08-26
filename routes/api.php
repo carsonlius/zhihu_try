@@ -98,3 +98,22 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
 });
 
 
+Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
+
+    // 编辑权限
+    Route::post('/edit', 'PermissionController@update');
+
+    // 存储权限
+    Route::post('/', 'PermissionController@store');
+
+    // 权限列表
+    Route::get('/', 'PermissionController@list');
+
+    // 删除权限
+    Route::post('/{permission}', 'PermissionController@destroy');
+
+    // 权限树
+    Route::get('/tree', 'PermissionController@recursiveList');
+});
+
+

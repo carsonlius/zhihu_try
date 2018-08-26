@@ -23,9 +23,8 @@ class GenerateMenus
             $menu->item('question_list')->divide();
 
             $menu->add('系统设置', 'Role')->nickname('system_setting');
-            $menu->item('system_setting')->add('新建角色', 'Role/create');
             $menu->item('system_setting')->add('角色管理', 'Role');
-
+            $menu->item('system_setting')->add('权限管理', 'permission');
         });
 
         // 权限导航

@@ -18,8 +18,12 @@
         "@fortawesome/free-brands-svg-icons": "^5.1.1",
         "area-data": "^5.0.6",
         "axios": "^0.16.2",
+        "babel-helper-vue-jsx-merge-props": "^2.0.3",
         "babel-plugin-on-demand-import": "^1.1.1",
+        "babel-plugin-syntax-jsx": "^6.18.0",
+        "babel-plugin-transform-vue-jsx": "^3.7.0",
         "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
         "bootstrap-sass": "^3.3.7",
         "cross-env": "^5.0.1",
         "jquery": "^3.3.1",
@@ -32,7 +36,8 @@
         "vue-easytable": "^1.7.1",
         "vue-image-crop-upload": "^2.3.3",
         "vue-resource": "^1.5.1",
-        "vue-select": "^2.4.0"
+        "vue-select": "^2.4.0",
+        "vue-tree-halower": "^1.6.1"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.0",
