@@ -19,13 +19,31 @@ class RoleController extends Controller
     }
 
     /**
-     * 角色分配权限
+     * 角色分配权限权限列表
      */
     public function permission()
     {
-        return view('roles.permission')->with(request()->only(['role_id', 'role_name']));
+        $permission_attached = $this->repository_role->getRolePermission();
+        $list_params = request()->only(['role_id', 'role_name']);
+        return view('roles.permission')->with(array_merge($list_params, compact('permission_attached')));
     }
 
+    /**
+     * 角色分配权限
+     */
+    public function updatePermission()
+    {
+        try {
+            $this->repository_role->updatePermission();
+            $status = 0;
+            return response()->json(compact('status'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('msg', 'status'));
+        }
+
+    }
     /**
      * API编辑角色
      */

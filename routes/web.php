@@ -104,7 +104,7 @@ Route::get('/test', function (){
     return view('test.test');
 });
 
-Route::get('test_permission', 'PermissionController@recursiveList');
+Route::get('test_permission', 'PermissionController@tree');
 
 
 

@@ -2,22 +2,79 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Collection;
-use PHPUnit\Runner\Exception;
 use Ultraware\Roles\Models\Permission;
+use Ultraware\Roles\Models\Role;
 
 class PermissionRepository
 {
     // 递归存取各个节点的信息
     protected $list_recursive;
 
+
+    /**
+     * 已经有一部分已经被选中得节点树
+     */
+    public function tree()
+    {
+        // 选中节点
+        $list_permission = $this->getSelectedPermission();
+
+        // 全部节点
+        $list_collection = $this->getAllPermission();
+
+        // 生成节点树状结构
+        return $this->generateSelectedTree($list_collection, $list_permission);
+    }
+
+    /**
+     * 生成选中得无限树
+     * @param $items
+     * @param $list_permission
+     * @return array
+     */
+    public function generateSelectedTree($items, $list_permission){
+        $tree = array();
+        foreach($items as $item){
+            $items[$item['id']]['title'] = $items[$item['id']]['name'];
+            $items[$item['id']]['expanded'] = true;
+            if (in_array($item['name'], $list_permission)) {
+                $items[$item['id']]['checked'] = true;
+            }
+
+            if(isset($items[$item['parent_id']])){
+                $items[$item['parent_id']]['children'][] = &$items[$item['id']];
+            }else{
+
+                $tree[] = &$items[$item['id']];
+            }
+        }
+        return $tree;
+    }
+
+
+    /**
+     * 获取所有节点
+     * @return array
+     */
+    protected function getAllPermission()
+    {
+        $list_collection = Permission::where(compact('parent_id'))->get()->toArray();
+        return array_column($list_collection, null, 'id');
+    }
+
+    protected function getSelectedPermission()
+    {
+        $role_id = request()->get('role_id');
+        $list_permission= Role::find($role_id)->permissions->toArray();
+        return array_column($list_permission, 'name');
+    }
+
     /**
      * 递归获取子级的权限节点
      */
     public function recursiveList()
     {
-        $list_collection = Permission::where(compact('parent_id'))->get()->toArray();
-        $list_collection = array_column($list_collection, null, 'id');
+        $list_collection = $this->getAllPermission();
         return $this->generateTree($list_collection);
     }
 

@@ -92,3 +92,7 @@ a .topic:hover{
     overflow: auto;
     word-break: break-all; //解决兼容问题
 }
+
+.font-bold {
+    font-weight: bold;
+}

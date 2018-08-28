@@ -2,10 +2,77 @@
 
 namespace App\Repositories;
 
+use Ultraware\Roles\Models\Permission;
 use Ultraware\Roles\Models\Role;
 
 class RoleRepository
 {
+
+    /**
+     * 更新角色下辖的权限
+     * @throws \Exception
+     */
+    public function updatePermission()
+    {
+        // 检测参数
+        $this->verifyParams();
+
+        // 权限collections
+        $list_permission = $this->genParamsForPermission();
+
+        // 更新
+        $this->updateRolePermission($list_permission);
+    }
+
+    /**
+     * 检测参数
+     * @throws \Exception
+     */
+    protected function verifyParams()
+    {
+        $role_id = request()->post('role_id');
+        if (!$role_id) {
+            throw new \Exception('缺少要更新的角色ID');
+        }
+
+        $list_permission_name = request()->post('list_permission_name');
+        if (!is_array($list_permission_name)) {
+            throw new \Exception('要分配的角色必须是数组');
+        }
+    }
+
+    /**
+     * 更新角色下辖的权限
+     * @param collection $list_permission
+     */
+    protected function updateRolePermission($list_permission)
+    {
+        $role_id = request()->post('role_id');
+        Role::find($role_id)->syncPermissions($list_permission);
+    }
+
+    /**
+     * 为更新权限配置生成参数
+     * @return array
+     */
+    protected function genParamsForPermission()
+    {
+        $list_permission_name = request()->post('list_permission_name');
+
+        // 转成对应的permission对象
+        return Permission::whereIn('name', $list_permission_name)->get();
+    }
+
+
+    /**
+     * 获取某个角色对应得权限
+     */
+    public function getRolePermission()
+    {
+         $role_id = request()->get('role_id');
+         $list_permission = Role::find($role_id)->permissions->toArray();
+         return json_encode(array_column($list_permission, 'name'), JSON_UNESCAPED_UNICODE);
+    }
 
     /**
      * API 编辑角色

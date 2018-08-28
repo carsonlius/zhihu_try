@@ -87,6 +87,9 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
     // 编辑角色
     Route::post('/edit', 'RoleController@update');
 
+    // 分配角色权限
+    Route::post('/permission', 'RoleController@updatePermission');
+
     // 存储角色
     Route::post('/', 'RoleController@store');
 
@@ -100,6 +103,9 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
 
 Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
 
+    // 已经有一部分 已经被选中得权限树
+    Route::get('/tree_permission', 'PermissionController@tree');
+
     // 编辑权限
     Route::post('/edit', 'PermissionController@update');
 
@@ -109,11 +115,11 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
     // 权限列表
     Route::get('/', 'PermissionController@list');
 
+    // 权限树(没有被选中纯净得权限树)
+    Route::get('/tree', 'PermissionController@recursiveList');
+
     // 删除权限
     Route::post('/{permission}', 'PermissionController@destroy');
-
-    // 权限树
-    Route::get('/tree', 'PermissionController@recursiveList');
 });
 
 

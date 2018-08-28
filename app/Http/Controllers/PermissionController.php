@@ -20,10 +20,22 @@ class PermissionController extends Controller
         $this->repository_permission = $repository_permission;
     }
 
+    public function tree()
+    {
+        try {
+            $list_permission = $this->repository_permission->tree();
+            $status = 0;
 
+            return response()->json(compact('list_permission', 'status'));
+        } catch (\Exception $e){
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
+    }
 
     /**
-     * 递归权限
+     * 递归权限(没有被选中得权限树)
      */
     public function recursiveList()
     {

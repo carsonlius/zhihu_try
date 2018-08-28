@@ -153,7 +153,7 @@
                 switch (params.type) {
                     case 'assign':
                         // 编辑
-                        let url_permission = '/Role/permission?role_id=' + params.rowData.id + '&role_name="' + params.rowData.name + '"';
+                        let url_permission = '/Role/permission?role_id=' + params.rowData.id + '&role_name=' + params.rowData.name;
                         window.open(url_permission, '_blank');
                         break;
                     case 'edit':
