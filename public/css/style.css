@@ -96,3 +96,8 @@ a .topic:hover{
 .font-bold {
     font-weight: bold;
 }
+
+.title_column {
+    text-align: center;
+    font-weight: bold;
+}

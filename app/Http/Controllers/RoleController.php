@@ -18,6 +18,19 @@ class RoleController extends Controller
         $this->repository_role = $repository_role;
     }
 
+    public function which()
+    {
+        try{
+            $status = 0;
+            $list_roles = $this->repository_role->which();
+            return response()->json(compact('status', 'list_roles'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
+    }
+
     /**
      * 角色分配权限权限列表
      */
@@ -44,6 +57,7 @@ class RoleController extends Controller
         }
 
     }
+
     /**
      * API编辑角色
      */
@@ -96,7 +110,7 @@ class RoleController extends Controller
     {
         try {
             $list_roles = $this->repository_role->list();
-            $status =0;
+            $status = 0;
             return response()->json(compact('list_roles', 'status'));
         } catch (\Exception $e) {
             $status = 1478;

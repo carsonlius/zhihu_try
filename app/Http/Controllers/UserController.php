@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
+use App\User;
+use http\Env\Response;
+use phpDocumentor\Reflection\Types\Compound;
 
 class UserController extends Controller
 {
@@ -15,6 +18,81 @@ class UserController extends Controller
     public function __construct(UserRepository $repository_user)
     {
         $this->repository_user = $repository_user;
+    }
+
+    /**
+     * 编辑用户所属的角色
+     */
+    public function updateRole()
+    {
+        try {
+            $status = 0;
+            $this->repository_user->updateRole();
+            return response()->json(compact('status'));
+        } catch (\Exception $e) {
+            $status = 4178;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
+    }
+
+    /**
+     * 分配角色 view
+     */
+    public function roleAssign()
+    {
+        try {
+            // 检查参数 then return back
+            $list_params = $this->repository_user->roleAssign();
+
+            return view('users.role')->with($list_params);
+        } catch (\Exception  $e) {
+            flash($e->getMessage())->error();
+            return redirect('/Role/user');
+        }
+
+    }
+
+    /**
+     * 用户角色列表 view
+     */
+    public function role()
+    {
+        return view('users.index');
+    }
+
+    /**
+     * 用户全量列表
+     */
+    public function index()
+    {
+        try {
+            $status = 0;
+            $list_user = User::all();
+            return response()->json(compact('status', 'list_user'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
+
+    }
+
+    /**
+     * 用户列表
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function list()
+    {
+        try {
+            $status = 0;
+            $list_user = $this->repository_user->list();
+            return response()->json(compact('status', 'list_user'));
+        }catch (\Exception $e){
+            $status = 1478;
+            $msg = $e->getMessage();
+            return response()->json(compact('status', 'msg'));
+        }
     }
 
     /**

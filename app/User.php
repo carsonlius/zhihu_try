@@ -11,6 +11,7 @@ use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Ultraware\Roles\Models\Role;
 use Ultraware\Roles\Traits\HasRoleAndPermission;
 use Ultraware\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
@@ -45,6 +46,10 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
         'created' => UserCreateEvent::class
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
 
     /**
      * 用户设置

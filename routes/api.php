@@ -81,6 +81,20 @@ Route::group(['prefix' => 'notification', 'middleware' => 'auth:api'], function 
 // 更新配置
 Route::post('setting', 'UserController@update')->middleware('auth:api');
 
+
+// 用户角色管理
+Route::group(['prefix' => 'user', 'middleware' => ['auth:api']], function(){
+    // 用户权限列表
+    Route::post('/role', 'UserController@list');
+
+    // 用户全量列表
+    Route::get('list', 'UserController@index');
+
+    // 用户编辑角色
+    Route::patch('/role', 'UserController@updateRole');
+});
+
+
 // 角色
 Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
 
@@ -95,6 +109,9 @@ Route::group(['prefix' => 'role', 'middleware' => 'auth:api'], function(){
 
     // 角色列表
     Route::get('/', 'RoleController@list');
+
+    // 特定用户绑定的角色
+    Route::get('/show', 'RoleController@which');
 
     // 删除角色
     Route::post('/{role}', 'RoleController@delete');

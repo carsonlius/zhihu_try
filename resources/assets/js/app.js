@@ -141,6 +141,12 @@ Vue.component('tree', require('./components/Tree'));
 // 角色权限分配
 Vue.component('role-permission', require('./components/RolePermission'));
 
+// 用户角色分配
+Vue.component('user-role-list', require('./components/UserRoleList'));
+
+// 用户角色编辑
+Vue.component('user-role-edit', require('./components/UserRoleEdit'));
+
 const app = new Vue({
     el: '#app',
 });

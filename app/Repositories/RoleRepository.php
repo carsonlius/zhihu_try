@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\User;
 use Ultraware\Roles\Models\Permission;
 use Ultraware\Roles\Models\Role;
 
@@ -22,6 +23,36 @@ class RoleRepository
 
         // 更新
         $this->updateRolePermission($list_permission);
+    }
+
+    /**
+     * 特定用户绑定的角色
+     * @throws \Exception
+     * @return array
+     */
+    public function which()
+    {
+        // 校验参数
+        $this->verifyParamsForWhich();
+
+        // 条件
+        $id = trim(request()->get('user_id', ''));
+
+        // 绑定的角色
+        return User::find($id)->roles;
+    }
+
+    /**
+     * 为绑定的角色校验参数
+     * @throws \Exception
+     */
+    protected function verifyParamsForWhich()
+    {
+        $user_id = request()->get('user_id');
+        $user_id = trim($user_id);
+        if (!$user_id) {
+            throw new \Exception('请输入查询的用户ID');
+        }
     }
 
     /**

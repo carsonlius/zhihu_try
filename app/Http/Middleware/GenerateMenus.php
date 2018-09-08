@@ -25,6 +25,7 @@ class GenerateMenus
             $menu->add('系统设置', 'Role')->nickname('system_setting');
             $menu->item('system_setting')->add('角色管理', 'Role');
             $menu->item('system_setting')->add('权限管理', 'permission');
+            $menu->item('system_setting')->add('用户管理', 'Role/user');
         });
 
         // 权限导航

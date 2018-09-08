@@ -56,6 +56,11 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
 Route::get('/avatar', 'UserController@avatar')->middleware('auth');
 Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function (){
+    // 用户分配角色
+    Route::get('/role', 'UserController@roleAssign');
+});
+
 // 用户密码
 Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
     // 密码得更新
@@ -80,6 +85,9 @@ Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
     // 新建角色
     Route::get('/create', 'RoleController@create');
 
+    // 用户分配角色
+    Route::get('/user', 'UserController@role');
+
     // 编辑角色
     Route::get('/{role}/edit', 'RoleController@edit');
 
@@ -100,9 +108,7 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
 });
 
 // 测试使用的路由
-Route::get('/test', function (){
-    return view('test.test');
-});
+Route::get('/test', 'UserController@list');
 
 Route::get('test_permission', 'PermissionController@tree');
 

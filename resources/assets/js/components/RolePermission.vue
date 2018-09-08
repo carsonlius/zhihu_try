@@ -1,8 +1,7 @@
 <template>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="font-bold">{{ role_name }}的权限分配</h4>
-            <a class="btn btn-primary btn-sm" href="/Role">返回列表</a>
+            <h4 class="font-bold">{{ role_name }}的权限分配(<span class="font-bold" style="color:red;" >点击查看节点分配</span>)</h4>
         </div>
         <div class="panel-body">
             <prompt-modal ref="prompt_modal"></prompt-modal>
@@ -13,8 +12,9 @@
                                v-model.lazy='initSelected'/>
             </div>
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer col-sm-offset-2 col-sm-8">
             <button @click.prevent="updatePermission" class="btn btn-primary btn-sm">更新配置</button>
+            <a class="btn btn-info btn-sm" href="/Role">返回列表</a>
         </div>
     </div>
 
@@ -26,8 +26,6 @@
         props: ['role_name', 'role_id', 'permission_attached'],
         data() {
             return {
-                icon_type : 'success',
-                msg_error : '更新节点成功',
                 initSelected : ['点击查看节点分配'],
                 dragAfterExpanded : false,
                 searchable: true,
@@ -39,7 +37,7 @@
             }
         },
         created : function(){
-            this.initSelected = JSON.parse(this.permission_attached);
+            // this.initSelected = JSON.parse(this.permission_attached);
             this.initTree();
         },
         methods : {
@@ -57,24 +55,39 @@
             },
             // 分配权限
             updatePermission : function () {
+                // 如果没有选中的话 则伪请求
+                if (this.initSelected[0] === '点击查看节点分配') {
+                    this.$refs.prompt_modal.open({
+                        title : '权限分配提示',
+                        body : '权限分配成功',
+                        btn_name_right : '返回角色列表',
+                        btn_name_left : '分配用户角色',
+                        btn_url_right : '/Role',
+                        btn_url_left : '/Role/user',
+                    });
+                    return false;
+                }
+
                 let params = {
                     list_permission_name : this.initSelected,
                     role_id: this.role_id
                 };
                 console.log(params);
+                let vm = this;
                 // 更新角色权限
                 this.$http.post('/api/role/permission', params, {responseType: 'json'}).then(function (response) {
                    console.log('分配角色', response);
                    if (response.body.status === 0) {
-                       this.$refs.prompt_modal.open({
+                       vm.$refs.prompt_modal.open({
                            title : '权限分配提示',
                            body : '权限分配成功',
                            btn_name_right : '返回角色列表',
-                           btn_name_left : '留在本页面',
-                           btn_url_right : '/Role'
+                           btn_name_left : '分配用户角色',
+                           btn_url_right : '/Role',
+                           btn_url_left : '/Role/user',
                        });
                    } else {
-                       this.$refs.prompt_modal.open({
+                       vm.$refs.prompt_modal.open({
                            title : '权限分配提示',
                            body : '分配权限失败',
                        });
