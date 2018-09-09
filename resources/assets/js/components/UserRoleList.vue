@@ -127,7 +127,7 @@
                 let vm = this;
 
                 let params = {
-                    user_id : this.user.id
+                    user_id : !!this.user ? this.user.id : '',
                 };
                 this.$http.post('/api/user/role', params, {responseType: 'json',}).then(function (response) {
                     console.log(response);

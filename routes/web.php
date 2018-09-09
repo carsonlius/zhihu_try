@@ -10,11 +10,11 @@ Auth::routes();
 Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmController@Activate');
 
 // 问题
-Route::group(['prefix' => '/Question'], function () {
-    Route::get('/create', 'QuestionController@create'); // 创建问题
+Route::group(['prefix' => '/Question', 'middleware' => ['auth']], function () {
+    Route::get('/create', 'QuestionController@create')->middleware('permission:question.create'); // 创建问题
     Route::get('/show/{question}', 'QuestionController@show'); // 展示问题
     Route::get('/edit/{question}', 'QuestionController@edit'); // 编辑问题
-    Route::get('/index', 'QuestionController@index'); // 问题列表
+    Route::get('/index', 'QuestionController@index')->middleware('permission:question.index'); // 问题列表
     Route::delete('/{question}', 'QuestionController@destroy'); // 删除问题
     Route::put('/update/{question}', 'QuestionController@update'); // 更新问题
     Route::post('/store', 'QuestionController@store'); // 存储问题

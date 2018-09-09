@@ -48,6 +48,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Ultraware\Roles\Exceptions\PermissionDeniedException) {
+            // you can for example flash message, redirect...
+            flash('抱歉,您没有这个权限哦!')->error();
+            return redirect()->back();
+        }
+
         return parent::render($request, $exception);
     }
 }
