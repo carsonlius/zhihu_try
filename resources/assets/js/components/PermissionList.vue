@@ -60,8 +60,10 @@
                         {field: 'id', title: 'ID', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'name', title: '权限名称', width: 150, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'slug', title: '权限Slug', width: 150, titleAlign: 'center', columnAlign: 'center',isResize:true},
+                        {field: 'is_show', title: '是否展示', width: 150, titleAlign: 'center', columnAlign: 'center',isResize:true, formatter:function(rowData){
+                                return rowData.is_show === 'T' ? '<span style="color:green">显示</span>' : '<span>不显示</span>';
+                            }},
                         {field: 'model', title: 'Model', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                        {field: 'parent_id', title: '父级ID', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'description', title: '权限描述', width: 400, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'custome-adv', title: '操作',width: 200, titleAlign: 'center',columnAlign:'center',componentName:'operation',isResize:true}
                     ]
@@ -151,10 +153,15 @@
                     // del
                     this.$http.post('/api/permission/' + params.rowData.id, {}, {responseType: 'json'}).then(function(response){
                         console.log(response);
-                        if (response.body.status === 0) {
+                        if (!!response.body && response.body.status === 0) {
                             // 从列表中删除
                             Vue.delete( vm.tableDate, params.index);
                             this.getTableData();
+                        } else if (!response.body){
+                          this.$refs.prompt_modal.open({
+                              title : '提示',
+                              body : '抱歉，您没有删除权限哦'
+                          });
                         }
                     });
 

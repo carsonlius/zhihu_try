@@ -19,12 +19,25 @@
                                v-validate.initial="'required'" data-vv-name="name" v-model.trim="name">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <span v-show="errors.has('slug')" class="alert-danger">{{ errors.first('slug') }}</span>
                     <label for="slug" class="col-sm-2 control-label">Slug</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" data-vv-name="slug" v-model.trim="slug" data-vv-as="* 唯一标识(如果是最低级别，请匹配路由)"
                                v-validate.initial="'required'" id="slug">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-2">是否显示</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline">
+                            <input type="radio" v-model.trim="is_show" value="F"> 不显示
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" v-model.trim="is_show" value="T"> 显示
+                        </label>
                     </div>
                 </div>
 
@@ -65,6 +78,7 @@
         name: "PermissionCreate",
         data: function () {
             return {
+                is_show : 'F',
                 msg_response : '',
                 icon_type : 'success',
                 model : '',
@@ -115,7 +129,8 @@
                     slug: this.slug,
                     description: this.description,
                     model: this.model,
-                    parent_name : this.permission_selected[0]
+                    parent_name : this.permission_selected[0],
+                    is_show: this.is_show
                 };
                 let url = '/api/permission';
                 console.log(params);

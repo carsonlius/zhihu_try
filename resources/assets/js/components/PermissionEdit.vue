@@ -25,6 +25,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label col-sm-2">是否显示</label>
+                    <div class="col-sm-6">
+                        <label class="radio-inline">
+                            <input type="radio" v-model.trim="is_show" value="F"> 不显示
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" v-model.trim="is_show" value="T"> 显示
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-sm-2 control-label">Model</label>
                     <div class="col-sm-6">
                         <input type="text" class="form-control" v-model="model">
@@ -61,6 +73,7 @@
         props:['permission'],
         data: function () {
             return {
+                is_show : '',
                 permission_obj : {},
                 msg_response : '',
                 icon_type : 'success',
@@ -109,6 +122,7 @@
                 this.slug = this.permission_obj.slug;
                 this.description = this.permission_obj.description;
                 this.model = this.permission_obj.model;
+                this.is_show = this.permission_obj.is_show;
             },
 
             // 关闭模态框
@@ -128,7 +142,8 @@
                     slug: this.slug,
                     description: this.description,
                     permission_id : this.permission_obj.id,
-                    parent_name : !!this.parent_permission ?  this.parent_permission[0] : '请选择父级权限'
+                    parent_name : !!this.parent_permission ?  this.parent_permission[0] : '请选择父级权限',
+                    is_show : this.is_show
                 };
                 // 存储权限
                 let vm = this;

@@ -239,10 +239,8 @@ class PermissionRepository
      */
     protected function genBaseParamsForEdit()
     {
-        return request()->only(['model', 'name', 'slug', 'description']);
+        return request()->only(['model', 'name', 'slug', 'description', 'is_show']);
     }
-
-
 
     /**
      * 为编辑权限校验参数
@@ -419,7 +417,7 @@ class PermissionRepository
      */
     protected function genParamsForStore()
     {
-        $params = request()->only(['model', 'name', 'slug', 'description']);
+        $params = request()->only(['model', 'name', 'slug', 'description', 'is_show']);
 
         // 父级的ID
         $name = request()->post('parent_name');

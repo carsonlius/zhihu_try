@@ -139,7 +139,7 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
     Route::get('/show/tree', 'PermissionController@show');
 
     // 删除权限
-    Route::post('/{permission}', 'PermissionController@destroy');
+    Route::post('/{permission}', 'PermissionController@destroy')->middleware('permission:permission.del');
 });
 
 
