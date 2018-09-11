@@ -11,12 +11,11 @@ Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmControlle
 
 // 问题
 Route::group(['prefix' => '/Question', 'middleware' => ['auth']], function () {
-    Route::get('/create', 'QuestionController@create')->middleware('permission:question.create'); // 创建问题
+    // 创建问题
+    Route::get('/create', 'QuestionController@create')->name('question.create')->middleware('permission:question.create');
     Route::get('/show/{question}', 'QuestionController@show'); // 展示问题
     Route::get('/edit/{question}', 'QuestionController@edit'); // 编辑问题
-
-    // 问题列表
-    Route::get('/index', 'QuestionController@index')->middleware('permission:question.index')->name('question.sui');
+    Route::get('/index', 'QuestionController@index')->middleware('permission:question.index')->name('question.index');
     Route::delete('/{question}', 'QuestionController@destroy'); // 删除问题
     Route::put('/update/{question}', 'QuestionController@update'); // 更新问题
     Route::post('/store', 'QuestionController@store'); // 存储问题
@@ -60,7 +59,7 @@ Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function (){
     // 用户分配角色
-    Route::get('/role', 'UserController@roleAssign')->middleware('permission:user.role');
+    Route::get('/role', 'UserController@roleAssign')->name('user.role')->middleware('permission:user.role');
 });
 
 // 用户密码
@@ -82,32 +81,42 @@ Route::get('permission', function (){
 // 用户角色
 Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
     // 角色列表
-    Route::get('/', 'RoleController@index')->middleware('permission:role');
+    Route::get('/', 'RoleController@index')->middleware('permission:role')->name('role');
 
     // 新建角色
-    Route::get('/create', 'RoleController@create');
+    Route::get('/create', 'RoleController@create')->name('role.create')->middleware('permission:role.create');
 
     // 用户分配角色
-    Route::get('/user', 'UserController@role')->middleware('permission:role.user');
+    Route::get('/user', 'UserController@role')->name('role.user')->middleware('permission:role.user');
 
     // 编辑角色
-    Route::get('/{role}/edit', 'RoleController@edit')->middleware('permission:role.edit');
+    Route::get('/{role}/edit', 'RoleController@edit')->name('role.edit')->middleware('permission:role.edit');
 
     // 角色权限分配
-    Route::get('/permission', 'RoleController@permission')->middleware('permission:role.permission');
+    Route::get('/permission', 'RoleController@permission')->name('role.permission')->middleware('permission:role.permission');
 });
 
 // 权限
 Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
     // 权限列表
-    Route::get('/', 'PermissionController@index')->middleware('permission:permission.list');
+    Route::get('/', 'PermissionController@index')->name('permission')->middleware('permission:permission.list');
 
     // 编辑权限
-    Route::get('/{permission}/edit', 'PermissionController@edit')->middleware('permission:permission.edit');
+    Route::get('/{permission}/edit', 'PermissionController@edit')->name('permission.edit')->middleware('permission:permission.edit');
 
     // 新建权限
-    Route::get('/create', 'PermissionController@create')->middleware('permission:permission.create');
+    Route::get('/create', 'PermissionController@create')->name('permission.create')->middleware('permission:permission.create');
 });
+
+
+// 为route菜单生成的路由
+// 问题列表
+Route::get('/resres', function(){
+
+})->middleware('permission:question.sui')->name('question.sui');
+Route::get('/whatever', function (){
+})->middleware('permission:setting.whatever')->name('setting.whatever');
+
 
 // 测试使用的路由
 Route::get('/test', 'UserController@list');
