@@ -12,6 +12,91 @@ class PermissionRepository
 
 
     /**
+     * 获取指定的权限(在权限树中的位置)
+     * @throws \Exception
+     */
+    public function show()
+    {
+        // 检查参数
+        $this->verifyParamsForShow();
+
+        // 获取权限树
+        return $this->getTreeShow();
+    }
+
+    /**
+     * 获取权限树
+     */
+    protected function getTreeShow()
+    {
+        // 全量的权限
+        $permission_list = $this->permissions();
+
+        // 父级权限
+        $permission_parent = $this->getParentPermissionForShow();
+
+        // 生成权限树
+        return $this->genPermissionTreeForShow($permission_list, $permission_parent);
+    }
+
+    /**
+     * 父级权限
+     * @return array
+     */
+    protected function getParentPermissionForShow()
+    {
+        $id = request()->post('parent_id');
+        return Permission::where(compact('id'))->first();
+    }
+
+    /**
+     * 生成权限树
+     * @param array $permission_list
+     * @param array $permission_parent
+     * @return array
+     */
+    protected function genPermissionTreeForShow($permission_list, $permission_parent)
+    {
+        $tree = [];
+        foreach ($permission_list as $item) {
+            $permission_list[$item['id']]['title'] = $permission_list[$item['id']]['name'];
+            $permission_list[$item['id']]['expanded'] = true;
+            $permission_list[$item['id']]['selected'] = !$permission_parent ? false : $item['id'] === $permission_parent['id'];
+
+            if(isset($permission_list[$item['parent_id']])){
+                $permission_list[$item['parent_id']]['children'][] = &$permission_list[$item['id']];
+            }else{
+                $tree[] = &$permission_list[$item['id']];
+            }
+        }
+
+        // 父级name
+        $parent_name = !!$permission_parent ? $permission_parent['name'] : '请选择父级权限';
+        return compact('tree', 'parent_name');
+    }
+
+    /**
+     * 全量的权限
+     */
+    protected function permissions()
+    {
+        $list_permission = Permission::all()->toArray();
+        return array_column($list_permission, null, 'id');
+    }
+
+    /**
+     * 为指定权限的权限树检查参数
+     * @throws \Exception
+     */
+    protected function verifyParamsForShow()
+    {
+        $parent_id = request()->get('parent_id');
+        if ($parent_id === '') {
+            throw new \Exception('请输入父级权限ID');
+        }
+    }
+
+    /**
      * 已经有一部分已经被选中得节点树
      */
     public function tree()
@@ -32,18 +117,19 @@ class PermissionRepository
      * @param $list_permission
      * @return array
      */
-    public function generateSelectedTree($items, $list_permission){
+    public function generateSelectedTree($items, $list_permission)
+    {
         $tree = array();
-        foreach($items as $item){
+        foreach ($items as $item) {
             $items[$item['id']]['title'] = $items[$item['id']]['name'];
             $items[$item['id']]['expanded'] = true;
             if (in_array($item['name'], $list_permission)) {
                 $items[$item['id']]['checked'] = true;
             }
 
-            if(isset($items[$item['parent_id']])){
+            if (isset($items[$item['parent_id']])) {
                 $items[$item['parent_id']]['children'][] = &$items[$item['id']];
-            }else{
+            } else {
 
                 $tree[] = &$items[$item['id']];
             }
@@ -65,7 +151,7 @@ class PermissionRepository
     protected function getSelectedPermission()
     {
         $role_id = request()->get('role_id');
-        $list_permission= Role::find($role_id)->permissions->toArray();
+        $list_permission = Role::find($role_id)->permissions->toArray();
         return array_column($list_permission, 'name');
     }
 
@@ -83,16 +169,15 @@ class PermissionRepository
      * @param $items
      * @return array
      */
-    public function generateTree($items){
+    public function generateTree($items)
+    {
         $tree = array();
-        foreach($items as $item){
+        foreach ($items as $item) {
             $items[$item['id']]['title'] = $items[$item['id']]['name'];
             $items[$item['id']]['expanded'] = true;
-            if(isset($items[$item['parent_id']])){
-
+            if (isset($items[$item['parent_id']])) {
                 $items[$item['parent_id']]['children'][] = &$items[$item['id']];
-            }else{
-
+            } else {
                 $tree[] = &$items[$item['id']];
             }
         }
@@ -118,14 +203,46 @@ class PermissionRepository
      */
     protected function EditPermission()
     {
-        $params = request()->only(['model', 'name', 'slug', 'description', 'parent_id']);
-        $params = array_map(function($item){
-            return trim($item);
-        }, $params);
+        // 生成参数
+        $params = $this->genParamsForEdit();
 
         $id = request()->post('permission_id');
         return Permission::where(compact('id'))->update($params);
     }
+
+    /**
+     * 生成参数
+     * @return array
+     */
+    protected function genParamsForEdit()
+    {
+        // 基本参数
+        $base_params = $this->genBaseParamsForEdit();
+
+        // 父级id
+        $parent_params = $this->genParentIdForEdit();
+        return array_merge($base_params, $parent_params);
+    }
+
+    protected function genParentIdForEdit()
+    {
+        $name = request()->post('parent_name');
+        $permission_parent = Permission::where(compact('name'))->first();
+        $parent_id = !!$permission_parent ? $permission_parent->id : 0;
+        return compact('parent_id');
+    }
+
+
+    /**
+     * 基本参数
+     * @return array
+     */
+    protected function genBaseParamsForEdit()
+    {
+        return request()->only(['model', 'name', 'slug', 'description']);
+    }
+
+
 
     /**
      * 为编辑权限校验参数
@@ -138,6 +255,27 @@ class PermissionRepository
 
         // 校验slug的唯一性
         $this->verifyUniqueSlugForEdit();
+
+        // 校验name的唯一性
+        $this->verifyUniqueNameForEdit();
+    }
+
+
+    /**
+     * 为编辑权限校验name的唯一性
+     * @throws \Exception
+     */
+    protected function verifyUniqueNameForEdit()
+    {
+        $name = request()->post('name');
+        $permission_id = request()->post('permission_id');
+        $id = [
+            '!=', $permission_id
+        ];
+        $exist = Permission::where(compact('name', 'id'))->first();
+        if ($exist) {
+            throw new \Exception('您所填写的name已经被占用，请重新选择');
+        }
     }
 
     /**
@@ -175,11 +313,16 @@ class PermissionRepository
         }
 
         $permission_id = request()->post('permission_id');
-        if(!$permission_id) {
+        if (!$permission_id) {
             throw new \Exception('请传递要编辑的权限的ID');
         }
+
+        $parent_name = request()->post('parent_name');
+        if (!$parent_name) {
+            throw new \Exception('请选择父级权限');
+        }
     }
-    
+
     /**
      * 存取权限
      * @throws \Exception
@@ -205,6 +348,22 @@ class PermissionRepository
 
         // 校验slug的唯一性
         $this->verifyUniqueSlugForStore();
+
+        // 校验Name的唯一性
+        $this->verifyUniqueNameForStore();
+    }
+
+    /**
+     * 校验Name的唯一性
+     * @throws \Exception
+     */
+    protected function verifyUniqueNameForStore()
+    {
+        $name = request()->post('name');
+        $exists = Permission::where(compact('name'))->first();
+        if ($exists) {
+            throw new \Exception('您所填写的name已经被占用，请重新填写');
+        }
     }
 
     /**
@@ -216,7 +375,7 @@ class PermissionRepository
         $slug = request()->post('slug');
         $exist = Permission::where(compact('slug'))->first();
         if ($exist) {
-            throw new \Exception('您所填写的slug已经被占用，请重新选择');
+            throw new \Exception('您所填写的slug已经被占用，请重新填写');
         }
     }
 
@@ -236,6 +395,11 @@ class PermissionRepository
         if (!$slug) {
             throw new \Exception('请填写唯一标识');
         }
+
+        $parent_name = request()->post('parent_name');
+        if (!$parent_name) {
+            throw new \Exception('网络故障，请稍后再试');
+        }
     }
 
     /**
@@ -244,22 +408,47 @@ class PermissionRepository
      */
     protected function storePermission()
     {
-        $params = request()->only(['model', 'name', 'slug', 'description', 'parent_id']);
-
-        // 去空格
-        $params = array_map(function($item){
-            return trim($item);
-        }, $params);
-
+        // 获取参数
+        $params = $this->genParamsForStore();
         return Permission::create($params);
     }
+
+    /**
+     * 为存取
+     * @return array
+     */
+    protected function genParamsForStore()
+    {
+        $params = request()->only(['model', 'name', 'slug', 'description']);
+
+        // 父级的ID
+        $name = request()->post('parent_name');
+        $parent_permission = Permission::where(compact('name'))->first();
+        $parent_id = $parent_permission ? $parent_permission['id'] : 0;
+        return array_merge($params, compact('parent_id'));
+    }
+
 
     /**
      * 权限列表
      */
     public function list()
     {
-        return Permission::all();
+        // 参数列表
+        $where = $this->genConditionForList();
+
+        return Permission::where($where)->get();
+    }
+
+    protected function genConditionForList()
+    {
+        // 权限列表
+        $id = request()->get('permission_id');
+        if (!$id) {
+            return [];
+        }
+
+        return compact('id');
     }
 
 }

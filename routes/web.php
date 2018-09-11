@@ -86,7 +86,7 @@ Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
     Route::get('/create', 'RoleController@create');
 
     // 用户分配角色
-    Route::get('/user', 'UserController@role');
+    Route::get('/user', 'UserController@role')->middleware('permission:role.user');
 
     // 编辑角色
     Route::get('/{role}/edit', 'RoleController@edit');

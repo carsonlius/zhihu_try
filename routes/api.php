@@ -132,8 +132,11 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
     // 权限列表
     Route::get('/', 'PermissionController@list');
 
-    // 权限树(没有被选中纯净得权限树)
+    // 权限树(全量没有被选中纯净得权限树)
     Route::get('/tree', 'PermissionController@recursiveList');
+
+    // 获取指定的权限(在权限树中的位置)
+    Route::get('/show/tree', 'PermissionController@show');
 
     // 删除权限
     Route::post('/{permission}', 'PermissionController@destroy');

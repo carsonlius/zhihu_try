@@ -5,10 +5,7 @@
             <span class="pull-right"><a href="/permission" class="btn btn-xs btn-info">权限列表</a></span>
         </div>
         <div class="panel-body">
-            <sweet-modal :icon="icon_type" ref="modal_prompt" overlay-theme="dark" modal-theme="dark">
-                <p style="white-space: pre-line">{{ msg_response }}</p>
-                <button v-on:click="closeModel()" class="btn btn-primary pull-right">确认</button>
-            </sweet-modal>
+            <prompt-modal ref="prompt_modal"></prompt-modal>
             <div class="form-horizontal">
                 <div class="form-group">
                     <span v-show="errors.has('name')" class="alert-danger">{{ errors.first('name') }}</span>
@@ -26,12 +23,7 @@
                                v-validate.initial="'required'" id="slug">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-2">父级ID</label>
-                    <div class="col-sm-6">
-                        <v-select :options="list_permissions" v-model="parent_permission"></v-select>
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Model</label>
                     <div class="col-sm-6">
@@ -46,6 +38,14 @@
                 </div>
 
                 <div class="form-group">
+                    <span class="alert alert-info control-label">* 如果不选择,则默认一级权限</span>
+                    <label for="slug" class="col-sm-2 control-label">选择父级权限</label>
+                    <div class="tree col-sm-6">
+                        <v-select-tree :data='treeData' v-model.lazy="parent_permission" :searchable="searchable"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="col-sm-8">
                         <button class="btn btn-primary  btn-sm pull-right" @click.prevent="editPermission">提交</button>
                     </div>
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-    import { SweetModal, SweetModalTab } from 'sweet-modal-vue';
     export default {
         name: "PermissionEdit",
         props:['permission'],
@@ -69,18 +68,9 @@
                 name: '',
                 slug: '',
                 description: '',
-                parent_permission : {label : '一级菜单', id:0},
-                list_permission_response : [],
-            }
-        },
-        computed : {
-            list_permissions : function () {
-                let list_permission = this.list_permission_response.map(function (item) {
-                    item.label = item.name;
-                    return item;
-                });
-                list_permission.unshift({label : '一级菜单', id:0});
-                return list_permission;
+                parent_permission : [],
+                treeData : [],
+                searchable : true
             }
         },
         created () {
@@ -92,9 +82,22 @@
             // 获取权限列表
             iniPermissionList(){
                 let vm = this;
-                this.$http.get('/api/permission').then(function(response){
+                let params = {
+                    params : {
+                        parent_id : this.permission_obj.parent_id
+                    },
+                    responseType: 'json'
+                };
+                this.$http.get('/api/permission/show/tree', params).then(function(response){
+                    console.log(response);
                     if (response.body.status === 0) {
-                        vm.list_permission_response = response.body.list_permissions;
+                        vm.treeData = response.body.permission.tree;
+                        vm.parent_permission.unshift(response.body.permission.parent_name);
+                    } else {
+                        vm.$refs.prompt_modal.open({
+                            title : '提示',
+                            body : response.body.msg
+                        });
                     }
                 });
             },
@@ -125,21 +128,30 @@
                     slug: this.slug,
                     description: this.description,
                     permission_id : this.permission_obj.id,
-                    parent_id : this.parent_permission.id
+                    parent_name : !!this.parent_permission ?  this.parent_permission[0] : '请选择父级权限'
                 };
-                let url = '/api/permission/edit';
-
                 // 存储权限
                 let vm = this;
-                this.$http.post(url, params, {responseType: 'json'}).then(function (response) {
+                this.$http.post('/api/permission/edit', params, {responseType: 'json'}).then(function (response) {
                     console.log(response);
                     if (response.body.status === 0) {
                         vm.msg_response = '权限"' + vm.name +'" 编辑成功';
+                        vm.$refs.prompt_modal.open({
+                            title : '编辑权限提示',
+                            body : '权限编辑成功',
+                            btn_name_left : '权限列表',
+                            btn_name_right : '角色管理',
+                            btn_url_right : '/Role',
+                            btn_url_left : '/permission',
+
+                        });
                     } else {
-                        vm.msg_response = response.body.msg;
-                        vm.icon_type = 'error';
+                        vm.$refs.prompt_modal.open({
+                            title : '编辑权限提示',
+                            body : '权限编辑失败',
+                        });
                     }
-                    vm.$refs.modal_prompt.open();
+
                 });
             }
         }

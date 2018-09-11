@@ -66,7 +66,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource.recursiveList
      *
      * @return \Illuminate\Http\Response
      */
@@ -88,10 +88,9 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         try {
             $this->repository_permission->store();
@@ -105,14 +104,21 @@ class PermissionController extends Controller
     }
 
     /**
+     * 获取指定的权限权限树
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show()
     {
-        //
+        try {
+            $permission = $this->repository_permission->show();
+            $status = 0;
+            return response()->json(compact('permission', 'status'));
+        } catch (\Exception $e) {
+            $status = 1478;
+            $msg = $e->getMessage();
+            return \response()->json(compact('status', 'msg'));
+        }
     }
 
     /**

@@ -34,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CommentCreatedEvent' => [
             'App\Listeners\CommentCreatedListen'
         ],
+        'App\Events\PermissionCreatedEvent' => [
+            'App\Listeners\PermissionCreatedListener'
+        ]
     ];
 
     /**

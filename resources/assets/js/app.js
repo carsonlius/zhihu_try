@@ -79,7 +79,12 @@ if (api_token) {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+
 Vue.component('example', require('./components/Example.vue'));
+
+// 公用的模态框
+Vue.component('prompt-modal', require('./components/PromptModal'));
 
 // 问题关注组件
 Vue.component('question-follow-button', require('./components/QuestionFollowButton'));
@@ -107,9 +112,6 @@ Vue.component('bell-notification', require('./components/BellNotification'));
 
 // 上传头像组建
 Vue.component('avatar-user', require('./components/AvatarUser'));
-
-// 公用的模态框
-Vue.component('prompt-modal', require('./components/PromptModal'));
 
 // 用户设置组件
 Vue.component('setting-user', require('./components/UserSetting'));

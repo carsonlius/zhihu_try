@@ -6,7 +6,7 @@
         <div class="panel-body">
             <prompt-modal ref="prompt_modal"></prompt-modal>
             <div class="tree-block">
-                <v-select-tree :data='treeData3' :searchable="searchable" :draggable="draggable" :dragAfterExpanded="dragAfterExpanded"
+                <v-select-tree :data='treeData' :searchable="searchable" :draggable="draggable" :dragAfterExpanded="dragAfterExpanded"
                                :multiple="multiple" :searchtext="searchtext"
                                :pleasechoosetext="pleasechoosetext"
                                v-model.lazy='initSelected'/>
@@ -33,7 +33,7 @@
                 multiple : true,
                 searchtext: '搜索需要的节点',
                 pleasechoosetext: '请选择当前角色分配权限',
-                treeData3: []
+                treeData: []
             }
         },
         created : function(){
@@ -49,12 +49,14 @@
                 let vm = this;
                 this.$http.get('/api/permission/tree_permission', {params:{role_id: this.role_id}, responseType:'json'} ).then(function (response) {
                     if (response.body.status === 0) {
-                        vm.treeData3 = response.body.list_permission;
+                        vm.treeData = response.body.list_permission;
                     }
                 });
             },
             // 分配权限
             updatePermission : function () {
+                console.log(this.initSelected);
+
                 // 如果没有选中的话 则伪请求
                 if (this.initSelected[0] === '点击查看节点分配') {
                     this.$refs.prompt_modal.open({

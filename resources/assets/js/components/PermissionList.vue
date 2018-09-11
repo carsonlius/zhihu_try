@@ -1,12 +1,31 @@
 <template>
     <div>
+        <prompt-modal ref="prompt_modal"></prompt-modal>
+        <div class="panel-default panel">
+            <div class="panel-heading">
+                <span style="font-weight: bold;">权限列表</span>
+                <span class="pull-right"><a href="/permission/create" class="btn btn-primary btn-xs">新建权限</a></span>
+            </div>
+            <div>
+                <form @submit.stop.prevent="searchPermission">
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <v-select v-model="permission_selected" :label="label" :placeholder="placeholder" :options="list_permission"></v-select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <v-table
                 is-vertical-resize
                 :vertical-resize-offset='60'
                 is-horizontal-resize
                 style="width:100%"
                 :multiple-sort="false"
-                :min-height="350"
+                :min-height="600"
                 even-bg-color="#f2f2f2"
                 :columns="tableConfig.columns"
                 :table-data="tableConfig.tableData"
@@ -26,6 +45,10 @@
         name: "PermissionList",
         data(){
             return {
+                placeholder : '选择权限',
+                permission_selected : '', // 下拉框选中权限
+                list_permission : [], // 权限列表
+                label : 'name',
                 tableDate : [],
                 pageIndex:1,
                 total : 0,
@@ -40,7 +63,7 @@
                         {field: 'model', title: 'Model', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'parent_id', title: '父级ID', width: 80, titleAlign: 'center', columnAlign: 'center',isResize:true},
                         {field: 'description', title: '权限描述', width: 400, titleAlign: 'center', columnAlign: 'center',isResize:true},
-                        {field: 'custome-adv', title: '操作',width: 200, titleAlign: 'center',columnAlign:'center',componentName:'table-operation',isResize:true}
+                        {field: 'custome-adv', title: '操作',width: 200, titleAlign: 'center',columnAlign:'center',componentName:'operation',isResize:true}
                     ]
                 }
             }
@@ -50,15 +73,39 @@
             this.initList();
         },
         methods:{
+            // 查询权限
+            searchPermission : function(){
+                let vm = this;
+                this.$http.get('/api/permission', {responseType : 'json', params : {permission_id : !!this.permission_selected ? this.permission_selected.id : ''}})
+                    .then(function (response) {
+                        if (response.body.status === 0) {
+                            // selected && table 数据初始化
+                            vm.list_permission = vm.tableDate  = response.body.list_permissions;
+                            vm.total = vm.tableDate.length;
+                            vm.getTableData();
+                        } else {
+                            this.$refs.prompt_modal.open({
+                                title : '提示',
+                                body :  '网络故障,请稍后再试'
+                            });
+                        }
+                    });
+            },
             // 获取数据源
             initList: function(){
                 let vm = this;
                 this.$http.get('/api/permission', {responseType:'json'}).then(function(response){
                     console.log(response);
                     if (response.body.status === 0) {
-                        vm.tableDate  = response.body.list_permissions;
+                        // selected && table 数据初始化
+                        vm.list_permission = vm.tableDate  = response.body.list_permissions;
                         vm.total = vm.tableDate.length;
                         vm.getTableData();
+                    } else {
+                        this.$refs.prompt_modal.open({
+                            title : '提示',
+                            body :  '网络故障,请稍后再试'
+                        });
                     }
                 });
             },
@@ -122,11 +169,11 @@
     }
 
     // 自定义列组件
-    Vue.component('table-operation', {
-        template: `<span>
-        <a href="" class="btn btn-info btn-xs" @click.stop.prevent="update(rowData,index)">编辑</a>&nbsp;
-        <a href="" class="btn btn-danger btn-xs" @click.stop.prevent="deleteRow(rowData,index)">删除</a>
-        </span>`,
+    Vue.component('operation', {
+        template : `<ul class="list-inline">
+<li><a href="" class="btn btn-primary btn-xs" @click.stop.prevent="update(rowData,index)">编辑</a></li>
+<li><a href="" class="btn btn-danger btn-xs" @click.stop.prevent="deleteRow(rowData,index)">删除</a></li>
+</ul>`,
         props: {
             rowData: {
                 type: Object
@@ -156,15 +203,6 @@
 </script>
 
 <style scoped>
-    .title-cell-class-name-test1 {
-        background-color: #2db7f5;
-        color:#fff;
-    }
-    .title-cell-class-name-test2 {
-        background-color: #f60;
-        color:#fff;
-    }
-
     .mtop-20 {
         margin-top:15px
     }
