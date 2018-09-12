@@ -53,6 +53,16 @@ class Handler extends ExceptionHandler
             return redirect()->back();
         }
 
+        if ($exception instanceof \Ultraware\Roles\Exceptions\RoleDeniedException) {
+            flash('抱歉,您没有这个权限哦!')->error();
+            return redirect()->back();
+        }
+
+        if ($exception instanceof \Ultraware\Roles\Exceptions\LevelDeniedException) {
+            flash('抱歉,您没有这个权限哦!')->error();
+            return redirect()->back();
+        }
+
         return parent::render($request, $exception);
     }
 }

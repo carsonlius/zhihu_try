@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/', 'QuestionController@index')->name('/');
+Route::get('/', 'QuestionController@index')->name('home');
 
 Route::get('/home', 'QuestionController@index');
 

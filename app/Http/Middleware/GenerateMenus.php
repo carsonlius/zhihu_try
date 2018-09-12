@@ -38,7 +38,7 @@ class GenerateMenus
     {
         $list_permissions = $this->getPermissionList();
 
-        // 过滤掉不输入登陆用户的权限
+        // 过滤掉不属于登陆用户的权限
         return $this->filterPermissionWhichNotLogin($list_permissions);
     }
 
@@ -73,6 +73,7 @@ class GenerateMenus
         if (!\Auth::check()) {
             return $permission['name'] === '首页';
         }
+
         return  \Auth::user()->hasPermission($permission);
     }
 
