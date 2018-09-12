@@ -133,12 +133,10 @@
                     is_show: this.is_show
                 };
                 let url = '/api/permission';
-                console.log(params);
 
                 // 存储权限
                 let vm = this;
                 this.$http.post(url, params, {responseType: 'json'}).then(function (response) {
-                    console.log(response);
                     if (response.body.status === 0) {
                         vm.msg_response = '权限"' + vm.name +'" 创建成功';
                     } else {

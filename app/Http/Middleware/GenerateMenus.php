@@ -91,7 +91,7 @@ class GenerateMenus
                 $menu->add($item['name'], ['route' => $item['slug'], 'id' => $item['id']]);
                 break;
             default:
-                // 父级
+                // 其他
                 $node_parent = $menu->find($item['parent_id']);
                 $node_parent->add($item['name'], ['route' => $item['slug'], 'id' => $item['id']]);
         }
