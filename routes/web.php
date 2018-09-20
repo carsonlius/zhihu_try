@@ -1,5 +1,11 @@
 <?php
 
+// 第三方登陆
+Route::group(['prefix' => 'oauth'], function(){
+    Route::get('/', 'AuthController@redirectToProvider');
+    Route::get('/github', 'AuthController@gitHubCallback');
+});
+
 Route::get('/', 'QuestionController@index')->name('home');
 
 Route::get('/home', 'QuestionController@index');
@@ -10,7 +16,7 @@ Auth::routes();
 Route::get('/EmailConfirm/Activate/{confirmation_token}', 'EmailConfirmController@Activate');
 
 // 问题
-Route::group(['prefix' => '/Question', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'Question', 'middleware' => ['auth']], function () {
     // 创建问题
     Route::get('/create', 'QuestionController@create')->name('question.create')->middleware('permission:question.create');
     Route::get('/show/{question}', 'QuestionController@show'); // 展示问题
@@ -22,7 +28,6 @@ Route::group(['prefix' => '/Question', 'middleware' => ['auth']], function () {
 });
 
 // 答案
-
 Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function () {
     Route::post('', 'AnswerController@store'); // 创建答案
 });
@@ -111,17 +116,12 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
 
 // 为route菜单生成的路由
 // 问题列表
-Route::get('/resres', function(){
+Route::get('/resres', 'QuestionController@index')->middleware('permission:question.sui')->name('question.sui');
 
-})->middleware('permission:question.sui')->name('question.sui');
 Route::get('/whatever', function (){
+
 })->middleware('permission:setting.whatever')->name('setting.whatever');
 
-
-// 测试使用的路由
-Route::get('/test', 'UserController@list');
-
-Route::get('test_permission', 'PermissionController@tree');
 
 
 

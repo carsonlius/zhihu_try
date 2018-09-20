@@ -5,8 +5,9 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">登录</div>
-
+                <div class="panel-heading text-center" style="font-weight: bold">
+                    登录
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
@@ -61,6 +62,16 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <div class="panel-footer">
+                    <ul class="list-inline col-sm-offset-3">
+                        <li>
+                            <span>第三方登陆</span>
+                        </li>
+                        <li>
+                            <a href="/oauth?oauth_login=github"><img src="http://qiniu.zhihu.carsonlius.cn/GitHub.jpg" width="32" height="32" alt=""></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

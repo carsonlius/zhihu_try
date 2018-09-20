@@ -13,7 +13,6 @@
     {{-- select2 需要用到jQ 所以位置需要放到上面 --}}
 
     {{-- CDN  bootstrap --}}
-    {{--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">--}}
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 
     <!-- Styles -->
@@ -22,6 +21,10 @@
 
     {{-- 最完美的bootstrap图标 --}}
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
+
+    {{-- social-share --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
 
 </head>
 <body>

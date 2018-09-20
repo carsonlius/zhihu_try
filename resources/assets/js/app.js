@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import 'social-share.js/src/js/social-share.js';
 
 // 引入Vue树形结构
 import 'vue-tree-halower/dist/halower-tree.min.css';

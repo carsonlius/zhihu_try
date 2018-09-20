@@ -23,7 +23,6 @@ class UserCreateEvent
      */
     public function __construct(User $user)
     {
-//        dump($user);
         $this->user = $user;
     }
 
