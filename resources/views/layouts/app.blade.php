@@ -51,7 +51,6 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    {{--@include(config('laravel-menu.views.bootstrap-items'), ['items' => Menu::get('NavBar')->roots()])--}}
                     @include(config('laravel-menu.views.bootstrap-items'), ['items' => Menu::get('NavPermission')->roots()])
                 </ul>
 
