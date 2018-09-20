@@ -63,7 +63,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="panel-footer">
+                <div class="panel-footer" style="background: white">
                     <ul class="list-inline col-sm-offset-3">
                         <li>
                             <span>第三方登陆</span>
