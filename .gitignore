@@ -12,5 +12,6 @@ yarn-error.log
 .env
 nginx_access.log
 nginx_error.log
+nginx_errror.log
 note/*
 public/avatars

@@ -26,6 +26,10 @@ class UserCreateListener
      */
     public function handle($event)
     {
+        // 赋值游客角色
+        $event->user->attachRole(7);
+
+        // 激活邮件
         \Mail::to($event->user->email)
             ->queue(new UserVerifyMail($event->user));
     }

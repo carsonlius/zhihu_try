@@ -71,6 +71,9 @@
                         <li>
                             <a href="/oauth?oauth_login=github"><img src="http://qiniu.zhihu.carsonlius.cn/GitHub.jpg" width="32" height="32" alt=""></a>
                         </li>
+                        <li>
+                            <a href="/oauth?oauth_login=weibo"><img src="http://qiniu.zhihu.carsonlius.cn/weibo_sj520_7.jpg" width="32" height="32" alt=""></a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -26,6 +26,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
 
+    {{-- 网站图标 --}}
+    <link rel="shortcut icon" href="http://qiniu.zhihu.carsonlius.cn/favicon.ico">
+    <link rel="icon" type="image/png" href="http://qiniu.zhihu.carsonlius.cn/favicon%20.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="http://qiniu.zhihu.carsonlius.cn/favicon%20.png">
 </head>
 <body>
 <div id="app">
