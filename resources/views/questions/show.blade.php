@@ -66,6 +66,10 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="panel-footer">
+                        分享文章到
+                        <div class="share-component" data-disabled="google,twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣"></div>
+                    </div>
                 </div>
             </div>
 
