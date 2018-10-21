@@ -125,22 +125,22 @@ Route::group(['prefix' => 'oauth2'], function () {
     Route::get('/authorization/code', function () {
         $query = http_build_query([
             'client_id' => 6,
-            'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/code/callback',
+            'redirect_uri' => 'https://zhihu.carsonlius.vip/oauth2/code/callback',
             'response_type' => 'code',
             'scope' => '',
         ]);
-        return redirect('http://learn.carsonlius.vip/oauth/authorize?' . $query);
+        return redirect('https://learn.carsonlius.vip/oauth/authorize?' . $query);
     })->name('oauth2.code');
 
     // grant code callback
     Route::get('/code/callback', function (Illuminate\Http\Request $request) {
         $http = new GuzzleHttp\Client;
-        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+        $response = $http->post('https://learn.carsonlius.vip/oauth/token', [
             'form_params' => [
                 'grant_type' => 'authorization_code',
                 'client_id' => 6,
                 'client_secret' => 'xl3TdeIGnmp6IifoQPpemNvDFeZNHulr39f1AtLL',
-                'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/code/callback',
+                'redirect_uri' => 'https://zhihu.carsonlius.vip/oauth2/code/callback',
                 'code' => $request->code,
             ],
         ]);
@@ -155,7 +155,7 @@ Route::group(['prefix' => 'oauth2'], function () {
 
         $refresh_token = session('refresh_token');
         $http = new GuzzleHttp\Client;
-        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+        $response = $http->post('https://learn.carsonlius.vip/oauth/token', [
             'form_params' => [
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $refresh_token,
@@ -170,7 +170,7 @@ Route::group(['prefix' => 'oauth2'], function () {
     //  password grant token
     Route::get('/authorization/token', function () {
         $http = new GuzzleHttp\Client;
-        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+        $response = $http->post('https://learn.carsonlius.vip/oauth/token', [
             'form_params' => [
                 'grant_type' => 'password',
                 'client_id' => '9',
@@ -188,12 +188,12 @@ Route::group(['prefix' => 'oauth2'], function () {
     Route::get('/authorization/implicit', function () {
         $query = http_build_query([
             'client_id' => 7,
-            'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/implicit/callback',
+            'redirect_uri' => 'https://zhihu.carsonlius.vip/oauth2/implicit/callback',
             'response_type' => 'token',
             'scope' => '*',
         ]);
 
-        return redirect('http://learn.carsonlius.vip/oauth/authorize?' . $query);
+        return redirect('https://learn.carsonlius.vip/oauth/authorize?' . $query);
     })->name('authorization.implicit');
 
     //  implicit grant type的回调部分
