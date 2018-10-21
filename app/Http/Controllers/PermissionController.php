@@ -1,10 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Repositories\PermissionRepository;
-use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Compound;
 use Ultraware\Roles\Models\Permission;
 
 class PermissionController extends Controller

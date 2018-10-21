@@ -1,7 +1,7 @@
 <?php
 
 // 第三方登陆
-Route::group(['prefix' => 'oauth'], function(){
+Route::group(['prefix' => 'oauth'], function () {
     Route::get('/', 'AuthController@redirectToProvider');
     Route::get('/github', 'AuthController@gitHubCallback');
 });
@@ -33,13 +33,13 @@ Route::group(['prefix' => 'Answer', 'middleware' => ['auth']], function () {
 });
 
 // 关注者
-Route::group(['prefix' => 'Follower', 'middleware' => ['auth']], function (){
+Route::group(['prefix' => 'Follower', 'middleware' => ['auth']], function () {
     Route::get('/{question}', 'FollowerQuestionController@store'); // 关注问
 });
 
 
 // 私信
-Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
+Route::group(['prefix' => 'message', 'middleware' => ['auth']], function () {
     // 当前用户收到的私信列表
     Route::get('/inbox', 'MessageController@index');
 
@@ -49,7 +49,7 @@ Route::group(['prefix' => 'message', 'middleware' => ['auth']], function (){
 
 
 // 消息通知
-Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function () {
     // 消息通知列表
     Route::get('/', 'NotificationsController@index');
 
@@ -62,13 +62,13 @@ Route::group(['prefix' => 'notifications', 'middleware' => 'auth'], function(){
 Route::get('/avatar', 'UserController@avatar')->middleware('auth');
 Route::post('/avatar', 'UserController@avatarUpload')->middleware('auth');
 
-Route::group(['prefix' => 'user', 'middleware' => ['auth']], function (){
+Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     // 用户分配角色
     Route::get('/role', 'UserController@roleAssign')->name('user.role')->middleware('permission:user.role');
 });
 
 // 用户密码
-Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
+Route::group(['prefix' => 'password', 'middleware' => ['auth']], function () {
     // 密码得更新
     Route::get('', 'PasswordController@password');
 
@@ -79,12 +79,12 @@ Route::group(['prefix' => 'password', 'middleware' => ['auth']], function(){
 // 用户设置列表 && 更新
 Route::get('setting', 'UserController@settingList')->middleware('auth');
 
-Route::get('permission', function (){
+Route::get('permission', function () {
     return view('home');
 });
 
 // 用户角色
-Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function () {
     // 角色列表
     Route::get('/', 'RoleController@index')->middleware('permission:role')->name('role');
 
@@ -102,7 +102,7 @@ Route::group(['prefix' => 'Role', 'middleware' => 'auth'], function(){
 });
 
 // 权限
-Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function () {
     // 权限列表
     Route::get('/', 'PermissionController@index')->name('permission')->middleware('permission:permission.list');
 
@@ -114,13 +114,93 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth'], function(){
 });
 
 
-// 为route菜单生成的路由
-// 问题列表
+// 为一级菜单生路由
 Route::get('/resres', 'QuestionController@index')->middleware('permission:question.sui')->name('question.sui');
+Route::get('/whatever', 'QuestionController@index')->middleware('permission:setting.whatever')->name('setting.whatever');
+Route::get('/oauth2/list', 'QuestionController@index')->name('oauth2.list');
 
-Route::get('/whatever', function (){
+// oauth2认证体系
+Route::group(['prefix' => 'oauth2'], function () {
+    // grant code  获取code
+    Route::get('/authorization/code', function () {
+        $query = http_build_query([
+            'client_id' => 6,
+            'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/code/callback',
+            'response_type' => 'code',
+            'scope' => '',
+        ]);
+        return redirect('http://learn.carsonlius.vip/oauth/authorize?' . $query);
+    })->name('oauth2.code');
 
-})->middleware('permission:setting.whatever')->name('setting.whatever');
+    // grant code callback
+    Route::get('/code/callback', function (Illuminate\Http\Request $request) {
+        $http = new GuzzleHttp\Client;
+        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => 6,
+                'client_secret' => 'xl3TdeIGnmp6IifoQPpemNvDFeZNHulr39f1AtLL',
+                'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/code/callback',
+                'code' => $request->code,
+            ],
+        ]);
+        $authorizationC_response = json_decode((string)$response->getBody(), true);
+        $refresh_token = $authorizationC_response['refresh_token'];
+        session(compact('refresh_token'));
+        return $authorizationC_response;
+    });
+
+    // grant code refresh
+    Route::get('/oauth2/refresh_token', function () {
+
+        $refresh_token = session('refresh_token');
+        $http = new GuzzleHttp\Client;
+        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refresh_token,
+                'client_id' => 6,
+                'client_secret' => 'xl3TdeIGnmp6IifoQPpemNvDFeZNHulr39f1AtLL',
+                'scope' => '',
+            ],
+        ]);
+        return json_decode((string)$response->getBody(), true);
+    })->name('auth2.code.refresh');
+
+    //  password grant token
+    Route::get('/authorization/token', function () {
+        $http = new GuzzleHttp\Client;
+        $response = $http->post('http://learn.carsonlius.vip/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'password',
+                'client_id' => '9',
+                'client_secret' => 'OvJOczU4LQGBs2YNX0zRhtMqnU0Vobj59ztqNGNX',
+                'username' => 'llewellyn33@example.org',
+                'password' => 'secret',
+                'scope' => '',
+            ],
+        ]);
+
+        return json_decode((string)$response->getBody(), true);
+    })->name('authorization.password');
+
+    // implicit grant token
+    Route::get('/authorization/implicit', function () {
+        $query = http_build_query([
+            'client_id' => 7,
+            'redirect_uri' => 'http://zhihu.carsonlius.vip/oauth2/implicit/callback',
+            'response_type' => 'token',
+            'scope' => '*',
+        ]);
+
+        return redirect('http://learn.carsonlius.vip/oauth/authorize?' . $query);
+    })->name('authorization.implicit');
+
+    //  implicit grant type的回调部分
+    Route::get('/implicit/callback', function (Illuminate\Http\Request $request) {
+        dump('implicit认证完成,以后就是SPA的操作了');
+    });
+});
 
 
 
