@@ -120,14 +120,14 @@ Route::get('/whatever', 'QuestionController@index')->middleware('permission:sett
 Route::get('/oauth2/list', 'QuestionController@index')->name('oauth2.list');
 
 // oauth2认证体系
-Route::group(['prefix' => 'oauth2'], function () {
+Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
     // grant code  获取code
     Route::get('/authorization/code', function () {
         $query = http_build_query([
             'client_id' => 6,
             'redirect_uri' => 'https://zhihu.carsonlius.vip/oauth2/code/callback',
             'response_type' => 'code',
-            'scope' => '',
+            'scope' => 'lesson1',
         ]);
         return redirect('https://learn.carsonlius.vip/oauth/authorize?' . $query);
     })->name('oauth2.code');
@@ -200,6 +200,32 @@ Route::group(['prefix' => 'oauth2'], function () {
     Route::get('/implicit/callback', function (Illuminate\Http\Request $request) {
         dump('implicit认证完成,以后就是SPA的操作了');
     });
+
+
+    // client credentials grant tokens
+    Route::get('/credentials', function(){
+        $guzzle = new GuzzleHttp\Client;
+
+        $response = $guzzle->post('https://learn.carsonlius.vip/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'client_credentials',
+                'client_id' => 7,
+                'client_secret' => 'rlF4dXzY6PqKxKudWhU5itoUykuNUVraq5KsspKF',
+                'scope' => '',
+            ],
+        ]);
+
+        return json_decode((string) $response->getBody(), true)['access_token'];
+    })->name('authorization.credentials');
+
+    // personal access token
+    Route::get('/personal_token', function (){
+        return redirect('https://learn.carsonlius.vip/tokens/tokens');
+    })->name('authorization.personal');
+
+    Route::get('js/api', function(){
+        return redirect('https://learn.carsonlius.vip/passport_web/show');
+    })->name('js.api');
 });
 
 
