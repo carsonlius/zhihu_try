@@ -228,6 +228,14 @@ Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
     })->name('js.api');
 });
 
+// 微信公共号
+Route::any('/wechat', 'WeChatController@serve');
+
+// 微信公众号的路由
+Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
+    //
+    Route::get('/one', '')->name('wechat.manage');
+});
 
 
 

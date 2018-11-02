@@ -173,6 +173,7 @@ return [
         \Collective\Html\HtmlServiceProvider::class,
         Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
         \Ultraware\Roles\RolesServiceProvider::class,
+        Overtrue\LaravelWeChat\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,6 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Html' => \Collective\Html\HtmlFacade::class,
         'Form' => \Collective\Html\FormFacade::class,
+        'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
     ],
 
 ];
