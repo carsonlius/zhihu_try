@@ -233,8 +233,38 @@ Route::any('/wechat', 'WeChatController@serve');
 
 // 微信公众号的路由
 Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
-    //
-    Route::get('/one', '')->name('wechat.manage');
+    // 一级节点
+    Route::get('/menu', 'WeChatUserController@list')->name('wechat.manage');
+
+    // 关注者列表
+    Route::get('/user_list', 'WeChatUserController@list')->name('wechat.userlist');
+
+    // 微信用户
+    Route::get('/show', 'WeChatUserController@show')->name('wechat.show');
+
+    // 微信用户remark
+    Route::get('user/update', 'WeChatUserController@update')->name('wechat.user.update');
+
+    // 本地图片文件上传到服务器
+    Route::get('/image', 'MaterialController@image')->name('wechat.upload.image');
+
+    // 本地video文件上传到微信服务器
+    Route::get('/video', 'MaterialController@video')->name('wechat.upload.video');
+
+    // 本地上传音频
+    Route::get('/audio', 'MaterialController@audio')->name('wechat.upload.audio');
+
+    // 素材列表
+    Route::get('/material_list', 'MaterialController@list')->name('wechat.material.list');
+
+    // 上传图文消息
+    Route::get('/news', 'MaterialController@news')->name('wechat.upload.news');
+
+    // 获取特定的素材
+    Route::get('/material/show', 'MaterialController@show')->name('wechat.material.show');
+
+    // 客服消息发送
+    Route::get('/sendCustomer', 'MaterialController@sendCustomer')->name('wechat.material.send');
 });
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use EasyWeChat\Kernel\Messages\Voice;
 use Illuminate\Support\Facades\Log;
 
 class WeChatController extends Controller
@@ -33,6 +34,7 @@ class WeChatController extends Controller
                     return '收到图片消息';
                     break;
                 case 'voice':
+                    return new Voice('YUZNEhpGLlvPSHqeoS_VrP-Q04lrw_rQKhUFb553lcA');
                     return '收到语音消息';
                     break;
                 case 'video':
