@@ -282,7 +282,7 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
     Route::get('/menu/create', 'WechatMenuController@create');
 
     // 测试企业微信
-    Route::get('/test', 'WechatMenuController@test');
+    Route::get('/work/sendTag', 'WechatWorkController@sendTag');
 });
 
 
