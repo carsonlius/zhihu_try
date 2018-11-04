@@ -19,6 +19,10 @@ class MaterialController extends Controller
         $this->repository = $repository;
     }
 
+    /**
+     * 客服消息(主动发送)
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendCustomer()
     {
         try {

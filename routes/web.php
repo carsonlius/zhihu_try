@@ -265,6 +265,21 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
 
     // 客服消息发送
     Route::get('/sendCustomer', 'MaterialController@sendCustomer')->name('wechat.material.send');
+
+    // 标签列表
+    Route::get('/tag/list', 'WeChatUserController@tagList');
+
+    // 标签创建
+    Route::get('/tag/create', 'WeChatUserController@tagCreate');
+
+    // 为用户设置标签
+    Route::get('/tag/setUser', 'WeChatUserController@setUser');
+
+    // 消息群发
+    Route::get('/broadcasting', 'WeChatController@broadcasting')->name('wechat.broadcasting');
+
+    // 生成菜单
+    Route::get('/menu/create', 'WechatMenuController@create');
 });
 
 

@@ -60,4 +60,45 @@ class WeChatUserController extends Controller
             return $this->setStatus(1478)->responseError($e->getMessage());
         }
     }
+
+    /**
+     * 标签列表
+     */
+    public function tagList()
+    {
+        try {
+            $list_tag = $this->repository->tagList();
+            return $this->response(compact('list_tag'));
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        }
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function tagCreate()
+    {
+        try {
+            $response = $this->repository->tagCreate();
+            $msg = '创建标签成功';
+            return $this->response(compact('response', 'msg'));
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        }
+    }
+
+    /**
+     * 为用户设置标签
+     */
+    public function setUser()
+    {
+        try {
+            $response = $this->repository->setUserTag();
+            $msg = '为用户设置标签成功';
+            return $this->response(compact('response', 'msg'));
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        }
+    }
 }

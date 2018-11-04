@@ -2,11 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Repositories\WeChatRepository;
+use App\Http\TraitHelper\ResponseTrait;
+use EasyWeChat\Kernel\Messages\Image;
 use EasyWeChat\Kernel\Messages\Voice;
 use Illuminate\Support\Facades\Log;
 
 class WeChatController extends Controller
 {
+    use ResponseTrait;
+    private $repository;
+
+    /**
+     * WeChatController constructor.
+     * @param $repository
+     */
+    public function __construct(WeChatRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * 处理微信的请求消息
      *
@@ -14,48 +29,26 @@ class WeChatController extends Controller
      */
     public function serve()
     {
-        Log::info('request arrived.'); # 注意：Log 为 Laravel 组件，所以它记的日志去 Laravel 日志看，而不是 EasyWeChat 日志
+        try {
+            // 处理微信请求
+            return $this->repository->serve();
 
-        $app = app('wechat.official_account');
-        $user_api = $app->user;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
-        $app->server->push(function($message) use($user_api){
-            Log::debug('记录每次微信用户传入的信息', compact('message'));
-
-            switch ($message['MsgType']) {
-                case 'event':
-                    return '收到事件消息';
-                    break;
-                case 'text':
-                    $user_from = $user_api->get($message['FromUserName'])->nickname;
-                    return '收到文字消息 ' . $user_from;
-                    break;
-                case 'image':
-                    return '收到图片消息';
-                    break;
-                case 'voice':
-                    return new Voice('YUZNEhpGLlvPSHqeoS_VrP-Q04lrw_rQKhUFb553lcA');
-                    return '收到语音消息';
-                    break;
-                case 'video':
-                    return '收到视频消息';
-                    break;
-                case 'location':
-                    return '收到坐标消息';
-                    break;
-                case 'link':
-                    return '收到链接消息';
-                    break;
-                case 'file':
-                    return '收到文件消息';
-                // ... 其它消息
-                default:
-                    return '收到其它消息';
-                    break;
-            }
-        });
-        \Log::info('return response.');
-
-        return $app->server->serve();
+    /**
+     * 消息群发
+     */
+    public function broadcasting()
+    {
+        try {
+            $response = $this->repository->broadcasting();
+            $msg = '消息群发成功';
+            return $this->response(compact('msg', 'response'));
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        }
     }
 }

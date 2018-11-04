@@ -18,6 +18,39 @@ class WeChatUserRepository
     }
 
     /**
+     * 为用户设置标签
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function setUserTag()
+    {
+        $open_ids = ['oweQV1t0aEI5HsHaYPGWLgGBVF0M'];
+
+        return $this->wechat->user_tag->tagUsers($open_ids, 100);
+    }
+
+    /**
+     * 新建标签
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function tagCreate()
+    {
+        return $this->wechat->user_tag->create('管理员');
+    }
+
+    /**
+     * 标签列表
+     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
+     */
+    public function tagList()
+    {
+        return $this->wechat->user_tag->list();
+
+    }
+
+    /**
      * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function update()
