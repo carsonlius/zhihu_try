@@ -280,6 +280,9 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
 
     // 生成菜单
     Route::get('/menu/create', 'WechatMenuController@create');
+
+    // 测试企业微信
+    Route::get('/test', 'WechatMenuController@test');
 });
 
 
