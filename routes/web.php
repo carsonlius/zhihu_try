@@ -286,4 +286,49 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
 });
 
 
+class Bar{
+}
+
+class Foo {
+
+    public $bar;
+
+    /**
+     * Foo constructor.
+     * @param $bar
+     */
+    public function __construct(Bar $bar)
+    {
+        $this->bar = $bar;
+    }
+}
+
+app()->bind('Foo', function(){
+    dump('called here');
+    return new Foo(new Bar);
+});
+
+
+
+
+//app()->resolving(function ($api, $app) {
+//    dump('出发了解析事件', $api);
+//    // Called when container resolves objects of type "HelpSpot\API"...
+//});
+
+// service container
+Route::get('/test', function(){
+//    dump(app()->makeWith('Foo', ['id' => 112]));
+//    dump(resolve('Foo'));
+//    dump(app('Foo'));
+//    dump(app('Foo'));
+    dd(app('Foo'));
+//    $path = public_path('/storage/web/hello.php');
+//    $file = new \Illuminate\Filesystem\Filesystem(new Bar, new Foo);
+//    dd($file->get($path));
+//
+//
+//
+//    dd(app()['files']->get($path));
+});
 

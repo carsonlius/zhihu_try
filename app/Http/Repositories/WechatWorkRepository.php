@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Repositories;
 
 use EasyWeChat\Work\Application;
@@ -27,6 +26,7 @@ class WechatWorkRepository
         return $this->wechat_work->messenger
             ->message('Congratulation！')
             ->ofAgent(env('WECHAT_WORK_AGENT_ID'))
+            ->toTag(12)
             ->send();
     }
 }
