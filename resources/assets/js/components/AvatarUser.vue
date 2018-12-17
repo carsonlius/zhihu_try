@@ -45,6 +45,10 @@
         components: {
             'my-upload': myUpload,
         },
+
+        mounted : function(){
+
+        },
         methods: {
             closeModel : function(){
               this.$refs.modal_prompt.close();

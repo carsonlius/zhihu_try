@@ -11,7 +11,9 @@
                         @foreach($messages as $messageGroup)
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img src="{{ $messageGroup->friendUser->avatar }}" alt="私信来源" height="60px" width="60px"></a>
+                                    <a href="#">
+                                        <img src="{{ $messageGroup->friendUser->avatar }}" alt="私信来源" height="60px" width="60px">
+                                    </a>
                                 </div>
                                 <div class="media-body {{ $messageGroup->unread_class ? 'unread_bg' : '' }}">
                                     <h4 class="media-heading"><a href="#">{{ $messageGroup->friendUser->name }}</a></h4>

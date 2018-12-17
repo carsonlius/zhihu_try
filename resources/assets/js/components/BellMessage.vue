@@ -30,17 +30,32 @@
                         vm.count = response.body.number_unread;
                    }
                });
-           }
+           },
+            messageCreateChannel : function () {
+                console.log('开始监听counter channel');
+                let vm = this;
+                window.Echo.private('message-to-counter.' + window.Laravel.user_id).listen('MessageCreateEvent', function(e){
+                    alert('message counter 触发 +1');
+                    console.log(e);
+                    vm.count = parseInt(vm.count) + 1;
+
+                });
+            }
 
         },
         mounted: function () {
+            // 当前有多少个message未读
             this.messageCount();
+
+            // 注册channel监听私信功能
+            this.messageCreateChannel();
+
 
             // 每隔1分钟，更新一次私信的数量
             let vm = this;
-            setInterval(function(){
-                vm.messageCount();
-            }, 60000);
+            // setInterval(function(){
+            //     vm.messageCount();
+            // }, 60000);
         }
     }
 </script>

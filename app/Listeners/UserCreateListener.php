@@ -8,6 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class UserCreateListener
 {
+    private $queue_enable_user = 'queue_enable_active_user';
+
     /**
      * Create the event listener.
      *
@@ -21,7 +23,7 @@ class UserCreateListener
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  object $event
      * @return void
      */
     public function handle($event)
@@ -30,7 +32,11 @@ class UserCreateListener
         $event->user->attachRole(7);
 
         // 激活邮件
+        $mail = (new UserVerifyMail($event->user))
+            ->onQueue($this->queue_enable_user)
+            ->onConnection('redis');
+
         \Mail::to($event->user->email)
-            ->queue(new UserVerifyMail($event->user));
+            ->queue($mail);
     }
 }

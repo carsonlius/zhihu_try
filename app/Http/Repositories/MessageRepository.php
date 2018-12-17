@@ -2,6 +2,7 @@
 
 namespace App\Http\Repositories;
 
+use App\Events\MessageCreateEvent;
 use App\Message;
 use App\Notifications\MessageNotification;
 use App\User;
@@ -129,8 +130,11 @@ class MessageRepository
 
         // 返回新插入的私信
         $id = $message_store->id;
-        return Message::where(compact('id'))->with(['fromUser' => function ($query) {
+        return $message_created = Message::where(compact('id'))->with(['fromUser' => function ($query) {
             $query->select(['id', 'name', 'avatar']);
         }])->first();
+
+//        MessageCreateEvent::dispatch($message_created);
+//        return $message_created;
     }
 }

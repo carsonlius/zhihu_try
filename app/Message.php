@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Collection\MessageCollection;
+use App\Events\MessageCreateEvent;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,11 @@ class Message extends Model
      * 增加一个数据库中没有的字段
      * */
     protected $appends = ['created_at_human'];
+
+    protected $dispatchesEvents = [
+        'created' => MessageCreateEvent::class
+    ];
+
 
     /**
      * 将未阅读的私信标记为已阅读

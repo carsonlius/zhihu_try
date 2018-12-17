@@ -44,21 +44,23 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo'
+import Echo from 'laravel-echo';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '458d348ceee538481b2a',
+    cluster: 'ap3',
+    encrypted: true,
+});
 
-import fontawesome from '@fortawesome/fontawesome'
-import regular from '@fortawesome/fontawesome-free-regular'
-import solid from '@fortawesome/fontawesome-free-solid'
-import brands from '@fortawesome/fontawesome-free-brands'
+import fontawesome from '@fortawesome/fontawesome';
+import regular from '@fortawesome/fontawesome-free-regular';
+import solid from '@fortawesome/fontawesome-free-solid';
+import brands from '@fortawesome/fontawesome-free-brands';
 
-fontawesome.library.add(regular)
-fontawesome.library.add(solid)
-fontawesome.library.add(brands)
+fontawesome.library.add(regular);
+fontawesome.library.add(solid);
+fontawesome.library.add(brands);
 
