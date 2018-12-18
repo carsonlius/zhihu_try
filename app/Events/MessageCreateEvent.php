@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Message;
-use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
@@ -17,10 +16,8 @@ class MessageCreateEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message_created;
     public $from_user;
     public $message;
-    public $what;
 
     public $broadcastQueue = 'private-message-to-created';
 
@@ -32,14 +29,12 @@ class MessageCreateEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param Message $message
      */
     public function __construct(Message $message)
     {
         $this->message = $message;
         $this->from_user = $this->message->fromUser;
-
-        $this->what = $this->fromUser = $this->message->fromUser;
     }
 
     /**
@@ -49,10 +44,11 @@ class MessageCreateEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        $private_counter_channel = new PrivateChannel('message-to-counter.' . $this->message->user_id);
+        $private_created_channel = new PrivateChannel('message-to-created.' . $this->message->user_id);
         return [
-            (new PrivateChannel('message-to-counter.' . $this->message->user_id)),
-            (new PrivateChannel('message-to-created.' . $this->message->user_id)),
+            $private_counter_channel,
+            $private_created_channel
         ];
-
     }
 }

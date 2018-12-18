@@ -32,11 +32,9 @@
                });
            },
             messageCreateChannel : function () {
-                console.log('开始监听counter channel');
                 let vm = this;
                 window.Echo.private('message-to-counter.' + window.Laravel.user_id).listen('MessageCreateEvent', function(e){
-                    alert('message counter 触发 +1');
-                    console.log(e);
+                    console.log('监听到了counter自动增长的channel', e);
                     vm.count = parseInt(vm.count) + 1;
 
                 });

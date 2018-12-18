@@ -133,8 +133,5 @@ class MessageRepository
         return $message_created = Message::where(compact('id'))->with(['fromUser' => function ($query) {
             $query->select(['id', 'name', 'avatar']);
         }])->first();
-
-//        MessageCreateEvent::dispatch($message_created);
-//        return $message_created;
     }
 }

@@ -53,7 +53,7 @@
                   window.Echo.private('message-to-created.' + window.Laravel.user_id).listen('MessageCreateEvent', function(e){
                       console.log(e);
                       let message = e.message;
-                      message.from_user = e.what;
+                      message.from_user = e.from_user;
                       vm.list_message.unshift(message);
                   });
             },
