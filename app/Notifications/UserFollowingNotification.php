@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,6 +12,11 @@ use Illuminate\Notifications\Messages\MailMessage;
 class UserFollowingNotification extends Notification
 {
     use Queueable;
+
+    /*
+     * 被关注用户用户通知
+     * */
+    private $queue_broadcast = 'queue_broadcast_user_following';
 
     /*
      * 被当前用户关注的用户的id列表
@@ -36,7 +42,7 @@ class UserFollowingNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -80,5 +86,24 @@ class UserFollowingNotification extends Notification
         return [
             //
         ];
+    }
+
+    /**
+     * 发起broadcast
+     * @param $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        // 被关注的用户名字
+        $list_name = array_map(function($id){
+            return User::find($id)->name;
+        }, $this->ids_following);
+
+        $following_name = implode(',', $list_name);
+
+        return (new BroadcastMessage(compact('following_name')))
+            ->onConnection('redis')
+            ->onQueue($this->queue_broadcast);
     }
 }

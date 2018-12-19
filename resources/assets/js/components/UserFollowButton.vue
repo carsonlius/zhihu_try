@@ -1,5 +1,6 @@
 <template>
     <button class="btn btn-sm" :class="[followed ? 'btn-success' : 'btn-default']" @click="followToggle">
+        <prompt-modal ref="prompt"></prompt-modal>
         <font-awesome-icon icon="plus" v-if="!followed"/> {{ text_followed }}
     </button>
 </template>
@@ -21,18 +22,23 @@
                 let vm = this;
                 this.$http.post('/api/user/follow', params).then(function (response) {
                     console.log(response);
-                    if (response.data.status === 0) {
+                    if (response.body.status === 0) {
                         vm.followed = response.data.followed;
                         // 动态的调整关注者的数量
                         let count_obj = $('#following_count');
                         let following_count = parseInt(count_obj.text());
-                        if (response.data.followed) {
+                        if (response.body.followed) {
                             // 关注者加1
                             count_obj.text(following_count+1);
                         } else {
                             // 关注者减1
                             count_obj.text(following_count-1);
                         }
+                    } else {
+                        vm.$refs.prompt.open({
+                            title: '提示',
+                            body : response.body.errors.msg
+                        });
                     }
                 });
             },

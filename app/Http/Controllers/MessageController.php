@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Repositories\MessageRepository;
+use App\Http\TraitHelper\ResponseTrait;
 use App\Message;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use League\Flysystem\Exception;
 
 class MessageController extends Controller
 {
+    use ResponseTrait;
     private $repository_message;
 
     public function __construct(MessageRepository $message_repository)
@@ -77,21 +79,15 @@ class MessageController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store()
     {
         try {
             $result_store = $this->repository_message->store();
-            $status = $result_store ? 0 : 7777;
-            $msg = $result_store ? '私信已发送' : '网络故障，请再次发送私信';
-            return response()->json(compact('status', 'msg', 'result_store'));
+            return $this->response(compact('result_store'));
         } catch (\Exception $e) {
-            $status = 7777;
-            $msg = $e->getMessage();
-            return response()->json(compact('status', 'msg'));
+            return $this->setStatus(1478)->responseError($e->getMessage());
         }
     }
 

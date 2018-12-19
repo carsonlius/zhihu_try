@@ -118,7 +118,7 @@
                             <div class="panel-body text-center">
                                     @if(\Auth::check() && \Auth::id() !== $question->user->id)
                                         <ul class="list-inline">
-                                            <li><user-follow-button user="{{ $question->user->id }}" id="{{ \Auth::check() ? \Auth::id() : ''}}"></user-follow-button></li>
+                                            <li><user-follow-button user="{{ $question->user->id }}" id="{{ \Auth::id() }}"></user-follow-button></li>
                                             <li><send-message-button user_id="{{ $question->user->id }}"></send-message-button></li>
                                         </ul>
                                     @endif

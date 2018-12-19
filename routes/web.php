@@ -285,9 +285,3 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
     Route::get('/work/sendTag', 'WechatWorkController@sendTag');
 });
 
-
-// service container
-Route::get('/private/channel', function() {
-    \App\Events\MessageCreateEvent::dispatch(\App\Message::find(274));
-});
-

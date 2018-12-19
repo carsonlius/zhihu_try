@@ -108,30 +108,83 @@ class MessageRepository
      */
     public function store()
     {
-        $to_user_id = request()->post('to_user_id');
-        $body = request()->post('body');
-        if (!$body) {
-            throw new \Exception('请填写私信内容');
-        }
-        $from_user_id = user('api')->id;
+        // 检查条件
+        $this->validateParamsForStore();
+
 
         // 第一条私信属于发送者的
-        $user_id = user('api')->id;
-        $friend_id = $to_user_id;
-        Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
+        $this->createSelfMessage();
 
         // 第二条私信属于接受者
-        $user_id = $to_user_id;
-        $friend_id = user('api')->id;
-        $message_store = Message::create(compact('to_user_id', 'from_user_id', 'body', 'user_id', 'friend_id'));
+        return $this->createFriendMessage();
+    }
 
-        // 生成notification(这个和私信插件功能有些重复,后期拿掉，现在只是学习使用)
-        $message_store->toUser->notify(new MessageNotification($message_store));
+    /**
+     * 新建一条属于好友的私信
+     *
+     */
+    private function createFriendMessage()
+    {
+        //参数
+        $params = $this->genParamsForFriendMessage();
 
-        // 返回新插入的私信
-        $id = $message_store->id;
-        return $message_created = Message::where(compact('id'))->with(['fromUser' => function ($query) {
+        // 生成私信
+        $message_store = Message::create($params);
+
+        // 返回
+        return $this->getNewMessage($message_store->id);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    private function getNewMessage($id)
+    {
+        return Message::where(compact('id'))->with(['fromUser' => function ($query) {
             $query->select(['id', 'name', 'avatar']);
         }])->first();
+    }
+
+    private function genParamsForFriendMessage()
+    {
+        $user_id = $to_user_id = request()->post('to_user_id');
+        $body = request()->post('body');
+        $from_user_id = $friend_id = user('api')->id;
+        return compact('friend_id', 'to_user_id', 'body', 'user_id', 'from_user_id');
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function validateParamsForStore()
+    {
+        if (!request()->post('body', '', 'trim')) {
+            throw new \Exception('请输入私信内容');
+        }
+    }
+
+    /**
+     * 新建一条属于登陆用户的私信
+     * @throws \Exception
+     */
+    private function createSelfMessage()
+    {
+        // 参数
+        $params = $this->genParamsForSelf();
+        // 第一条私信属于发送者的
+        Message::create($params);
+    }
+
+    /**
+     * 参数
+     * @return array
+     */
+    private function genParamsForSelf()
+    {
+        $friend_id = $to_user_id = request()->post('to_user_id');
+        $body = request()->post('body');
+        $user_id = $from_user_id = user('api')->id;
+        return compact('friend_id', 'to_user_id', 'body', 'user_id', 'from_user_id');
     }
 }

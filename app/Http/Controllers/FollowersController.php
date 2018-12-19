@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\TraitHelper\ResponseTrait;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class FollowersController extends Controller
 {
-
+    use ResponseTrait;
     protected $user_repository;
 
     public function __construct(UserRepository $user_repository)
@@ -48,8 +49,12 @@ class FollowersController extends Controller
      */
     public function follow(Request $request)
     {
-        $user_created = $request->post('user');
-        $response = $this->user_repository->follow($user_created);
-        return response()->json($response);
+        try {
+            $user_created = $request->post('user');
+            $followed = $this->user_repository->follow($user_created);
+            return $this->response(compact('followed'));
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        }
     }
 }

@@ -34,7 +34,6 @@
             messageCreateChannel : function () {
                 let vm = this;
                 window.Echo.private('message-to-counter.' + window.Laravel.user_id).listen('MessageCreateEvent', function(e){
-                    console.log('监听到了counter自动增长的channel', e);
                     vm.count = parseInt(vm.count) + 1;
 
                 });
@@ -47,13 +46,6 @@
 
             // 注册channel监听私信功能
             this.messageCreateChannel();
-
-
-            // 每隔1分钟，更新一次私信的数量
-            let vm = this;
-            // setInterval(function(){
-            //     vm.messageCount();
-            // }, 60000);
         }
     }
 </script>

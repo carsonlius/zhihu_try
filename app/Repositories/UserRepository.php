@@ -123,9 +123,7 @@ class UserRepository
         user('api')->followed()->toggle($user_created);
 
         // 查看当前登陆用户是否已经关注了创建问题的用户
-        $followed = user('api')->followed->contains('id', $user_created);
-        $status = 0;
-        return compact('followed', 'status');
+        return user('api')->followed->contains('id', $user_created);
     }
     /**
      * 上传文件的头像

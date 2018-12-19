@@ -1,5 +1,6 @@
 <template>
     <div>
+        <prompt-modal ref="prompt"></prompt-modal>
         <div class="form-group div_bottom">
             <textarea v-model="body" :placeholder="placeholder" class="textarea-inherit" id="message_textarea" rows="3"></textarea>
             <button type="submit" class="btn btn-xs btn-primary pull-right" @click.prevent="responseMessage">发送</button>
@@ -51,10 +52,9 @@
             listenMessageChannel : function(){
                   let vm = this;
                   window.Echo.private('message-to-created.' + window.Laravel.user_id).listen('MessageCreateEvent', function(e){
-                      console.log(e);
                       let message = e.message;
                       message.from_user = e.from_user;
-                      vm.list_message.unshift(message);
+                      vm.list_message.unshift(e.message);
                   });
             },
 
@@ -79,6 +79,11 @@
                     if (response.body.status === 0) {
                         vm.list_message.unshift(response.body.result_store);
                         vm.body = '';
+                    } else {
+                        vm.$refs.prompt.open({
+                            title:'提示',
+                            body : response.body.errors.msg
+                        });
                     }
                 });
             },
@@ -90,7 +95,6 @@
                     responseType: 'json'
                 };
                 this.$http.get('/api/message/inboxShow', params).then(function (response) {
-                    console.log(response);
                     if (response.body.status === 0) {
                         this.list_message = response.body.data;
                     } else {

@@ -6,7 +6,6 @@ use App\Collection\SettingCollection;
 use App\Events\UserCreateEvent;
 use App\Notifications\UserFollowedNotification;
 use App\Notifications\UserFollowingNotification;
-use App\Notifications\UserNotFollowingNotification;
 use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -120,14 +119,12 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
                 });
             }
 
-
             // 答案点赞事件
             if ($relationName == 'votesAnswer') {
                 array_walk($pivotIds, function($answer_id){
                     Answer::find($answer_id)->increment('votes_count');
                 });
             }
-
         });
 
         static::pivotDetaching(function ($model, $relationName, $pivotIds) {

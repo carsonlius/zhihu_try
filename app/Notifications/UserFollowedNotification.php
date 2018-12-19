@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class UserFollowedNotification extends Notification
 {
     use Queueable;
+    private $queue_broadcast = 'queue_broadcast_followed_by_user';
 
     public $user_following;
 
@@ -31,7 +33,7 @@ class UserFollowedNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     public function toDatabase()
@@ -63,5 +65,19 @@ class UserFollowedNotification extends Notification
         return [
             //
         ];
+    }
+
+    /**
+     * broadcast event
+     * @param $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        $name = $this->user_following;
+        return (new BroadcastMessage(compact('name')))
+            ->onQueue($this->queue_broadcast)
+            ->onConnection('redis')
+            ;
     }
 }

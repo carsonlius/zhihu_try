@@ -30,17 +30,21 @@
                         vm.count = response.body.number_unread;
                     }
                 });
-            }
-
+            },
+            registerFollowingChannel : function(){
+                let vm= this;
+                window.Echo.private('App.User.' + window.Laravel.user_id).notification(function(notification){
+                    console.log(notification);
+                    vm.count = parseInt(vm.count) + 1;
+                });
+            },
         },
         mounted: function () {
+            // 计算通知的数量
             this.messageCount();
 
-            // 每隔1分钟，更新一次私信的数量
-            let vm = this;
-            setInterval(function(){
-                vm.messageCount();
-            }, 60000);
+            // 监听发起关注的通知channel
+            this.registerFollowingChannel();
         }
     }
 </script>
