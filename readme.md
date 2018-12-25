@@ -11,7 +11,7 @@
 + Vue2
 + php7.2
 + laravel5.5
-+ pusher
++ [laravel echo pusher](https://dashboard.pusher.com/)
 
 ##### package
 
