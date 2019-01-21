@@ -14,7 +14,7 @@ use Ultraware\Roles\Models\Role;
 use Ultraware\Roles\Traits\HasRoleAndPermission;
 use Ultraware\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract
+class User extends Authenticatable implements HasRoleAndPermissionContract, \Illuminate\Contracts\Auth\Authenticatable
 {
     use Notifiable, PivotEventTrait,HasRoleAndPermission;
 
