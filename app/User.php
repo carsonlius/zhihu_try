@@ -18,6 +18,7 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
 {
     use Notifiable, PivotEventTrait,HasRoleAndPermission;
 
+
     protected $casts = [
         'settings' => 'array'
     ];
@@ -29,7 +30,8 @@ class User extends Authenticatable implements HasRoleAndPermissionContract
      */
     protected $fillable = [
         'name', 'email', 'password', 'avatar', 'confirmation_token', 'is_active', 'questions_count',
-        'answers_count', 'comments_count', 'favorites_count', 'likes_count', 'followers_count', 'following_count',
+        'answers_count', 'comments_count', 'favorites_count', 'likes_count',
+        'followers_count', 'following_count',
         'settings', 'api_token'
     ];
 
