@@ -14,10 +14,9 @@ use Ultraware\Roles\Models\Role;
 use Ultraware\Roles\Traits\HasRoleAndPermission;
 use Ultraware\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
 
-class User extends Authenticatable implements HasRoleAndPermissionContract, \Illuminate\Contracts\Auth\Authenticatable
+class User extends Authenticatable implements HasRoleAndPermissionContract
 {
     use Notifiable, PivotEventTrait,HasRoleAndPermission;
-
 
     protected $casts = [
         'settings' => 'array'
