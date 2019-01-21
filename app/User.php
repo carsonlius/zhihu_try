@@ -13,10 +13,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Ultraware\Roles\Models\Role;
 use Ultraware\Roles\Traits\HasRoleAndPermission;
 use Ultraware\Roles\Contracts\HasRoleAndPermission as HasRoleAndPermissionContract;
+use Illuminate\Auth\Authenticatable as AuthenticatableTest;
 
 class User extends Authenticatable implements HasRoleAndPermissionContract
 {
-    use Notifiable, PivotEventTrait,HasRoleAndPermission;
+    use Notifiable, PivotEventTrait,HasRoleAndPermission, AuthenticatableTest;
 
     protected $casts = [
         'settings' => 'array'
