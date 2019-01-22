@@ -285,3 +285,7 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
     Route::get('/work/sendTag', 'WechatWorkController@sendTag');
 });
 
+
+Route::get('test', function(){
+    dd(\App\User::all());
+});
