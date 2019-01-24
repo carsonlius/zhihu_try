@@ -26,7 +26,7 @@ class WechatWorkRepository
         return $this->wechat_work->messenger
             ->message('Congratulation！')
             ->ofAgent(env('WECHAT_WORK_AGENT_ID'))
-            ->toTag(12)
+            ->toTag(13)
             ->send();
     }
 }
