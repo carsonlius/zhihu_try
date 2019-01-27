@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\GenerateMenus;
+use App\Http\Middleware\SessionTimeout;
 use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -41,6 +42,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             GenerateMenus::class,
+            SessionTimeout::class
         ],
 
         'api' => [

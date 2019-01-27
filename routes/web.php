@@ -286,9 +286,10 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
 });
 
 
-Route::get('test', function(){
-    dd('this is test api');
-})->middleware('throttle:30|5,2')->name('test');
+Route::get('test/what', function(){
+
+   dd(request()->path(),session('last_active_time'), date('Y-m-d H:i:s', session('last_active_time')));
+})->middleware('throttle:30|5,2')->name('test_name');
 
 Route::get('test2', function(){
     dd('This is test2 api');
