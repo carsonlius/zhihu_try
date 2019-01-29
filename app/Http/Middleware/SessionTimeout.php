@@ -44,7 +44,7 @@ class SessionTimeout
                 auth()->logout();
                 session()->forget($this->key_session_last_active);
 
-                flash('您好，系统监测到您2个小时未活动，请重新登陆!')->warning();
+                flash('您好，系统监测到您2个小时未操作，请重新登陆!')->warning();
                 return redirect('login')->withInput(compact('email'));
             }
         }
