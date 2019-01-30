@@ -176,7 +176,7 @@ Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
                 'client_id' => '9',
                 'client_secret' => 'OvJOczU4LQGBs2YNX0zRhtMqnU0Vobj59ztqNGNX',
                 'username' => 'llewellyn33@example.org',
-                'password' => 'secret',
+                'password' => '123456',
                 'scope' => '',
             ],
         ]);
