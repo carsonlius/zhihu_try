@@ -12,6 +12,7 @@
 + php7.2
 + laravel5.5
 + [laravel echo pusher](https://dashboard.pusher.com/)
++ [supervisor](#http://supervisord.org/running.html)
 
 ##### package
 
