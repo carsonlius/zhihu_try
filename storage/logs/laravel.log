@@ -1,0 +1,11 @@
+[2019-01-26 23:29:15] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-26 23:29:15","route_name":"test_name","action_name":"Closure"} 
+[2019-01-27 11:09:39] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 11:09:39","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 11:11:04] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 11:11:04","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 13:06:29] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 13:06:29","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:37:53] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:37:53","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:38:01] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:38:01","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:38:04] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:38:04","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:38:11] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:38:11","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:39:38] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:39:38","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:40:36] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:40:36","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 
+[2019-01-27 16:40:38] local.INFO: 测试SessionTimeoutMiddleware {"date":"2019-01-27 16:40:38","route_name":"home","action_name":"App\\Http\\Controllers\\QuestionController@index"} 

@@ -1,0 +1,224 @@
+[2018-12-15 23:28:45] NULL.INFO: >>>>>>>>
+GET /cgi-bin/user/get?access_token=16_f8YR0JnXNaIV19WPJ87z9XhasVeQEWL7IZLVSTLAJUJec9jsEIcYeUrUBZc2RH-vdsc0CGATlJ2T3Ot4IxUx-YZDJmApiLmoFXgnpsDXqaRh-plX9t1d6V2VxqiWQqUuVfQ_md1jHHxHgniCPCSjAHAVIY HTTP/1.1
+Host: api.weixin.qq.com
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.9-1+ubuntu16.04.1+deb.sury.org+1
+
+
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json; encoding=utf-8
+Date: Sat, 15 Dec 2018 15:28:45 GMT
+Content-Length: 179
+
+{"total":3,"count":3,"data":{"openid":["oweQV1tUi7HNdimU4if3KALC6rBc","oweQV1g3B-wOoSwF1qvWzfiT78wE","oweQV1t0aEI5HsHaYPGWLgGBVF0M"]},"next_openid":"oweQV1t0aEI5HsHaYPGWLgGBVF0M"}
+--------
+NULL  
+[2018-12-15 23:28:56] NULL.INFO: >>>>>>>>
+GET /cgi-bin/user/get?access_token=16_f8YR0JnXNaIV19WPJ87z9XhasVeQEWL7IZLVSTLAJUJec9jsEIcYeUrUBZc2RH-vdsc0CGATlJ2T3Ot4IxUx-YZDJmApiLmoFXgnpsDXqaRh-plX9t1d6V2VxqiWQqUuVfQ_md1jHHxHgniCPCSjAHAVIY HTTP/1.1
+Host: api.weixin.qq.com
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.9-1+ubuntu16.04.1+deb.sury.org+1
+
+
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json; encoding=utf-8
+Date: Sat, 15 Dec 2018 15:28:56 GMT
+Content-Length: 179
+
+{"total":3,"count":3,"data":{"openid":["oweQV1tUi7HNdimU4if3KALC6rBc","oweQV1g3B-wOoSwF1qvWzfiT78wE","oweQV1t0aEI5HsHaYPGWLgGBVF0M"]},"next_openid":"oweQV1t0aEI5HsHaYPGWLgGBVF0M"}
+--------
+NULL  
+[2018-12-21 14:19:28] NULL.DEBUG: Request received: {"method":"POST","uri":"https://zhihu.carsonlius.vip/wechat?nonce=1822726083&openid=oweQV1g3B-wOoSwF1qvWzfiT78wE&signature=767f437cb942dde2dcd461bf7bad71a9d62f04b6&timestamp=1545373167","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_20136607dc16]]></ToUserName>
+<FromUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></FromUserName>
+<CreateTime>1545373166</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://www.soso.com/]]></EventKey>
+<MenuId>425439634</MenuId>
+</xml>"} 
+[2018-12-21 14:19:28] NULL.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[收到事件消息]]></Content><ToUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></ToUserName><FromUserName><![CDATA[gh_20136607dc16]]></FromUserName><CreateTime>1545373168</CreateTime></xml>"} 
+[2018-12-21 14:19:30] NULL.DEBUG: Request received: {"method":"POST","uri":"https://zhihu.carsonlius.vip/wechat?nonce=1861987546&openid=oweQV1g3B-wOoSwF1qvWzfiT78wE&signature=0ca1d735100d912f9db3eda6bfe4cf9fbb46169c&timestamp=1545373170","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_20136607dc16]]></ToUserName>
+<FromUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></FromUserName>
+<CreateTime>1545373160</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[V1001_TODAY_MUSIC]]></EventKey>
+</xml>"} 
+[2018-12-21 14:19:30] NULL.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[收到事件消息]]></Content><ToUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></ToUserName><FromUserName><![CDATA[gh_20136607dc16]]></FromUserName><CreateTime>1545373170</CreateTime></xml>"} 
+[2018-12-21 14:19:31] NULL.DEBUG: Request received: {"method":"POST","uri":"https://zhihu.carsonlius.vip/wechat?nonce=1891920551&openid=oweQV1g3B-wOoSwF1qvWzfiT78wE&signature=c2d1d9356edefc3d9f78d968d85a452e2f12a003&timestamp=1545373171","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_20136607dc16]]></ToUserName>
+<FromUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></FromUserName>
+<CreateTime>1545373170</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[VIEW]]></Event>
+<EventKey><![CDATA[http://v.qq.com/]]></EventKey>
+<MenuId>425439634</MenuId>
+</xml>"} 
+[2018-12-21 14:19:31] NULL.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[收到事件消息]]></Content><ToUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></ToUserName><FromUserName><![CDATA[gh_20136607dc16]]></FromUserName><CreateTime>1545373171</CreateTime></xml>"} 
+[2018-12-21 14:19:34] NULL.DEBUG: Request received: {"method":"POST","uri":"https://zhihu.carsonlius.vip/wechat?nonce=827383004&openid=oweQV1g3B-wOoSwF1qvWzfiT78wE&signature=04ccf3452400f89316206cadfa677787f81e31f1&timestamp=1545373174","content-type":"xml","content":"<xml><ToUserName><![CDATA[gh_20136607dc16]]></ToUserName>
+<FromUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></FromUserName>
+<CreateTime>1545373174</CreateTime>
+<MsgType><![CDATA[event]]></MsgType>
+<Event><![CDATA[CLICK]]></Event>
+<EventKey><![CDATA[V1001_GOOD]]></EventKey>
+</xml>"} 
+[2018-12-21 14:19:34] NULL.DEBUG: Server response created: {"content":"<xml><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[收到事件消息]]></Content><ToUserName><![CDATA[oweQV1g3B-wOoSwF1qvWzfiT78wE]]></ToUserName><FromUserName><![CDATA[gh_20136607dc16]]></FromUserName><CreateTime>1545373174</CreateTime></xml>"} 
+[2019-01-22 20:49:11] NULL.INFO: >>>>>>>>
+GET /cgi-bin/user/get?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ HTTP/1.1
+Host: api.weixin.qq.com
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+
+
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json; encoding=utf-8
+Date: Tue, 22 Jan 2019 12:49:11 GMT
+Content-Length: 179
+
+{"total":3,"count":3,"data":{"openid":["oweQV1tUi7HNdimU4if3KALC6rBc","oweQV1g3B-wOoSwF1qvWzfiT78wE","oweQV1t0aEI5HsHaYPGWLgGBVF0M"]},"next_openid":"oweQV1t0aEI5HsHaYPGWLgGBVF0M"}
+--------
+NULL  
+[2019-01-22 20:49:17] NULL.INFO: >>>>>>>>
+GET /cgi-bin/user/info?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ&openid=oweQV1g3B-wOoSwF1qvWzfiT78wE&lang=zh_CN HTTP/1.1
+Host: api.weixin.qq.com
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+
+
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json; encoding=utf-8
+Date: Tue, 22 Jan 2019 12:49:17 GMT
+Content-Length: 484
+
+{"subscribe":1,"openid":"oweQV1g3B-wOoSwF1qvWzfiT78wE","nickname":"carsonlius","sex":1,"language":"zh_CN","city":"商丘","province":"河南","country":"中国","headimgurl":"http:\/\/thirdwx.qlogo.cn\/mmopen\/5vbFvwmxRX0y8OUdAQzdqFdUDe8XribUMxGHHkicEiagTGwjRGwWZsGIN7V5p9HZZPiavEZicPrXWsAuRYD3xddWibTLSsBYFjELZx\/132","subscribe_time":1541074836,"remark":"我的第10个关注者","groupid":100,"tagid_list":[100],"subscribe_scene":"ADD_SCENE_QR_CODE","qr_scene":0,"qr_scene_str":""}
+--------
+NULL  
+[2019-01-22 20:49:21] NULL.INFO: >>>>>>>>
+POST /cgi-bin/material/batchget_material?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ HTTP/1.1
+Host: api.weixin.qq.com
+Content-Length: 40
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"type":"image","offset":0,"count":1000}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Tue, 22 Jan 2019 12:49:21 GMT
+Content-Length: 802
+
+{"item":[{"media_id":"YUZNEhpGLlvPSHqeoS_VrJ2HyOqmqIUcxd2NSxP1zCE","name":"bulade.jpg","update_time":1541234107,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/584TophT2dJwmsO5YHKfpHLpl7rcTWPz10aq3OfYk2Lk470VSs99jbRS9u2xF86R5ZWe7cuxpws6Oe6FW0ma9g\/0?wx_fmt=jpeg"},{"media_id":"YUZNEhpGLlvPSHqeoS_VrDlXMMREQ_AAPmLM-wxn7qg","name":"beautiful.jpg","update_time":1541150415,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/584TophT2dKdIOs6UXGrNP0Ym8iaYNpdwib8mngOHVK0Y13OmIJTz5ZOIcnp3oS73L6YsXIPl1ic7llcHqGbfEiaRA\/0?wx_fmt=jpeg"},{"media_id":"YUZNEhpGLlvPSHqeoS_VrNgKbLYQikc-7CQPBaTe2dY","name":"beautiful.jpg","update_time":1541150286,"url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/584TophT2dKdIOs6UXGrNP0Ym8iaYNpdwib8mngOHVK0Y13OmIJTz5ZOIcnp3oS73L6YsXIPl1ic7llcHqGbfEiaRA\/0?wx_fmt=jpeg"}],"total_count":3,"item_count":3}
+--------
+NULL  
+[2019-01-22 20:49:21] NULL.INFO: >>>>>>>>
+POST /cgi-bin/material/batchget_material?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ HTTP/1.1
+Host: api.weixin.qq.com
+Content-Length: 40
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"type":"video","offset":0,"count":1000}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Tue, 22 Jan 2019 12:49:21 GMT
+Content-Length: 341
+
+{"item":[{"media_id":"YUZNEhpGLlvPSHqeoS_VrJC0a6dofidtRx530GldK6k","name":"同事","update_time":1541239291},{"media_id":"YUZNEhpGLlvPSHqeoS_VrCRnFRlnP7HrJdDwFx7LHI0","name":"同事","update_time":1541238716},{"media_id":"YUZNEhpGLlvPSHqeoS_VrHblamq9JxQA4TWlkJ8t0tk","name":"同事","update_time":1541237941}],"total_count":3,"item_count":3}
+--------
+NULL  
+[2019-01-22 20:49:21] NULL.INFO: >>>>>>>>
+POST /cgi-bin/material/batchget_material?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ HTTP/1.1
+Host: api.weixin.qq.com
+Content-Length: 40
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"type":"voice","offset":0,"count":1000}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Tue, 22 Jan 2019 12:49:21 GMT
+Content-Length: 457
+
+{"item":[{"media_id":"YUZNEhpGLlvPSHqeoS_VrP-Q04lrw_rQKhUFb553lcA","name":"需求.mp3","update_time":1541239360},{"media_id":"YUZNEhpGLlvPSHqeoS_VrKGdrhBf3FvPC9iFk14WlM0","name":"需求.mp3","update_time":1541239360},{"media_id":"YUZNEhpGLlvPSHqeoS_VrOXMrXoXWl2sH4gO44jcQWc","name":"需求.mp3","update_time":1541152872},{"media_id":"YUZNEhpGLlvPSHqeoS_VrI6oWgQWhsyA4Ysy9QKNMlY","name":"需求.mp3","update_time":1541152865}],"total_count":4,"item_count":4}
+--------
+NULL  
+[2019-01-22 20:49:22] NULL.INFO: >>>>>>>>
+POST /cgi-bin/material/batchget_material?access_token=17_47JgRnkxJZp-bH8L3iqv-lClYEZr5UhtRpxcjD7oX6GFoQ1n8VCO6uoHlVGMBsWI0UO9qL3EsprXbZURVhpKAWmAwfX74AVxgd1-A8YTNaVq8UK7K-oDIzOZQQ4ONXjAHAHGQ HTTP/1.1
+Host: api.weixin.qq.com
+Content-Length: 39
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"type":"news","offset":0,"count":1000}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: text/plain
+Date: Tue, 22 Jan 2019 12:49:21 GMT
+Content-Length: 2532
+
+{"item":[{"media_id":"YUZNEhpGLlvPSHqeoS_VrI-F1jBJzdHWu5UOs98XhlA","content":{"news_item":[{"title":"布拉德 - 影史上最有味道的男人","author":"carsonlius","digest":"布拉德·皮特（Brad Pitt），1963年12月18日出生于美国俄克拉何马州，美国电影演员、制片人。1987年，皮特以临时演员的身份参加了他的第一部电影《无主地》的 ...","content":"布拉德·皮特（Brad Pitt），1963年12月18日出生于美国俄克拉何马州，美国电影演员、制片人。\n1987年，皮特以临时演员的身份参加了他的第一部电影《无主地》的拍摄。1993年，皮特出演《加州杀手》，并凭此片获得威尼斯电影节最佳男演员奖 [1]  。1995年，皮特出演《十二只猴子》，并凭借片中的表演获得了奥斯卡最佳男配角奖的提名。2002年，布拉德·皮特创立了B计划影业 [2]  。2005年，皮特与安吉丽娜·朱莉合作了《史密斯夫妇》，两人相恋。2007年，皮特凭《神枪手之死》第二次获得威尼斯电影节最佳男演员奖。2008年，皮特凭借《返老还童》获得第81届奥斯卡最佳男主角的提名。2010年，由他制片并主演的《点球成金》为他带来又一个奥斯卡最佳男主角提名以及最佳影片提名。2011年，他主演了电影《温柔的杀戮》。2013年，皮特主演的《末日之战》上映。2016年，布拉德·皮特主演的好莱坞爱情谍战片《间谍同盟》于11月30日在中国上映 [3-4]  。\n2016年，布拉德·皮特筹拍新片《他想要月亮》。 [5]  2016年，布拉德·皮特以3，150万美元（约2.4亿港元）排《福布斯》全球十大最高收入男星第十位。 [6] \n据CNN消息，2016年9月19日，安吉丽娜·朱莉申请和布拉德·皮特离婚。","content_source_url":"https:\/\/baike.baidu.com\/item\/%E5%B8%83%E6%8B%89%E5%BE%B7%C2%B7%E7%9A%AE%E7%89%B9\/81288","thumb_media_id":"YUZNEhpGLlvPSHqeoS_VrJ2HyOqmqIUcxd2NSxP1zCE","show_cover_pic":1,"url":"http:\/\/mp.weixin.qq.com\/s?__biz=MzU5MTc1OTA0MQ==&mid=100000006&idx=1&sn=f2019d02dd18cf7b52766a20345aa0e1&chksm=7e2b52a8495cdbbedee4c473621b26b790b9df9cd7b4208e6e6aab2731c5df1a1c8205ec5bbe#rd","thumb_url":"http:\/\/mmbiz.qpic.cn\/mmbiz_jpg\/584TophT2dJwmsO5YHKfpHLpl7rcTWPz10aq3OfYk2Lk470VSs99jbRS9u2xF86R5ZWe7cuxpws6Oe6FW0ma9g\/0?wx_fmt=jpeg","need_open_comment":0,"only_fans_can_comment":0}],"create_time":1541234108,"update_time":1541311216},"update_time":1541311216}],"total_count":1,"item_count":1}
+--------
+NULL  
+[2019-01-23 20:26:55] NULL.INFO: >>>>>>>>
+POST /cgi-bin/message/send?access_token=p185pEad2rY1wClx2R2WZ0VWnLaKl-YM-pcgDKeY6ZX3Z-gkdQqe8Jq0byCv1JEOxZ7sOPey5MD-Db2SykQNFDDMasBzl_QYEKMbBkNVGBxKucHxVm5vzt_LKy4sHJ1DBePE2mNwp0IpmI3arM7OjBJ8GyWj9b9AqImmG_XUr8y7_aGvFpw8d6jjGD7H8ROiUJEAb9xWpo_O2x9hQ9du1A HTTP/1.1
+Host: qyapi.weixin.qq.com
+Content-Length: 95
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"msgtype":"text","agentid":1000015,"safe":0,"totag":12,"text":{"content":"Congratulation！"}}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Error-Code: 0
+Error-Msg: ok
+Content-Type: application/json; charset=UTF-8
+Content-Length: 44
+
+{"errcode":0,"errmsg":"ok","invaliduser":""}
+--------
+NULL  
+[2019-01-23 20:38:35] NULL.INFO: >>>>>>>>
+POST /cgi-bin/message/send?access_token=De2Y0lIuDYzPIVqbSYEt4MGL7Oqi-ug9oSQ8MuwjTZIfCDb5I9nupCgzDr1C3l8HPipYgDQHlWO4KhjMU9_ldvbkIQehhW152FXQHfjstOFfXrhDAiNRfce08t3Lr3KBmZL9zUI57VD2QQJzpA3OfpwxsJxsxagiicqXf7MJWlxhQu9koCioCi_CqGeS5gcQI0dRcr7vjBplv0KN9bPpPg HTTP/1.1
+Host: qyapi.weixin.qq.com
+Content-Length: 95
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+Content-Type: application/json
+
+{"msgtype":"text","agentid":1000016,"safe":0,"totag":13,"text":{"content":"Congratulation！"}}
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Error-Code: 0
+Error-Msg: ok
+Content-Type: application/json; charset=UTF-8
+Content-Length: 44
+
+{"errcode":0,"errmsg":"ok","invaliduser":""}
+--------
+NULL  
+[2019-01-30 15:09:31] NULL.INFO: >>>>>>>>
+GET /cgi-bin/user/get?access_token=18_Xl5FrPizRag5u5Xc0Ix-qITXvyl4fRX0vcFxEcWGU62zVGJYYXbCYO5rxtQNuhg0f_7Z6s0CyZaaegbrT2RPAzL_pGORl8ndqIq9-4eKGq3LdH8UBf7UuuCes406ay2bJoAnIO7CiL3_k3wjQLSjAEAYTA HTTP/1.1
+Host: api.weixin.qq.com
+User-Agent: GuzzleHttp/6.3.3 curl/7.47.0 PHP/7.2.13-1+ubuntu16.04.1+deb.sury.org+1
+
+
+<<<<<<<<
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json; encoding=utf-8
+Date: Wed, 30 Jan 2019 07:09:31 GMT
+Content-Length: 179
+
+{"total":3,"count":3,"data":{"openid":["oweQV1tUi7HNdimU4if3KALC6rBc","oweQV1g3B-wOoSwF1qvWzfiT78wE","oweQV1t0aEI5HsHaYPGWLgGBVF0M"]},"next_openid":"oweQV1t0aEI5HsHaYPGWLgGBVF0M"}
+--------
+NULL  
