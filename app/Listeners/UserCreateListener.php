@@ -29,7 +29,7 @@ class UserCreateListener
     public function handle($event)
     {
         // 赋值游客角色
-        $event->user->attachRole(7);
+        $event->user->attachRole(5);
 
         // 激活邮件
         $mail = (new UserVerifyMail($event->user))
