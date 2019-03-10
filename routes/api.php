@@ -141,3 +141,4 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
     // 删除权限
     Route::post('/{permission}', 'PermissionController@destroy')->middleware('permission:permission.del');
 });
+

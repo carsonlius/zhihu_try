@@ -203,7 +203,7 @@ Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
 
 
     // client credentials grant tokens
-    Route::get('/credentials', function(){
+    Route::get('/credentials', function () {
         $guzzle = new GuzzleHttp\Client;
 
         $response = $guzzle->post('https://learn.carsonlius.vip/oauth/token', [
@@ -215,15 +215,15 @@ Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
             ],
         ]);
 
-        return json_decode((string) $response->getBody(), true)['access_token'];
+        return json_decode((string)$response->getBody(), true)['access_token'];
     })->name('authorization.credentials');
 
     // personal access token
-    Route::get('/personal_token', function (){
+    Route::get('/personal_token', function () {
         return redirect('https://learn.carsonlius.vip/tokens/tokens');
     })->name('authorization.personal');
 
-    Route::get('js/api', function(){
+    Route::get('js/api', function () {
         return redirect('https://learn.carsonlius.vip/passport_web/show');
     })->name('js.api');
 });
@@ -232,7 +232,7 @@ Route::group(['prefix' => 'oauth2', 'middleware' => 'auth'], function () {
 Route::any('/wechat', 'WeChatController@serve');
 
 // 微信公众号的路由
-Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function () {
     // 一级节点
     Route::get('/menu', 'WeChatUserController@list')->name('wechat.manage');
 
