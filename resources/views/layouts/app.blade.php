@@ -29,7 +29,6 @@
     <link rel="shortcut icon" href="{{ asset('images/favicons/favicon.ico') }}">
     <link rel="icon" type="image/png" href="{{ asset('images/favicons/favicon.png') }}" sizes="192x192">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicons/favicon.png') }}">
-
     <script>
         window.Laravel = {!! json_encode([
         'user_id' => auth()->check() ? auth()->user()->id : null,

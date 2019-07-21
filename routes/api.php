@@ -2,17 +2,6 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -140,5 +129,56 @@ Route::group(['prefix' => 'permission', 'middleware' => 'auth:api'], function(){
 
     // 删除权限
     Route::post('/{permission}', 'PermissionController@destroy')->middleware('permission:permission.del');
+});
+
+Route::post('test', function(){
+    if (!\request()->post('apieky')) {
+        return [
+            'status' => 1478,
+            'error' => [
+                'msg' => '鉴权未通过'
+            ]
+        ];
+
+    }
+    return [
+        'status' => 0,
+        'data' => [
+            'hello' => 'world'
+        ]
+    ];
+});
+
+Route::get('test', function(){
+
+    if (!\request()->get('apikey')) {
+        return [
+            'status' => 1478,
+            'error' => [
+                'msg' => '鉴权未通过'
+            ]
+        ];
+
+    }
+    return [
+        'status' => 0,
+        'data' => [
+            'counter' => 14
+        ]
+    ];
+});
+
+Route::get('music', function(){
+    return env('APP_URL') . 'storage/program/audio/en.mp3';
+});
+
+
+// 小程序
+Route::group(['prefix' => 'mini'], function(){
+    // 敏感信息解密
+    Route::post('explainer', 'MiniProgramController@decode');
+
+    // code to session 获取会话密钥
+    Route::get('session', 'MiniProgramController@codeToSession');
 });
 
