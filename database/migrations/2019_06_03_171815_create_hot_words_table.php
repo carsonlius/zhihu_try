@@ -13,8 +13,10 @@ class CreateHotWordsTable extends Migration
      */
     public function up()
     {
+
         Schema::create('hot_words', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('hot_world')->comment('热词');
             $table->timestamps();
         });
     }

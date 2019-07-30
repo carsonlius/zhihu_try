@@ -13,8 +13,12 @@ class CreateSentencesTable extends Migration
      */
     public function up()
     {
+
         Schema::create('sentences', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('content')->comment('内容');
+            $table->string('img')->comment('封面');
+            $table->string('author', 30)->comment('作者');
             $table->timestamps();
         });
     }

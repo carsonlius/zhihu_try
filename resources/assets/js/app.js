@@ -59,6 +59,22 @@ Vue.component('v-select', vSelect);
 let VueResource = require('vue-resource');
 Vue.use(VueResource);
 
+// 上传文件的组件
+const VueUploadComponent = require('vue-upload-component');
+Vue.component('file-upload', VueUploadComponent);
+Vue.filter('formatSize', function (size) {
+    if (size > 1024 * 1024 * 1024 * 1024) {
+        return (size / 1024 / 1024 / 1024 / 1024).toFixed(2) + ' TB'
+    } else if (size > 1024 * 1024 * 1024) {
+        return (size / 1024 / 1024 / 1024).toFixed(2) + ' GB'
+    } else if (size > 1024 * 1024) {
+        return (size / 1024 / 1024).toFixed(2) + ' MB'
+    } else if (size > 1024) {
+        return (size / 1024).toFixed(2) + ' KB'
+    }
+    return size.toString() + ' B'
+});
+
 let token = document.head.querySelector('meta[name="csrf-token"]');
 let api_token = document.head.querySelector('meta[name="api-token"]');
 
@@ -149,6 +165,15 @@ Vue.component('user-role-list', require('./components/UserRoleList'));
 
 // 用户角色编辑
 Vue.component('user-role-edit', require('./components/UserRoleEdit'));
+
+// 期刊列表页面
+Vue.component('periodical-list', require('./components/PeriodicalList'));
+
+// 期刊创建页面
+Vue.component('periodical-create', require('./components/PeriodicalCreate'));
+
+//  文件上传的组件
+Vue.component('file-uploader', require('./components/UploadFile'));
 
 const app = new Vue({
     el: '#app',

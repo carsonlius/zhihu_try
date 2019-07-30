@@ -50,6 +50,7 @@
         "node-sass": "^4.9.0",
         "npm": "^6.2.0",
         "pusher-js": "^4.3.1",
-        "social-share.js": "^1.0.16"
+        "social-share.js": "^1.0.16",
+        "vue-upload-component": "^2.8.20"
     }
 }

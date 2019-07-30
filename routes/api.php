@@ -166,7 +166,7 @@ Route::get('test', function(){
             'counter' => 14
         ]
     ];
-});
+})->middleware('auth:passport');
 
 Route::get('music', function(){
     return env('APP_URL') . 'storage/program/audio/en.mp3';
@@ -174,11 +174,30 @@ Route::get('music', function(){
 
 
 // 小程序
+Route::group(['prefix' => 'mini', 'middleware' => ['auth:passport']], function(){
+
+});
+
+// 小程序前置的接口（敏感信息  && 生成personal token）
 Route::group(['prefix' => 'mini'], function(){
+    // 生成personal token
+    Route::post('token', 'MiniProgramController@genPersonalToken');
+
     // 敏感信息解密
     Route::post('explainer', 'MiniProgramController@decode');
 
     // code to session 获取会话密钥
     Route::get('session', 'MiniProgramController@codeToSession');
+
+    // 登陆
+    Route::post('login', 'MiniProgramController@login');
 });
 
+
+// 文件管理
+Route::group(['prefix' => 'file', 'middleware' => ['auth:api']], function(){
+    // 上传文件
+    Route::post('music', 'FileController@upload');
+
+
+});

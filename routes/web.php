@@ -284,3 +284,16 @@ Route::group(['prefix' => 'wechat', 'middleware' => 'auth'], function () {
     // 测试企业微信
     Route::get('/work/sendTag', 'WechatWorkController@sendTag');
 });
+
+// 小程序管理
+Route::group(['prefix' => 'mini', 'middleware' => 'auth'], function(){
+    // 小程序管理一级菜单
+    Route::get('entry', 'PeriodicalController@index')->name('mini.periodicals.entry')->middleware('permission:mini.periodicals.entry');
+
+    // 期刊列表
+    Route::get('periodicals', 'PeriodicalController@index')->name('mini.periodicals')->middleware('permission:mini.periodicals');
+
+    // 期刊创建
+    Route::get('periodicals/creation', 'PeriodicalController@create')->name('mini.periodicals.create')->middleware('permission:mini.periodicals.create');
+
+});

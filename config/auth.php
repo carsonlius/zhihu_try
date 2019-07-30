@@ -45,6 +45,11 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'passport' => [
+            'driver' => 'passport',
+            'provider' => 'users_mini',
+        ]
     ],
 
     /*
@@ -70,10 +75,10 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+         'users_mini' => [
+             'driver' => 'eloquent',
+             'model' => \App\WechatUser::class
+         ],
     ],
 
     /*

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\MiniProgramRepository;
 use App\Http\TraitHelper\CustomException;
 use App\Http\TraitHelper\ResponseTrait;
-use Illuminate\Http\Request;
 
 class MiniProgramController extends Controller
 {
@@ -20,6 +19,38 @@ class MiniProgramController extends Controller
     public function __construct(MiniProgramRepository $_repository)
     {
         $this->_repository = $_repository;
+    }
+
+    /**
+     * 生成私有token
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function genPersonalToken()
+    {
+        try {
+            $data = $this->_repository->genPersonalToken();
+            return $this->response(compact('data'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() . ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+    /**
+     * 登陆操作
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login()
+    {
+        try {
+            $this->_repository->login();
+            return $this->response(['msg' =>  '登陆成功']);
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() . ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
     }
 
     /**

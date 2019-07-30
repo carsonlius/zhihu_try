@@ -1,17 +1,181 @@
 <?php
 
-
 namespace App\Http\Repositories;
-
 
 use App\Http\TraitHelper\{
     CurlTrait, CustomException
 };
 use App\MiniUtil\WXBizDataCrypt;
+use App\WechatUser;
 
 class MiniProgramRepository
 {
     use CurlTrait;
+
+    /** @var string  私有token的盐值 */
+    private $slat_personal_token = 'sImp0aSI6ImY0NGM2MTI4Y2FhNjI3YmMzM';
+
+    /**
+     * 生成私有密钥
+     * @return string
+     * @throws CustomException
+     */
+    public function genPersonalToken(): array
+    {
+        // 校验参数
+        $this->_validateParamsForPersonalToken();
+
+        // 生成私有密钥
+        return $this->_genToken();
+    }
+
+    /**
+     * 生成私有密钥
+     * @return array
+     */
+    private function _genToken(): array
+    {
+        $wechat_id = request()->post('open_id');
+        $access_token = \App\WechatUser::getOneItem(compact('wechat_id'))->createToken('mini program')->accessToken;
+        return compact('access_token');
+    }
+
+    /**
+     * 校验参数
+     * @throws CustomException
+     */
+    private function _validateParamsForPersonalToken()
+    {
+
+        list($open_id, $nick_name, $city, $sign, $personal_token) = [
+            request()->post('open_id'),
+            request()->post('nick_name'),
+            request()->post('city'),
+            request()->post('sign'),
+            $this->slat_personal_token
+        ];
+
+        $params = compact('open_id', 'nick_name', 'city', 'sign');
+
+        // 检查属性是否存在
+        $this->_validateFieldExist($params);
+
+        // 校验签名是否正确
+        $this->_validateSignForToken(compact('open_id', 'nick_name', 'city', 'personal_token'), $sign);
+
+        // 校验是否存在对应账号
+        $this->_validateHasWetchatUser($open_id);
+    }
+
+    /**
+     * 校验是否存在对应账号
+     * @param string $wechat_id
+     * @throws CustomException
+     */
+    private function _validateHasWetchatUser(string $wechat_id)
+    {
+        if (!WechatUser::getOneItem(compact('wechat_id'), ['id'])) {
+            throw new CustomException('open_id异常');
+        }
+    }
+
+    /**
+     * 校验签名是否正确
+     * @param array $params
+     * @param string $sign
+     * @throws CustomException
+     */
+    private function _validateSignForToken(array $params, string $sign)
+    {
+        ksort($params);
+        $params_str = implode(',', $params);
+        if (md5(md5($params_str)) != $sign) {
+            throw new CustomException('签名不合法');
+        }
+    }
+
+    /**
+     * 校验字段是否存在
+     * @throws CustomException
+     * @param array $params
+     */
+    private function _validateFieldExist(array $params)
+    {
+        array_walk($params, function ($item, $key) {
+            if (!$item) {
+                throw new CustomException('请输入' . $key . '参数');
+            }
+        });
+    }
+
+    /**
+     * 登陆
+     * @throws CustomException
+     */
+    public function login()
+    {
+        // 校验参数
+        $this->validateParamsForLogin();
+
+        // 登陆
+        $this->loginDo();
+    }
+
+    /**
+     * 登陆
+     */
+    private function loginDo()
+    {
+        // 是否已经已经注册过
+        if ($this->_determineHasRegister()) {
+            return;
+        }
+
+        // 注册
+        list($wechat_id, $name, $country, $province, $city, $avatar_url) = [
+            request()->post('open_id'),
+            request()->post('nick_name'),
+            request()->post('country'),
+            request()->post('province'),
+            request()->post('city'),
+            request()->post('avatar_url'),
+        ];
+
+        WechatUser::create(compact('wechat_id', 'name', 'country', 'province', 'city', 'avatar_url'));
+    }
+
+    /**
+     * 是否已经已经注册过
+     * @return bool
+     */
+    private function _determineHasRegister(): bool
+    {
+        $wechat_id = request()->post('open_id');
+        return (bool)WechatUser::getOneItem(compact('wechat_id'));
+    }
+
+
+    /**
+     * 校验参数
+     * @throws CustomException
+     */
+    private function validateParamsForLogin()
+    {
+        list($open_id, $nick_name, $country, $province, $city, $avatarUrl) = [
+            request()->post('open_id'),
+            request()->post('nick_name'),
+            request()->post('country'),
+            request()->post('province'),
+            request()->post('city'),
+            request()->post('avatar_url'),
+        ];
+        $params = compact('open_id', 'nick_name', 'country', 'province', 'city', 'avatarUrl');
+        array_walk($params, function ($item, $key) {
+            if (!$item) {
+                throw new CustomException('请输入' . $key . '参数');
+            }
+        });
+    }
 
     /**
      * 获取会话密钥
@@ -95,7 +259,7 @@ class MiniProgramRepository
         return $this->_decode();
     }
 
-    private function _decode() : array
+    private function _decode(): array
     {
         // 参数
         list($appid, $sessionKey, $encryptedData, $iv) = [
