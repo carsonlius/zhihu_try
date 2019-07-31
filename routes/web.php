@@ -296,4 +296,6 @@ Route::group(['prefix' => 'mini', 'middleware' => 'auth'], function(){
     // 期刊创建
     Route::get('periodicals/creation', 'PeriodicalController@create')->name('mini.periodicals.create')->middleware('permission:mini.periodicals.create');
 
+    // 期刊编辑
+    Route::get('periodicals/{periodical}', 'PeriodicalController@show')->name('mini.periodicals.edit')->middleware('permission:mini.periodicals.edit');
 });

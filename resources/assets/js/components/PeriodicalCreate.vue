@@ -1,6 +1,7 @@
 <template>
     <div class="panel panel-default">
         <div class="panel-heading">
+            <prompt-modal ref="prompt_cmp"></prompt-modal>
             <span style="font-weight: bold;">创建期刊</span>
             <span class="pull-right"><a href="/mini/periodicals" class="btn btn-xs btn-info">期刊列表</a></span>
             <prompt-modal ref="prompt_modal"></prompt-modal>
@@ -13,9 +14,9 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <span v-show="errors.has('type')" class="alert-danger">{{ errors.first('type') }}</span>
-                    <label for="slug" class="col-sm-2 control-label">请选择期刊的类型</label>
-                    <div class="tree col-sm-6">
-                        <v-select :options="list_type" v-model="type" data-vv-name="type" data-vv-as="* 请选择期刊的类型"
+                    <label for="type" class="col-sm-2 control-label">期刊类型</label>
+                    <div class="col-sm-6">
+                        <v-select :options="list_type" v-model="type" data-vv-name="type" data-vv-as="* 期刊类型"
                                   v-validate.initial="'required'" id="type"></v-select>
                     </div>
                 </div>
@@ -24,16 +25,16 @@
                     <span v-show="errors.has('title')" class="alert-danger">{{ errors.first('title') }}</span>
                     <label for="name" class="col-sm-2 control-label">期刊标题</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="title" data-vv-as="* 请输入标题"
+                        <input type="text" class="form-control" id="title" data-vv-as="* 期刊标题"
                                v-validate.initial="'required'" data-vv-name="title" v-model.trim="title">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <span v-show="errors.has('des')" class="alert-danger">{{ errors.first('des') }}</span>
-                    <label for="name" class="col-sm-2 control-label">期刊名称</label>
+                    <label for="name" class="col-sm-2 control-label">描述</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="des" data-vv-as="* 请输入描述"
+                        <input type="text" class="form-control" id="des" data-vv-as="* 描述"
                                v-validate.initial="'required'" data-vv-name="des" v-model.trim="des">
                     </div>
                 </div>
@@ -42,50 +43,54 @@
                     <span v-show="errors.has('name')" class="alert-danger">{{ errors.first('name') }}</span>
                     <label for="name" class="col-sm-2 control-label">名字</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="name" data-vv-as="* 请输入名字"
+                        <input type="text" class="form-control" id="name" data-vv-as="* 名字"
                                v-validate.initial="'required'" data-vv-name="name" v-model.trim="name">
                     </div>
                 </div>
 
                 <div class="form-group" v-if="type_choose === 'music' || type_choose === 'text'">
                     <span v-show="errors.has('author')" class="alert-danger">{{ errors.first('author') }}</span>
-                    <label for="name" class="col-sm-2 control-label">请输入作者</label>
+                    <label for="name" class="col-sm-2 control-label">作者</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="author" data-vv-as="* 请输入作者"
+                        <input type="text" class="form-control" id="author" data-vv-as="* 作者"
                                v-validate.initial="'required'" data-vv-name="author" v-model.trim="author">
                     </div>
                 </div>
 
                 <div class="form-group" v-if="type_choose === 'movie'">
                     <span v-show="errors.has('actor')" class="alert-danger">{{ errors.first('actor') }}</span>
-                    <label for="name" class="col-sm-2 control-label">请输入主演</label>
+                    <label for="name" class="col-sm-2 control-label">主演</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="actor" data-vv-as="* 请输入主演"
+                        <input type="text" class="form-control" id="actor" data-vv-as="* 主演"
                                v-validate.initial="'required'" data-vv-name="actor" v-model.trim="actor">
                     </div>
                 </div>
 
                 <div class="form-group" v-if="type_choose === 'text'">
                     <span v-show="errors.has('content')" class="alert-danger">{{ errors.first('content') }}</span>
-                    <label for="name" class="col-sm-2 control-label">请输入内容</label>
+                    <label for="name" class="col-sm-2 control-label">内容</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" id="content" data-vv-as="* 请输入内容"
+                        <input type="text" class="form-control" id="content" data-vv-as="* 内容"
                                v-validate.initial="'content'" data-vv-name="content" v-model.trim="content">
                     </div>
                 </div>
 
-                <div class="form-group" v-if="type_choose === 'music'">
-                    <label for="name" class="col-sm-2 control-label">请输入选择音乐</label>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">封面</label>
+                    <div class="col-sm-4">
+                        <img :src="img" alt="封面" class="cover-img">
+                    </div>
                     <div class="col-sm-6">
-                        <file-uploader :post_action="music_url" @uploaded="onUploadedMusic" :csrf_token="csrf_token"></file-uploader>
+                        <file-single-uploader uploaded_type="uploadedimg"
+                                @exception="onException" :post_action="upload_url" @uploadedimg="onUploadedImg" :size="1024 * 1024"></file-single-uploader>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <span v-show="errors.has('published')" class="alert-danger">{{ errors.first('published') }}</span>
-                    <label for="slug" class="col-sm-2 control-label">请选择是否发布</label>
+                    <label for="published" class="col-sm-2 control-label">是否发布</label>
                     <div class="tree col-sm-6">
-                        <v-select :options="list_published" v-model="published" data-vv-name="published" data-vv-as="* 请选择是否发布"
+                        <v-select :options="list_published" v-model="published" data-vv-name="published" data-vv-as="* 是否发布"
                                   v-validate.initial="'required'" id="published"></v-select>
                     </div>
                 </div>
@@ -104,13 +109,10 @@
     import { SweetModal, SweetModalTab } from 'sweet-modal-vue';
     export default {
         name: "PeriodicalCreate",
-        props : ['csrf_token'],
         data: function () {
             return {
-                is_show : 'F',
                 msg_response : '',
                 icon_type : 'success',
-                upload_active_attr : false, // 是否上传文件
 
                 des : '',// 描述
                 img : '', // 封面
@@ -137,9 +139,7 @@
                 url : '',  // 地址 music
 
                 // 上传相关的操作
-                mp3_uploaded : false, // 音乐文件是否已经上传
-                cover_uploaded : false, // 封面是否已经上传
-                music_url : '/api/file/music', // 文件上传的地址
+                upload_url : '/api/file', // 文件上传的地址
             }
         },
         computed:{
@@ -149,10 +149,16 @@
             },
         },
         methods: {
-            // 文件已经完成上传
-            onUploadedMusic(param){
-                console.log(param, '文件已经完成上传');
 
+            // 监听异常情况
+            onException(params){
+                this.$refs.prompt_cmp.open(params);
+            },
+
+            // 文件已经完成上传
+            onUploadedImg(param){
+                console.log(param, '上传的文件的状态发生了变化');
+                this.img = param.file_name;
             },
             // 关闭模态框
             closeModel(){
@@ -160,39 +166,79 @@
 
                 // 创建成功则跳转到列表
                 if (this.icon_type === 'success') {
-                    window.location.replace('/permission');
+                    window.location.replace('/mini/periodicals');
                 }
             },
 
             // 新建期刊
             create() {
-                let params = {
-                    name: this.name,
-                    slug: this.slug,
-                    description: this.description,
-                    model: this.model,
-                    parent_name : this.permission_selected[0],
-                    is_show: this.is_show
-                };
-                let url = '/api/permission';
-                console.log(params);
-                // 存储期刊
-                let vm = this;
-                this.$http.post(url, params, {responseType: 'json'}).then(function (response) {
+                // 获取参数
+                let params = this._genParams();
+                if (!params) {
+                    return;
+                }
+
+                // create
+                let url = '/api/mini/periodicals';
+                axios.post(url, params, {responseType: 'json'}).then( (response)=> {
                     console.log(response);
-                    if (response.body.status === 0) {
-                        vm.msg_response = '期刊"' + vm.name +'" 创建成功';
+                    if (response.data.status === 0) {
+                        this.msg_response = '期刊创建成功';
                     } else {
-                        vm.msg_response = response.body.msg;
-                        vm.icon_type = 'error';
+                        this.msg_response = response.data.msg;
+                        this.icon_type = 'error';
                     }
-                    vm.$refs.modal_prompt.open();
+                    this.$refs.modal_prompt.open();
                 });
+            },
+
+            // 生成参数
+            _genParams(){
+                let params = {
+                    des : this.des,// 描述
+                    img : this.img, // 封面
+                    type : this.type && Object.values(this.type).length !== 0 ? this.type.value : '', // 期刊类型
+                    title : this.title, // 期刊标题
+                    published : this.published && Object.values(this.published).length !== 0 ? this.published.value : '', // 是否已经发布
+                    content : this.content, // 内容 text
+                    author : this.author, // 作者 text  music
+                    actor : this.actor, // 演员的名字  movie
+                    name : this.name, // 名字 movie music
+                };
+
+                // 常规参数是否是完成了
+                try {
+                    !params.type && this._errorShow('请选择期刊类型');
+                    !params.des && this._errorShow('请输入描述');
+                    !params.title && this._errorShow('请输入标题');
+                    !params.img && this._errorShow('请上传封面');
+                    !params.published && this._errorShow('请选择发布的状态');
+
+                    params.type === 'text' && !params.content && this._errorShow('请输入内容');
+                    params.type !== 'movie' && !params.author && this._errorShow('请输入作者');
+                    params.type === 'movie' && !params.actor && this._errorShow('请输入演员');
+                    params.type !== 'text' && !params.name && this._errorShow('请输入名字');
+                    return params;
+                } catch (e) {
+                    return false;
+                }
+
+            },
+            // 异常处理
+            _errorShow(body){
+                this.$refs.prompt_cmp.open({
+                    title:'提示',
+                    body
+                });
+                throw '参数异常';
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .cover-img {
+        width: 300px;
+        height: 200px;
+    }
 </style>

@@ -172,8 +172,11 @@ Vue.component('periodical-list', require('./components/PeriodicalList'));
 // 期刊创建页面
 Vue.component('periodical-create', require('./components/PeriodicalCreate'));
 
-//  文件上传的组件
-Vue.component('file-uploader', require('./components/UploadFile'));
+//  单个文件上传的组件
+Vue.component('file-single-uploader', require('./components/UploadSingleFile'));
+
+// 期刊编辑界面
+Vue.component('periodical-edit',require('./components/PeriodicalEdit') );
 
 const app = new Vue({
     el: '#app',

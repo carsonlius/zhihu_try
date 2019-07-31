@@ -173,8 +173,17 @@ Route::get('music', function(){
 });
 
 
-// 小程序
-Route::group(['prefix' => 'mini', 'middleware' => ['auth:passport']], function(){
+// 小程序 网站
+Route::group(['prefix' => 'mini', 'middleware' => ['auth:api']], function(){
+    // 生成期刊
+    Route::post('periodicals', 'PeriodicalController@createDo');
+
+    // 期刊列表
+    Route::get('periodicals', 'PeriodicalController@lists');
+
+    // 更新期刊
+    Route::patch('periodicals', 'PeriodicalController@update');
+
 
 });
 
@@ -196,8 +205,11 @@ Route::group(['prefix' => 'mini'], function(){
 
 // 文件管理
 Route::group(['prefix' => 'file', 'middleware' => ['auth:api']], function(){
-    // 上传文件
-    Route::post('music', 'FileController@upload');
 
+    // 上传单格文件
+    Route::post('', 'FileController@uploadSingle');
+
+    // 删除单个文件
+    Route::delete('', 'FileController@deleteSingle');
 
 });
