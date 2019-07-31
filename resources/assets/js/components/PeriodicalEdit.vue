@@ -122,9 +122,9 @@
                 published : '', // 是否已经发布
                 periodical_index : '', // 期号
                 list_type : [
-                    {value : 'music', label : '音乐'}
+                    {value : 'music', label : '音乐'},
                     {value : 'movie', label : '电影'},
-                    {value : 'text', label : '句子'},
+                    {value : 'text', label : '句子'}
                 ], // 类型列表
 
                 list_published : [
@@ -230,6 +230,7 @@
             _genParams(){
                 let params = {
                     id : this.periodical_id, // 期刊ID
+                    periodical_index : this.periodical_index, // 期数
                     des : this.des,// 描述
                     img : this.img, // 封面
                     type : this.type && Object.values(this.type).length !== 0 ? this.type.value : '', // 期刊类型
