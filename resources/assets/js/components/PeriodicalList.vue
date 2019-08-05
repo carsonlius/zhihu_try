@@ -1,5 +1,6 @@
 <template>
     <div>
+        <periodical-music-edit ref="periodical_music"></periodical-music-edit>
         <prompt-modal ref="prompt_cmp"></prompt-modal>
         <div class="panel-default panel">
             <div class="panel-heading">
@@ -230,6 +231,13 @@
                 if (params.type === 'edit') {
                     let url_edit = '/mini/periodicals/' + params.rowData.id;
                     window.open(url_edit, '_blank');
+                } else {
+                    // 编辑音乐地址
+                    console.log(params.rowData, '编辑音乐地址');
+                    this.$refs.periodical_music.open({
+                        title : '编辑音乐期刊',
+                        periodical : params.rowData
+                    });
                 }
             }
         },
@@ -238,7 +246,12 @@
 
     // 自定义列组件
     Vue.component('operation', {
-        template: `<span><a href="javascript:;" class="btn btn-primary btn-xs" @click.stop.prevent="update(rowData,index)">编辑</a></span>`,
+        template: `
+<span>
+    <a href="javascript:;" class="btn btn-primary btn-xs" @click.stop.prevent="update('edit')">编辑</a>
+    <a href="javascript:;" class="btn btn-primary btn-xs" v-if="determineShow" @click.stop.prevent="update('music')">音乐地址修改</a>
+</span>
+`,
         props: {
             rowData: {
                 type: Object
@@ -250,11 +263,16 @@
                 type: Number
             }
         },
+        computed : {
+            // 是否展示出来
+            determineShow(){
+                return this.rowData.type === 'music';
+            }
+        },
         methods: {
-            update() {
-
+            update(type) {
                 // 参数根据业务场景随意构造
-                let params = {type: 'edit', index: this.index, rowData: this.rowData};
+                let params = {type, index: this.index, rowData: this.rowData};
                 this.$emit('on-custom-comp', params);
             }
         }

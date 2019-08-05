@@ -21,7 +21,13 @@ class WechatUser extends Model
         'avatar_url', // 头像地址
     ];
 
-    public  static function getOneItem(array $where, array $field = [])
+    /**
+     * 获取一个单元
+     * @param array $where
+     * @param array $field
+     * @return mixed
+     */
+    public static function getOneItem(array $where, array $field = [])
     {
         return static::where($where)
             ->when($field, function($query) use($field){

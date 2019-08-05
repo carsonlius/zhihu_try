@@ -184,8 +184,32 @@ Route::group(['prefix' => 'mini', 'middleware' => ['auth:api']], function(){
     // 更新期刊
     Route::patch('periodicals', 'PeriodicalController@update');
 
+    // 更新音乐期刊的地址
+    Route::patch('/periodicals/music', 'PeriodicalController@updateMusic');
+});
+
+// 小程序内部使用的接口
+Route::group(['prefix' => 'v1/mini', 'middleware' => ['auth:passport']], function(){
+    // 期刊模块
+    Route::group(['prefix' => 'periodical'], function(){
+        // 最新的期刊
+        Route::get('/latest', 'PeriodicalController@latest');
+
+        // 下一页
+        Route::get('/{periodical_index}/next', 'PeriodicalController@nextPage');
+
+        // 上一页
+        Route::get('/{periodical_index}/prevpage', 'PeriodicalController@prevPage');
+
+
+    });
+
+    // 期刊点赞
+    Route::put('like', 'MiniProgramController@like');
+
 
 });
+
 
 // 小程序前置的接口（敏感信息  && 生成personal token）
 Route::group(['prefix' => 'mini'], function(){

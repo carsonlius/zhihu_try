@@ -6,9 +6,246 @@ namespace App\Http\Repositories;
 
 use App\Http\TraitHelper\CustomException;
 use App\Periodical;
+use App\PeriodicalLike;
 
 class PeriodicalRepository
 {
+
+    /**
+     * 更新音乐期刊的播放地址
+     * @return array
+     * @throws CustomException
+     */
+    public function updateMusic() : array
+    {
+        // 检查条件
+        $this->_validateParamsForUpdateMusic();
+
+        // 更新
+        return $this->_updateMusicDo();
+    }
+
+    /**
+     * 更新
+     * @return array
+     */
+    private function _updateMusicDo() : array
+    {
+        list($where, $data) = [
+            ['id' => request()->post('id')],
+            $this->_genDataParamsForMusic()
+        ];
+
+        Periodical::where($where)
+            ->update(compact('data'));
+        return Periodical::getOneItem($where)->toArray();
+    }
+
+    /**
+     * 生成music的data属性
+     * @return string
+     */
+    private function _genDataParamsForMusic() : string
+    {
+        $periodical = Periodical::getOneItem(['id' => request()->post('id')], ['data']);
+        $data = array_merge(json_decode($periodical->data, true), ['url' => request()->post('music_url')]);
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 检查条件
+     * @throws CustomException
+     */
+    private function _validateParamsForUpdateMusic()
+    {
+        !request()->post('id') && $this->_errorShow('请输入ID');
+        !request()->post('music_url') && $this->_errorShow('请输入music_url');
+    }
+
+    /**
+     * 上一个期刊
+     * @param $periodical_index
+     * @return array
+     */
+    public function prevPage($periodical_index): array
+    {
+        // 获取下一个期刊
+        $periodical = $this->_getPrePeriodical($periodical_index);
+
+        // 是否含有下一个期刊
+        $is_last = !$this->_getNextPeriodical($periodical['periodical_index'] ?? '');
+
+        // 是否
+        $is_first = !$this->_getPrePeriodical($periodical['periodical_index'] ?? '');
+
+        //  是否点赞
+        $like_status = !!PeriodicalLike::where(['periodical_id' => $periodical->id, 'user_id' => auth()->user()->id])
+            ->count();
+        $data = json_decode($periodical->data, true);
+
+        return [
+            'id' => $periodical->id ?? '',
+            'periodical_index' => $periodical->periodical_index ?? '',
+            'like_status' => $like_status ?? '', // 登陆用户是否点赞了
+            'des' => $periodical->des ?? '', // 描述
+            'fav_nums' => $periodical->fav_nums ??  '', // 点赞的数量
+            'type' => $periodical->type ?? '', // 类型 text music movie
+            'title' => $periodical->title ?? '',
+            'img' => $periodical->img ?? '', // 封面
+            'month' => $this->_formatMonth($periodical->month), // 创建的月份
+            'year' => substr($periodical->month, 0, 4),  // 创建的年份
+            'author' => $data['author'] ?? '', // 作者  text music
+            'content' => $data['content'] ?? '', // 内容 text
+            'music_url' => $data['url'] ?? '', // 音乐地址 music
+            'name' => $data['name'] ?? '', // 名字 music movie
+            'is_first' => $is_first, // 是否是第一个
+            'is_last' => $is_last, // 是否是最后一个
+        ];
+    }
+
+    /**
+     * 下一页期刊
+     * @param int $periodical_index
+     * @return array
+     */
+    public function nextPage(int $periodical_index): array
+    {
+        // 获取下一个期刊
+        $periodical = $this->_getNextPeriodical($periodical_index);
+
+        // 是否含有下一个期刊
+        $is_last = !$this->_getNextPeriodical($periodical['periodical_index'] ?? '');
+
+        // 是否
+        $is_first = !$this->_getPrePeriodical($periodical['periodical_index'] ?? '');
+
+        //  是否点赞
+        $like_status = !!PeriodicalLike::where(['periodical_id' => $periodical->id, 'user_id' => auth()->user()->id])
+            ->count();
+        $data = json_decode($periodical->data, true);
+
+        return [
+            'id' => $periodical->id ?? '',
+            'periodical_index' => $periodical->periodical_index ?? '',
+            'like_status' => $like_status ?? '', // 登陆用户是否点赞了
+            'des' => $periodical->des ?? '', // 描述
+            'fav_nums' => $periodical->fav_nums ??  '', // 点赞的数量
+            'type' => $periodical->type ?? '', // 类型 text music movie
+            'title' => $periodical->title ?? '',
+            'img' => $periodical->img ?? '', // 封面
+            'month' => $this->_formatMonth($periodical->month), // 创建的月份
+            'year' => substr($periodical->month, 0, 4),  // 创建的年份
+            'author' => $data['author'] ?? '', // 作者  text music
+            'content' => $data['content'] ?? '', // 内容 text
+            'music_url' => $data['url'] ?? '', // 音乐地址 music
+            'name' => $data['name'] ?? '', // 名字 music movie
+            'is_first' => $is_first, // 是否是第一个
+            'is_last' => $is_last, // 是否是最后一个
+        ];
+    }
+
+    /**
+     * 上一个期刊
+     * @param int $periodical_index
+     * @param int $published
+     * @return array|mixed
+     */
+    private function _getPrePeriodical(int $periodical_index, $published = 2)
+    {
+        if (!$periodical_index) {
+            return [];
+        }
+
+        $where = [
+            ['periodical_index', '>', $periodical_index],
+            ['published', $published]
+        ];
+        return Periodical::getOneItem($where, [], ['periodical_index', 'asc']);
+    }
+
+    /**
+     * 获取下一期刊
+     * @param int $periodical_index
+     * @param int $published
+     * @return array|mixed
+     */
+    private function _getNextPeriodical(int $periodical_index, $published = 2)
+    {
+        if (!$periodical_index) {
+            return [];
+        }
+
+        $where = [
+            ['periodical_index', '<', $periodical_index],
+            ['published', $published]
+        ];
+        return Periodical::getOneItem($where, [], ['periodical_index', 'desc']);
+    }
+
+    /**
+     * 获取最新的期刊
+     * @return array
+     */
+    public function latest(): array
+    {
+        // 获取最新的期刊  && 登陆用户
+        $periodical = Periodical::getOneItem([], [], ['id', 'desc']);
+        $login_user = auth('passport')->user();
+
+        // 如果不存在
+        if (!$periodical) {
+            return [];
+        }
+
+        //  是否点赞
+        $like_status = !!PeriodicalLike::where(['periodical_id' => $periodical->id, 'user_id' => $login_user->id])
+            ->count();
+        $data = json_decode($periodical->data, true);
+
+        return [
+            'id' => $periodical->id,
+            'periodical_index' => $periodical->periodical_index,
+            'like_status' => $like_status, // 登陆用户是否点赞了
+            'des' => $periodical->des, // 描述
+            'fav_nums' => $periodical->fav_nums, // 点赞的数量
+            'type' => $periodical->type, // 类型 text music movie
+            'title' => $periodical->title,
+            'img' => $periodical->img, // 封面
+            'month' => $this->_formatMonth($periodical->month), // 创建的月份
+            'year' => substr($periodical->month, 0, 4),  // 创建的年份
+            'author' => $data['author'] ?? '', // 作者  text music
+            'content' => $data['content'] ?? '', // 内容 text
+            'music_url' => $data['url'] ?? '', // 音乐地址 music
+            'name' => $data['name'] ?? '', // 名字 music movie
+        ];
+    }
+
+    /**
+     * 格式化月份
+     * @param string $month
+     * @return string
+     */
+    private function _formatMonth(string $month)
+    {
+        $month = substr($month, 4, 2);
+        $list_mapping_months = [
+            '01' => '一月',
+            '02' => '二月',
+            '03' => '三月',
+            '04' => '四月',
+            '05' => '五月',
+            '06' => '六月',
+            '07' => '七月',
+            '08' => '八月',
+            '09' => '九月',
+            '10' => '十月',
+            '11' => '十一月',
+            '12' => '十二月',
+        ];
+
+        return $list_mapping_months[$month] ?? '异常';
+    }
+
     /**
      * 更新期刊
      * @throws CustomException
@@ -187,7 +424,7 @@ class PeriodicalRepository
         }
 
         return compact('month', 'type', 'des', 'title', 'img', 'published',
-            'periodical_index','data');
+            'periodical_index', 'data');
     }
 
     /**
@@ -210,7 +447,7 @@ class PeriodicalRepository
 
         //  如果此时还没有期刊数
         $periodical = Periodical::getOneItem(compact('published'), ['periodical_index'], ['periodical_index', 'desc']);
-        return $periodical ? $periodical->periodical_index + 1  : 1;
+        return $periodical ? $periodical->periodical_index + 1 : 1;
     }
 
     /**

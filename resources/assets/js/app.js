@@ -178,6 +178,9 @@ Vue.component('file-single-uploader', require('./components/UploadSingleFile'));
 // 期刊编辑界面
 Vue.component('periodical-edit',require('./components/PeriodicalEdit') );
 
+// 更新音乐期刊
+Vue.component('periodical-music-edit',require('./components/PeriodicalMusicEdit') );
+
 const app = new Vue({
     el: '#app',
 });

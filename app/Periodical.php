@@ -21,6 +21,15 @@ class Periodical extends Model
     ];
 
     /**
+     * 属于的用户
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\WechatUser', 'id', 'user_id');
+    }
+
+    /**
      * 获取多个单元
      * @param array $where
      * @param null $filed

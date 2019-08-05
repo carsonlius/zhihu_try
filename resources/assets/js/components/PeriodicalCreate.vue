@@ -77,7 +77,7 @@
 
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">封面</label>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4" v-if="img">
                         <img :src="img" alt="封面" class="cover-img">
                     </div>
                     <div class="col-sm-6">

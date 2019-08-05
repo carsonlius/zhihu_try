@@ -23,6 +23,71 @@ class PeriodicalController extends Controller
     }
 
     /**
+     * 更新音乐期刊的播放地址
+     */
+    public function updateMusic()
+    {
+        try {
+            $periodical= $this->repository->updateMusic();
+            return $this->response(compact('periodical'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() .  ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+    /**
+     * 上一期刊
+     * @param $periodical_index
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function prevPage($periodical_index)
+    {
+        try {
+            $periodical= $this->repository->prevPage($periodical_index);
+            return $this->response(compact('periodical'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() .  ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+    /**
+     * 下一期刊
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function nextPage($periodical_index)
+    {
+        try {
+            $periodical= $this->repository->nextPage($periodical_index);
+            return $this->response(compact('periodical'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() .  ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+
+    /**
+     * 最新的一期期刊
+     */
+    public function latest()
+    {
+        try {
+            $periodical= $this->repository->latest();
+            return $this->response(compact('periodical'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() .  ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+
+    /**
      * 更新
      * @return \Illuminate\Http\JsonResponse
      */

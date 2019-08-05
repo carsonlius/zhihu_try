@@ -7,6 +7,7 @@ use App\Http\TraitHelper\{
 };
 use App\MiniUtil\WXBizDataCrypt;
 use App\WechatUser;
+use Illuminate\Support\Facades\DB;
 
 class MiniProgramRepository
 {
@@ -14,6 +15,94 @@ class MiniProgramRepository
 
     /** @var string  私有token的盐值 */
     private $slat_personal_token = 'sImp0aSI6ImY0NGM2MTI4Y2FhNjI3YmMzM';
+
+    /**
+     * 点赞操作
+     * @throws CustomException
+     */
+    public function like()
+    {
+        // 校验参数
+        $this->_validateParamForLike();
+
+        // 点赞操作
+        $this->likeDo();
+    }
+
+    /**
+     * 点赞操作
+     */
+    private function likeDo()
+    {
+        request()->post('type') == 'periodical' && $this->_likeWhenPeriodical();
+    }
+
+    /**
+     * 期刊点赞
+     */
+    private function _likeWhenPeriodical()
+    {
+        DB::transaction(function (){
+            list($id, $increment, $like) = [
+                request()->post('id'),
+                request()->post('like') ? 1 : -1,
+                request()->post('like'),
+            ];
+
+            // 期刊
+            DB::table('periodicals')->where(compact('id'))->increment('fav_nums', $increment);
+
+            // 期刊 用户点赞情况
+            $params = [
+                'periodical_id' => $id,
+                'user_id' => auth('passport')->user()->id
+            ];
+            if ($like) {
+                $this->_updateLike($params);
+                return;
+            } else {
+                // 更新成取消点赞
+                DB::table('periodical_likes')->where($params)->delete();
+            }
+        }, 3);
+    }
+
+    /**
+     * 更新成点赞
+     * @param array $params
+     */
+    private function _updateLike(array $params)
+    {
+       $exists = DB::table('periodical_likes')->where($params)->exists();
+       if ($exists) {
+           return;
+       }
+
+        DB::table('periodical_likes')->insert($params);
+    }
+
+    /**
+     * 校验参数
+     * @throws CustomException
+     */
+    private function _validateParamForLike()
+    {
+        (!request()->post('type') || !in_array(request()->post('type'), ['periodical'])) && $this->_errorShow('type类型异常');
+        !request()->post('id') && $this->_errorShow('请传入id');
+        if (!in_array(request()->post('like'), [true, false])) {
+            $this->_errorShow('请输入like');
+        }
+    }
+
+    /**
+     * 异常处理
+     * @param string $msg
+     * @throws CustomException
+     */
+    private function _errorShow(string $msg)
+    {
+        throw new CustomException($msg);
+    }
 
     /**
      * 生成私有密钥

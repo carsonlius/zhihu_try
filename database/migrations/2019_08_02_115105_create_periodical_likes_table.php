@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLikesTable extends Migration
+class CreatePeriodicalLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateLikesTable extends Migration
      */
     public function up()
     {
-
-        Schema::create('likes', function (Blueprint $table) {
+        Schema::create('periodical_likes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('slug_id')->comment('对应类型的ID');
-            $table->enum('type', ['music', 'movie', 'text', 'book'])->comment('期刊 或者书类型 music 音乐 movie 电影 text 句子 book 书本'); //  music 音乐 movie 电影 text 句子 book 书本
+            $table->integer('periodical_id')->comment('期刊ID');
             $table->integer('user_id')->comment('用户id');
             $table->timestamps();
         });
@@ -30,6 +28,6 @@ class CreateLikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('periodical_likes');
     }
 }

@@ -22,6 +22,22 @@ class MiniProgramController extends Controller
     }
 
     /**
+     * 点赞操作
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function like()
+    {
+        try {
+            $this->_repository->like();
+            return $this->response(['msg' => '操作成功']);
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() . ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
+    }
+
+    /**
      * 生成私有token
      * @return \Illuminate\Http\JsonResponse
      */
