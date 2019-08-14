@@ -200,13 +200,13 @@ Route::group(['prefix' => 'v1/mini', 'middleware' => ['auth:passport']], functio
 
         // 上一页
         Route::get('/{periodical_index}/prevpage', 'PeriodicalController@prevPage');
-
-
     });
 
     // 期刊点赞
     Route::put('like', 'MiniProgramController@like');
 
+    // 是否已经点赞
+    Route::get('like/{type}/{id}', 'MiniProgramController@likeStatus');
 
 });
 

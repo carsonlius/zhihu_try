@@ -299,3 +299,16 @@ Route::group(['prefix' => 'mini', 'middleware' => 'auth'], function(){
     // 期刊编辑
     Route::get('periodicals/{periodical}', 'PeriodicalController@show')->name('mini.periodicals.edit')->middleware('permission:mini.periodicals.edit');
 });
+
+Route::group(['prefix' => 'tree'], function(){
+    // 邻接列表结构
+    Route::get('common', 'TestController@common');
+
+    // 物化路径 linux目录 空间换时间
+    Route::get('path', 'TestController@pathTree');
+
+    // 闭包表
+    Route::get('closure', 'TestController@closureTree');
+
+
+});

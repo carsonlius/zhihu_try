@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Repositories\MiniProgramRepository;
 use App\Http\TraitHelper\CustomException;
 use App\Http\TraitHelper\ResponseTrait;
+use App\Periodical;
 
 class MiniProgramController extends Controller
 {
@@ -19,6 +20,24 @@ class MiniProgramController extends Controller
     public function __construct(MiniProgramRepository $_repository)
     {
         $this->_repository = $_repository;
+    }
+
+    /**
+     * 是否喜欢
+     * @param string $type
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function likeStatus(string $type, string $id)
+    {
+        try {
+            $data  = $this->_repository->likeStatus($type, $id);
+            return $this->response(compact('data'));
+        } catch (CustomException $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage());
+        } catch (\Exception $e) {
+            return $this->setStatus(1478)->responseError($e->getMessage() . ' at line ' . $e->getLine() . ' at file ' . $e->getFile());
+        }
     }
 
     /**
