@@ -15,3 +15,4 @@ nginx_error.log
 nginx_errror.log
 note/*
 public/avatars
+/note

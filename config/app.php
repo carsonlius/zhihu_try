@@ -233,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Html' => \Collective\Html\HtmlFacade::class,
         'Form' => \Collective\Html\FormFacade::class,
+        'Elasticsearch' => Cviebrock\LaravelElasticsearch\Facade::class,
     ],
 
 ];

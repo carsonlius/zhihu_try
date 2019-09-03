@@ -78,6 +78,17 @@ return [
             'prefix' => '',
         ],
 
+        'mongodb_backend' => [
+            'driver'   => 'mongodb',
+            'host'     => env('MONGODB_BACKEND_HOST', '127.0.0.1'),
+            'port'     => 27017,
+            'database' => env('MONGODB_BACKEND_DATABASE', 'learn2'),
+            'username' => env('MONGODB_BACKEND_USERNAME'),
+            'password' => env('MONGODB_BACKEND_PASSWORD'),
+            'options'  => [
+                'database' => 'admin' // sets the authentication database required by mongo 3
+            ]
+        ],
     ],
 
     /*
