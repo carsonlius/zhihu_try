@@ -17,7 +17,7 @@
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
         "@fortawesome/free-brands-svg-icons": "^5.1.1",
         "area-data": "^5.0.6",
-        "axios": "^0.16.2",
+        "axios": "^0.21.1",
         "babel-helper-vue-jsx-merge-props": "^2.0.3",
         "babel-plugin-on-demand-import": "^1.1.1",
         "babel-plugin-syntax-jsx": "^6.18.0",
